@@ -18,8 +18,8 @@
 * myparser.cpp
 * C++ source file generated from myparser.y.
 * 
-* Date: 11/08/19
-* Time: 21:51:29
+* Date: 11/09/19
+* Time: 12:43:40
 * 
 * AYACC Version: 2.07
 ****************************************************************************/
@@ -67,7 +67,7 @@ using namespace yl;
 YYPARSERNAME::YYPARSERNAME()
 {
 	yytables();
-#line 49 ".\\myparser.y"
+#line 50 ".\\myparser.y"
 
 	// place any extra initialisation code here
 
@@ -81,7 +81,7 @@ YYPARSERNAME::~YYPARSERNAME()
 {
 	// allows virtual functions to be called properly for correct cleanup
 	yydestroy();
-#line 54 ".\\myparser.y"
+#line 55 ".\\myparser.y"
 
 	// place any extra cleanup code here
 
@@ -189,12 +189,12 @@ void YYPARSERNAME::yyaction(int action)
 	case 0:
 		{
 #ifdef YYDEBUG
-			YYSTYPE YYFAR* yya[5];
-			yyinitdebug((void YYFAR**)yya, 5);
+			YYSTYPE YYFAR* yya[3];
+			yyinitdebug((void YYFAR**)yya, 3);
 #endif
 			{
-#line 77 ".\\myparser.y"
-yyattribute(1 - 4).symp->value = yyattribute(3 - 4).dval;
+#line 78 ".\\myparser.y"
+printf("Expression.\n");
 #line 199 "myparser.cpp"
 			}
 		}
@@ -202,12 +202,12 @@ yyattribute(1 - 4).symp->value = yyattribute(3 - 4).dval;
 	case 1:
 		{
 #ifdef YYDEBUG
-			YYSTYPE YYFAR* yya[3];
-			yyinitdebug((void YYFAR**)yya, 3);
+			YYSTYPE YYFAR* yya[2];
+			yyinitdebug((void YYFAR**)yya, 2);
 #endif
 			{
-#line 78 ".\\myparser.y"
-printf("Expression.\n");
+#line 79 ".\\myparser.y"
+printf("Repeat Statement, while\n");
 #line 212 "myparser.cpp"
 			}
 		}
@@ -219,8 +219,8 @@ printf("Expression.\n");
 			yyinitdebug((void YYFAR**)yya, 2);
 #endif
 			{
-#line 79 ".\\myparser.y"
-printf("Repeat Statement, while\n");
+#line 80 ".\\myparser.y"
+printf("Repeat Statement, for\n");
 #line 225 "myparser.cpp"
 			}
 		}
@@ -232,8 +232,8 @@ printf("Repeat Statement, while\n");
 			yyinitdebug((void YYFAR**)yya, 2);
 #endif
 			{
-#line 80 ".\\myparser.y"
-printf("Repeat Statement, for\n");
+#line 81 ".\\myparser.y"
+printf("Condition Statement, if\n");
 #line 238 "myparser.cpp"
 			}
 		}
@@ -241,12 +241,12 @@ printf("Repeat Statement, for\n");
 	case 4:
 		{
 #ifdef YYDEBUG
-			YYSTYPE YYFAR* yya[2];
-			yyinitdebug((void YYFAR**)yya, 2);
+			YYSTYPE YYFAR* yya[3];
+			yyinitdebug((void YYFAR**)yya, 3);
 #endif
 			{
-#line 83 ".\\myparser.y"
-printf("Type Specifier, int\n");
+#line 82 ".\\myparser.y"
+printf("Var Declaration\n");
 #line 251 "myparser.cpp"
 			}
 		}
@@ -254,12 +254,12 @@ printf("Type Specifier, int\n");
 	case 5:
 		{
 #ifdef YYDEBUG
-			YYSTYPE YYFAR* yya[4];
-			yyinitdebug((void YYFAR**)yya, 4);
+			YYSTYPE YYFAR* yya[3];
+			yyinitdebug((void YYFAR**)yya, 3);
 #endif
 			{
-#line 111 ".\\myparser.y"
-(*(YYSTYPE YYFAR*)yyvalptr).dval = yyattribute(1 - 3).dval + yyattribute(3 - 3).dval;
+#line 84 ".\\myparser.y"
+printf("Expr, op:=\n");
 #line 264 "myparser.cpp"
 			}
 		}
@@ -267,12 +267,12 @@ printf("Type Specifier, int\n");
 	case 6:
 		{
 #ifdef YYDEBUG
-			YYSTYPE YYFAR* yya[4];
-			yyinitdebug((void YYFAR**)yya, 4);
+			YYSTYPE YYFAR* yya[3];
+			yyinitdebug((void YYFAR**)yya, 3);
 #endif
 			{
-#line 112 ".\\myparser.y"
-(*(YYSTYPE YYFAR*)yyvalptr).dval = yyattribute(1 - 3).dval - yyattribute(3 - 3).dval;
+#line 85 ".\\myparser.y"
+printf("ID Declaration, symbol: %s\n", yyattribute(2 - 2).symp->name);
 #line 277 "myparser.cpp"
 			}
 		}
@@ -284,8 +284,8 @@ printf("Type Specifier, int\n");
 			yyinitdebug((void YYFAR**)yya, 4);
 #endif
 			{
-#line 113 ".\\myparser.y"
-(*(YYSTYPE YYFAR*)yyvalptr).dval = yyattribute(1 - 3).dval * yyattribute(3 - 3).dval;
+#line 86 ".\\myparser.y"
+printf("ID Declaration, symbol: %s\n", yyattribute(3 - 3).symp->name);
 #line 290 "myparser.cpp"
 			}
 		}
@@ -297,41 +297,35 @@ printf("Type Specifier, int\n");
 			yyinitdebug((void YYFAR**)yya, 4);
 #endif
 			{
-#line 114 ".\\myparser.y"
-
-												if(yyattribute(3 - 3).dval != 0.0)(*(YYSTYPE YYFAR*)yyvalptr).dval = yyattribute(1 - 3).dval / yyattribute(3 - 3).dval;
-												else yyerror("Divide by zero.\n");
-											
-#line 306 "myparser.cpp"
+#line 87 ".\\myparser.y"
+printf("Expr, op:=\n");
+#line 303 "myparser.cpp"
 			}
 		}
 		break;
 	case 9:
 		{
 #ifdef YYDEBUG
-			YYSTYPE YYFAR* yya[4];
-			yyinitdebug((void YYFAR**)yya, 4);
+			YYSTYPE YYFAR* yya[2];
+			yyinitdebug((void YYFAR**)yya, 2);
 #endif
 			{
-#line 118 ".\\myparser.y"
-
-												if(yyattribute(3 - 3).dval != 0.0)(*(YYSTYPE YYFAR*)yyvalptr).dval = (int)yyattribute(1 - 3).dval % (int)yyattribute(3 - 3).dval;
-												else yyerror("Mod by zero.\n");
-											
-#line 322 "myparser.cpp"
+#line 89 ".\\myparser.y"
+printf("Type Specifier, int\n");
+#line 316 "myparser.cpp"
 			}
 		}
 		break;
 	case 10:
 		{
 #ifdef YYDEBUG
-			YYSTYPE YYFAR* yya[3];
-			yyinitdebug((void YYFAR**)yya, 3);
+			YYSTYPE YYFAR* yya[4];
+			yyinitdebug((void YYFAR**)yya, 4);
 #endif
 			{
-#line 122 ".\\myparser.y"
-(*(YYSTYPE YYFAR*)yyvalptr).dval = -yyattribute(2 - 2).dval;
-#line 335 "myparser.cpp"
+#line 117 ".\\myparser.y"
+(*(YYSTYPE YYFAR*)yyvalptr).dval = yyattribute(1 - 3).dval + yyattribute(3 - 3).dval;
+#line 329 "myparser.cpp"
 			}
 		}
 		break;
@@ -342,22 +336,139 @@ printf("Type Specifier, int\n");
 			yyinitdebug((void YYFAR**)yya, 4);
 #endif
 			{
-#line 123 ".\\myparser.y"
-(*(YYSTYPE YYFAR*)yyvalptr).dval = yyattribute(2 - 3).dval;
-#line 348 "myparser.cpp"
+#line 118 ".\\myparser.y"
+(*(YYSTYPE YYFAR*)yyvalptr).dval = yyattribute(1 - 3).dval - yyattribute(3 - 3).dval;
+#line 342 "myparser.cpp"
 			}
 		}
 		break;
 	case 12:
 		{
 #ifdef YYDEBUG
+			YYSTYPE YYFAR* yya[4];
+			yyinitdebug((void YYFAR**)yya, 4);
+#endif
+			{
+#line 119 ".\\myparser.y"
+(*(YYSTYPE YYFAR*)yyvalptr).dval = yyattribute(1 - 3).dval * yyattribute(3 - 3).dval;
+#line 355 "myparser.cpp"
+			}
+		}
+		break;
+	case 13:
+		{
+#ifdef YYDEBUG
+			YYSTYPE YYFAR* yya[4];
+			yyinitdebug((void YYFAR**)yya, 4);
+#endif
+			{
+#line 120 ".\\myparser.y"
+
+												if(yyattribute(3 - 3).dval != 0.0)(*(YYSTYPE YYFAR*)yyvalptr).dval = yyattribute(1 - 3).dval / yyattribute(3 - 3).dval;
+												else yyerror("Divide by zero.\n");
+											
+#line 371 "myparser.cpp"
+			}
+		}
+		break;
+	case 14:
+		{
+#ifdef YYDEBUG
+			YYSTYPE YYFAR* yya[4];
+			yyinitdebug((void YYFAR**)yya, 4);
+#endif
+			{
+#line 124 ".\\myparser.y"
+
+												if(yyattribute(3 - 3).dval != 0.0)(*(YYSTYPE YYFAR*)yyvalptr).dval = (int)yyattribute(1 - 3).dval % (int)yyattribute(3 - 3).dval;
+												else yyerror("Mod by zero.\n");
+											
+#line 387 "myparser.cpp"
+			}
+		}
+		break;
+	case 15:
+		{
+#ifdef YYDEBUG
+			YYSTYPE YYFAR* yya[3];
+			yyinitdebug((void YYFAR**)yya, 3);
+#endif
+			{
+#line 128 ".\\myparser.y"
+(*(YYSTYPE YYFAR*)yyvalptr).dval = -yyattribute(2 - 2).dval;
+#line 400 "myparser.cpp"
+			}
+		}
+		break;
+	case 16:
+		{
+#ifdef YYDEBUG
+			YYSTYPE YYFAR* yya[4];
+			yyinitdebug((void YYFAR**)yya, 4);
+#endif
+			{
+#line 129 ".\\myparser.y"
+(*(YYSTYPE YYFAR*)yyvalptr).dval = yyattribute(2 - 3).dval;
+#line 413 "myparser.cpp"
+			}
+		}
+		break;
+	case 17:
+		{
+#ifdef YYDEBUG
 			YYSTYPE YYFAR* yya[2];
 			yyinitdebug((void YYFAR**)yya, 2);
 #endif
 			{
-#line 125 ".\\myparser.y"
-(*(YYSTYPE YYFAR*)yyvalptr).dval = yyattribute(1 - 1).symp->value;
-#line 361 "myparser.cpp"
+#line 130 ".\\myparser.y"
+printf("Const Declaration, %g\n", yyattribute(1 - 1).dval);
+#line 426 "myparser.cpp"
+			}
+		}
+		break;
+	case 18:
+		{
+#ifdef YYDEBUG
+			YYSTYPE YYFAR* yya[2];
+			yyinitdebug((void YYFAR**)yya, 2);
+#endif
+			{
+#line 131 ".\\myparser.y"
+
+												(*(YYSTYPE YYFAR*)yyvalptr).dval = yyattribute(1 - 1).symp->value;
+												printf("ID Declaration, symbol: %s\n", yyattribute(1 - 1).symp->name);
+											
+#line 442 "myparser.cpp"
+			}
+		}
+		break;
+	case 19:
+		{
+#ifdef YYDEBUG
+			YYSTYPE YYFAR* yya[2];
+			yyinitdebug((void YYFAR**)yya, 2);
+#endif
+			{
+#line 135 ".\\myparser.y"
+printf("Expr, op:=\n");
+#line 455 "myparser.cpp"
+			}
+		}
+		break;
+	case 20:
+		{
+#ifdef YYDEBUG
+			YYSTYPE YYFAR* yya[4];
+			yyinitdebug((void YYFAR**)yya, 4);
+#endif
+			{
+#line 137 ".\\myparser.y"
+
+												yyattribute(1 - 3).symp->value = yyattribute(3 - 3).dval;
+												(*(YYSTYPE YYFAR*)yyvalptr).dval = yyattribute(3 - 3).dval;
+												printf("ID Declaration, symbol: %s\n", yyattribute(1 - 3).symp->name);
+											
+#line 472 "myparser.cpp"
 			}
 		}
 		break;
@@ -381,6 +492,7 @@ void YYPARSERNAME::yytables()
 		{ "\')\'", 41 },
 		{ "\'*\'", 42 },
 		{ "\'+\'", 43 },
+		{ "\',\'", 44 },
 		{ "\'-\'", 45 },
 		{ "\'/\'", 47 },
 		{ "\';\'", 59 },
@@ -412,11 +524,15 @@ void YYPARSERNAME::yytables()
 		"$accept: statement_list",
 		"statement_list: statement",
 		"statement_list: statement_list statement",
-		"statement: ID \'=\' expression \';\'",
 		"statement: expression \';\'",
 		"statement: while_stat",
 		"statement: for_stat",
 		"statement: ifelse_stat",
+		"statement: var_declaration_front \';\'",
+		"var_declaration_front: type assign_expr",
+		"var_declaration_front: type ID",
+		"var_declaration_front: var_declaration_front \',\' ID",
+		"var_declaration_front: var_declaration_front \',\' assign_expr",
 		"type: INT",
 		"type: DOUBLE",
 		"type: FLOAT",
@@ -449,6 +565,8 @@ void YYPARSERNAME::yytables()
 		"expression: \'(\' expression \')\'",
 		"expression: NUMBER",
 		"expression: ID",
+		"expression: assign_expr",
+		"assign_expr: ID \'=\' expression",
 		"ifelse_stat: IF \'(\' expression \')\' code_block",
 		"ifelse_stat: IF \'(\' expression \')\' statement",
 		"ifelse_stat: IF \'(\' expression \')\' code_block ELSE code_block",
@@ -463,99 +581,115 @@ void YYPARSERNAME::yytables()
 		{ 0, 1, -1 },
 		{ 1, 1, -1 },
 		{ 1, 2, -1 },
-		{ 2, 4, 0 },
-		{ 2, 2, 1 },
+		{ 2, 2, 0 },
+		{ 2, 1, 1 },
 		{ 2, 1, 2 },
 		{ 2, 1, 3 },
-		{ 2, 1, -1 },
-		{ 3, 1, 4 },
-		{ 3, 1, -1 },
-		{ 3, 1, -1 },
-		{ 3, 1, -1 },
-		{ 3, 1, -1 },
-		{ 3, 1, -1 },
-		{ 3, 1, -1 },
-		{ 3, 1, -1 },
-		{ 3, 1, -1 },
-		{ 3, 1, -1 },
-		{ 4, 3, -1 },
-		{ 5, 5, -1 },
-		{ 5, 5, -1 },
-		{ 6, 2, -1 },
-		{ 6, 2, -1 },
-		{ 7, 8, -1 },
-		{ 7, 7, -1 },
-		{ 7, 7, -1 },
-		{ 7, 7, -1 },
-		{ 7, 6, -1 },
-		{ 7, 6, -1 },
-		{ 7, 6, -1 },
-		{ 7, 5, -1 },
-		{ 8, 3, 5 },
-		{ 8, 3, 6 },
-		{ 8, 3, 7 },
-		{ 8, 3, 8 },
-		{ 8, 3, 9 },
-		{ 8, 2, 10 },
-		{ 8, 3, 11 },
-		{ 8, 1, -1 },
-		{ 8, 1, 12 },
-		{ 9, 5, -1 },
-		{ 9, 5, -1 },
-		{ 9, 7, -1 },
-		{ 9, 7, -1 },
-		{ 9, 7, -1 },
-		{ 9, 7, -1 }
+		{ 2, 2, 4 },
+		{ 3, 2, 5 },
+		{ 3, 2, 6 },
+		{ 3, 3, 7 },
+		{ 3, 3, 8 },
+		{ 4, 1, 9 },
+		{ 4, 1, -1 },
+		{ 4, 1, -1 },
+		{ 4, 1, -1 },
+		{ 4, 1, -1 },
+		{ 4, 1, -1 },
+		{ 4, 1, -1 },
+		{ 4, 1, -1 },
+		{ 4, 1, -1 },
+		{ 4, 1, -1 },
+		{ 5, 3, -1 },
+		{ 6, 5, -1 },
+		{ 6, 5, -1 },
+		{ 7, 2, -1 },
+		{ 7, 2, -1 },
+		{ 8, 8, -1 },
+		{ 8, 7, -1 },
+		{ 8, 7, -1 },
+		{ 8, 7, -1 },
+		{ 8, 6, -1 },
+		{ 8, 6, -1 },
+		{ 8, 6, -1 },
+		{ 8, 5, -1 },
+		{ 9, 3, 10 },
+		{ 9, 3, 11 },
+		{ 9, 3, 12 },
+		{ 9, 3, 13 },
+		{ 9, 3, 14 },
+		{ 9, 2, 15 },
+		{ 9, 3, 16 },
+		{ 9, 1, 17 },
+		{ 9, 1, 18 },
+		{ 9, 1, 19 },
+		{ 10, 3, 20 },
+		{ 11, 5, -1 },
+		{ 11, 5, -1 },
+		{ 11, 7, -1 },
+		{ 11, 7, -1 },
+		{ 11, 7, -1 },
+		{ 11, 7, -1 }
 	};
 	yyreduction = reduction;
 
 	yytokenaction_size = 267;
 
 	static const yytokenaction_t YYNEARFAR YYBASED_CODE tokenaction[] = {
-		{ 67, YYAT_SHIFT, 1 },
-		{ 67, YYAT_SHIFT, 74 },
-		{ 61, YYAT_SHIFT, 29 },
-		{ 75, YYAT_SHIFT, 23 },
-		{ 59, YYAT_ERROR, 0 },
-		{ 67, YYAT_SHIFT, 2 },
-		{ 66, YYAT_SHIFT, 73 },
-		{ 75, YYAT_SHIFT, 76 },
-		{ 75, YYAT_SHIFT, 24 },
-		{ 75, YYAT_SHIFT, 25 },
-		{ 41, YYAT_SHIFT, 23 },
-		{ 75, YYAT_SHIFT, 26 },
-		{ 64, YYAT_SHIFT, 72 },
-		{ 75, YYAT_SHIFT, 27 },
-		{ 40, YYAT_SHIFT, 23 },
-		{ 41, YYAT_SHIFT, 24 },
-		{ 58, YYAT_SHIFT, 65 },
-		{ 57, YYAT_SHIFT, 63 },
-		{ 56, YYAT_SHIFT, 62 },
-		{ 40, YYAT_SHIFT, 24 },
-		{ 41, YYAT_SHIFT, 27 },
-		{ 52, YYAT_SHIFT, 61 },
-		{ 59, YYAT_SHIFT, 67 },
-		{ 51, YYAT_SHIFT, 60 },
-		{ 40, YYAT_SHIFT, 27 },
-		{ 48, YYAT_SHIFT, 58 },
-		{ 47, YYAT_SHIFT, 57 },
-		{ 46, YYAT_SHIFT, 55 },
-		{ 43, YYAT_SHIFT, 50 },
-		{ 37, YYAT_SHIFT, 49 },
-		{ 36, YYAT_SHIFT, 48 },
-		{ 35, YYAT_SHIFT, 46 },
-		{ 34, YYAT_SHIFT, 45 },
-		{ 33, YYAT_SHIFT, 44 },
-		{ 29, YYAT_ERROR, 0 },
-		{ 27, YYAT_ERROR, 0 },
-		{ 20, YYAT_SHIFT, 35 },
-		{ 16, YYAT_SHIFT, 32 },
-		{ 9, YYAT_SHIFT, 28 },
-		{ 8, YYAT_ACCEPT, 0 },
-		{ 6, YYAT_SHIFT, 21 },
-		{ 5, YYAT_SHIFT, 20 },
-		{ 4, YYAT_SHIFT, 19 },
-		{ 3, YYAT_SHIFT, 18 },
+		{ 83, YYAT_SHIFT, 1 },
+		{ 83, YYAT_SHIFT, 90 },
+		{ 77, YYAT_SHIFT, 34 },
+		{ 91, YYAT_SHIFT, 37 },
+		{ 75, YYAT_ERROR, 0 },
+		{ 83, YYAT_SHIFT, 2 },
+		{ 26, YYAT_SHIFT, 45 },
+		{ 91, YYAT_SHIFT, 92 },
+		{ 91, YYAT_SHIFT, 38 },
+		{ 91, YYAT_SHIFT, 39 },
+		{ 52, YYAT_SHIFT, 37 },
+		{ 91, YYAT_SHIFT, 40 },
+		{ 82, YYAT_SHIFT, 89 },
+		{ 91, YYAT_SHIFT, 41 },
+		{ 57, YYAT_SHIFT, 37 },
+		{ 52, YYAT_SHIFT, 38 },
+		{ 52, YYAT_SHIFT, 39 },
+		{ 80, YYAT_SHIFT, 88 },
+		{ 52, YYAT_SHIFT, 40 },
+		{ 57, YYAT_SHIFT, 38 },
+		{ 52, YYAT_SHIFT, 41 },
+		{ 26, YYAT_SHIFT, 46 },
+		{ 75, YYAT_SHIFT, 83 },
+		{ 56, YYAT_SHIFT, 37 },
+		{ 57, YYAT_SHIFT, 41 },
+		{ 74, YYAT_SHIFT, 81 },
+		{ 73, YYAT_SHIFT, 79 },
+		{ 72, YYAT_SHIFT, 78 },
+		{ 56, YYAT_SHIFT, 38 },
+		{ 68, YYAT_SHIFT, 77 },
+		{ 67, YYAT_SHIFT, 76 },
+		{ 65, YYAT_SHIFT, 74 },
+		{ 64, YYAT_SHIFT, 73 },
+		{ 56, YYAT_SHIFT, 41 },
+		{ 63, YYAT_SHIFT, 71 },
+		{ 59, YYAT_SHIFT, 32 },
+		{ 53, YYAT_SHIFT, 66 },
+		{ 51, YYAT_SHIFT, 65 },
+		{ 50, YYAT_SHIFT, 63 },
+		{ 49, YYAT_SHIFT, 62 },
+		{ 48, YYAT_SHIFT, 61 },
+		{ 45, YYAT_SHIFT, 59 },
+		{ 43, YYAT_SHIFT, 32 },
+		{ 41, YYAT_ERROR, 0 },
+		{ 34, YYAT_ERROR, 0 },
+		{ 31, YYAT_SHIFT, 50 },
+		{ 27, YYAT_SHIFT, 47 },
+		{ 24, YYAT_SHIFT, 43 },
+		{ 23, YYAT_SHIFT, 42 },
+		{ 17, YYAT_ACCEPT, 0 },
+		{ 15, YYAT_SHIFT, 32 },
+		{ 7, YYAT_SHIFT, 31 },
+		{ 6, YYAT_SHIFT, 30 },
+		{ 3, YYAT_SHIFT, 29 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
@@ -661,18 +795,29 @@ void YYPARSERNAME::yytables()
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
+		{ 77, YYAT_SHIFT, 3 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
+		{ 77, YYAT_SHIFT, 4 },
 		{ -1, YYAT_ERROR, 0 },
+		{ 77, YYAT_SHIFT, 5 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
+		{ 77, YYAT_SHIFT, 6 },
+		{ 77, YYAT_SHIFT, 7 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
-		{ 61, YYAT_SHIFT, 3 },
+		{ 77, YYAT_SHIFT, 8 },
+		{ 77, YYAT_SHIFT, 9 },
+		{ 77, YYAT_SHIFT, 10 },
+		{ 77, YYAT_SHIFT, 11 },
+		{ 77, YYAT_SHIFT, 12 },
+		{ 77, YYAT_SHIFT, 13 },
 		{ -1, YYAT_ERROR, 0 },
+		{ 77, YYAT_SHIFT, 14 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
@@ -681,8 +826,6 @@ void YYPARSERNAME::yytables()
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
-		{ 61, YYAT_SHIFT, 4 },
-		{ 61, YYAT_SHIFT, 5 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
@@ -696,7 +839,6 @@ void YYPARSERNAME::yytables()
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
-		{ 61, YYAT_SHIFT, 6 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
@@ -759,203 +901,211 @@ void YYPARSERNAME::yytables()
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
 		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ -1, YYAT_ERROR, 0 },
-		{ 67, YYAT_SHIFT, 15 },
-		{ 67, YYAT_SHIFT, 7 }
+		{ 83, YYAT_SHIFT, 15 },
+		{ 83, YYAT_SHIFT, 16 }
 	};
 	yytokenaction = tokenaction;
 
 	static const yystateaction_t YYNEARFAR YYBASED_CODE stateaction[] = {
-		{ 0, 0, YYAT_DEFAULT, 29 },
-		{ 0, 0, YYAT_DEFAULT, 27 },
-		{ 0, 0, YYAT_DEFAULT, 27 },
-		{ 3, 1, YYAT_ERROR, 0 },
-		{ 2, 1, YYAT_ERROR, 0 },
-		{ 1, 1, YYAT_ERROR, 0 },
-		{ -21, 1, YYAT_REDUCE, 39 },
-		{ 0, 0, YYAT_REDUCE, 38 },
-		{ 39, 1, YYAT_DEFAULT, 29 },
-		{ -21, 1, YYAT_DEFAULT, 59 },
-		{ 0, 0, YYAT_REDUCE, 6 },
-		{ 0, 0, YYAT_DEFAULT, 61 },
-		{ 0, 0, YYAT_REDUCE, 1 },
-		{ 0, 0, YYAT_REDUCE, 5 },
-		{ 0, 0, YYAT_REDUCE, 7 },
-		{ 0, 0, YYAT_REDUCE, 39 },
-		{ -4, 1, YYAT_DEFAULT, 75 },
-		{ 0, 0, YYAT_REDUCE, 36 },
-		{ 0, 0, YYAT_DEFAULT, 27 },
-		{ 0, 0, YYAT_DEFAULT, 27 },
-		{ -23, 1, YYAT_DEFAULT, 48 },
-		{ 0, 0, YYAT_DEFAULT, 27 },
-		{ 0, 0, YYAT_REDUCE, 2 },
-		{ 0, 0, YYAT_DEFAULT, 27 },
-		{ 0, 0, YYAT_DEFAULT, 27 },
-		{ 0, 0, YYAT_DEFAULT, 27 },
-		{ 0, 0, YYAT_DEFAULT, 27 },
-		{ -6, 1, YYAT_DEFAULT, 67 },
-		{ 0, 0, YYAT_REDUCE, 4 },
-		{ -89, 1, YYAT_DEFAULT, 61 },
-		{ 0, 0, YYAT_REDUCE, 21 },
-		{ 0, 0, YYAT_REDUCE, 22 },
-		{ 0, 0, YYAT_REDUCE, 37 },
-		{ -8, 1, YYAT_DEFAULT, 75 },
-		{ -9, 1, YYAT_DEFAULT, 75 },
-		{ -28, 1, YYAT_DEFAULT, 48 },
-		{ -29, 1, YYAT_DEFAULT, 59 },
-		{ -30, 1, YYAT_DEFAULT, 59 },
-		{ 0, 0, YYAT_REDUCE, 35 },
-		{ 0, 0, YYAT_REDUCE, 33 },
-		{ -23, 1, YYAT_REDUCE, 31 },
-		{ -27, 1, YYAT_REDUCE, 32 },
-		{ 0, 0, YYAT_REDUCE, 34 },
-		{ -97, 1, YYAT_DEFAULT, 29 },
-		{ 0, 0, YYAT_DEFAULT, 61 },
-		{ 0, 0, YYAT_DEFAULT, 61 },
-		{ -14, 1, YYAT_DEFAULT, 67 },
-		{ -33, 1, YYAT_DEFAULT, 59 },
-		{ -34, 1, YYAT_DEFAULT, 27 },
-		{ 0, 0, YYAT_REDUCE, 3 },
-		{ 0, 0, YYAT_REDUCE, 18 },
-		{ -259, 1, YYAT_REDUCE, 40 },
-		{ -261, 1, YYAT_REDUCE, 41 },
-		{ 0, 0, YYAT_REDUCE, 19 },
+		{ 0, 0, YYAT_DEFAULT, 34 },
+		{ 0, 0, YYAT_DEFAULT, 41 },
+		{ 0, 0, YYAT_DEFAULT, 41 },
+		{ 13, 1, YYAT_ERROR, 0 },
 		{ 0, 0, YYAT_REDUCE, 20 },
+		{ 0, 0, YYAT_REDUCE, 12 },
+		{ 12, 1, YYAT_ERROR, 0 },
+		{ 11, 1, YYAT_ERROR, 0 },
+		{ 0, 0, YYAT_REDUCE, 19 },
+		{ 0, 0, YYAT_REDUCE, 16 },
+		{ 0, 0, YYAT_REDUCE, 13 },
+		{ 0, 0, YYAT_REDUCE, 17 },
+		{ 0, 0, YYAT_REDUCE, 14 },
+		{ 0, 0, YYAT_REDUCE, 15 },
+		{ 0, 0, YYAT_REDUCE, 18 },
+		{ -11, 1, YYAT_REDUCE, 43 },
+		{ 0, 0, YYAT_REDUCE, 42 },
+		{ 49, 1, YYAT_DEFAULT, 34 },
+		{ 0, 0, YYAT_DEFAULT, 77 },
+		{ 0, 0, YYAT_REDUCE, 44 },
+		{ 0, 0, YYAT_REDUCE, 4 },
+		{ 0, 0, YYAT_REDUCE, 6 },
+		{ 0, 0, YYAT_REDUCE, 1 },
+		{ -11, 1, YYAT_DEFAULT, 75 },
+		{ -258, 1, YYAT_ERROR, 0 },
+		{ 0, 0, YYAT_REDUCE, 5 },
+		{ -38, 1, YYAT_ERROR, 0 },
+		{ 5, 1, YYAT_DEFAULT, 91 },
+		{ 0, 0, YYAT_REDUCE, 40 },
+		{ 0, 0, YYAT_DEFAULT, 41 },
+		{ 0, 0, YYAT_DEFAULT, 41 },
+		{ -14, 1, YYAT_DEFAULT, 65 },
+		{ 0, 0, YYAT_DEFAULT, 41 },
+		{ 0, 0, YYAT_REDUCE, 2 },
+		{ -79, 1, YYAT_DEFAULT, 77 },
+		{ 0, 0, YYAT_REDUCE, 25 },
+		{ 0, 0, YYAT_REDUCE, 26 },
+		{ 0, 0, YYAT_DEFAULT, 41 },
+		{ 0, 0, YYAT_DEFAULT, 41 },
+		{ 0, 0, YYAT_DEFAULT, 41 },
+		{ 0, 0, YYAT_DEFAULT, 41 },
+		{ 2, 1, YYAT_DEFAULT, 83 },
+		{ 0, 0, YYAT_REDUCE, 3 },
+		{ -19, 1, YYAT_REDUCE, 9 },
+		{ 0, 0, YYAT_REDUCE, 8 },
+		{ -264, 1, YYAT_ERROR, 0 },
+		{ 0, 0, YYAT_REDUCE, 7 },
+		{ 0, 0, YYAT_REDUCE, 41 },
+		{ -1, 1, YYAT_DEFAULT, 91 },
+		{ -2, 1, YYAT_DEFAULT, 91 },
+		{ -21, 1, YYAT_DEFAULT, 65 },
+		{ -22, 1, YYAT_DEFAULT, 75 },
+		{ -27, 1, YYAT_REDUCE, 45 },
+		{ -89, 1, YYAT_DEFAULT, 34 },
+		{ 0, 0, YYAT_REDUCE, 39 },
+		{ 0, 0, YYAT_REDUCE, 37 },
+		{ -14, 1, YYAT_REDUCE, 35 },
+		{ -23, 1, YYAT_REDUCE, 36 },
+		{ 0, 0, YYAT_REDUCE, 38 },
+		{ -26, 1, YYAT_REDUCE, 10 },
+		{ 0, 0, YYAT_REDUCE, 11 },
+		{ 0, 0, YYAT_DEFAULT, 77 },
+		{ 0, 0, YYAT_DEFAULT, 77 },
+		{ -7, 1, YYAT_DEFAULT, 83 },
+		{ -27, 1, YYAT_DEFAULT, 75 },
+		{ -28, 1, YYAT_DEFAULT, 41 },
+		{ 0, 0, YYAT_REDUCE, 22 },
+		{ -252, 1, YYAT_REDUCE, 46 },
+		{ -253, 1, YYAT_REDUCE, 47 },
+		{ 0, 0, YYAT_REDUCE, 23 },
+		{ 0, 0, YYAT_REDUCE, 24 },
+		{ 0, 0, YYAT_REDUCE, 34 },
+		{ -14, 1, YYAT_DEFAULT, 91 },
+		{ -15, 1, YYAT_DEFAULT, 83 },
+		{ -16, 1, YYAT_DEFAULT, 83 },
+		{ -37, 1, YYAT_DEFAULT, 91 },
+		{ 0, 0, YYAT_DEFAULT, 77 },
+		{ -121, 1, YYAT_DEFAULT, 41 },
+		{ 0, 0, YYAT_REDUCE, 33 },
+		{ 0, 0, YYAT_REDUCE, 32 },
+		{ -24, 1, YYAT_DEFAULT, 91 },
+		{ 0, 0, YYAT_REDUCE, 31 },
+		{ -29, 1, YYAT_DEFAULT, 91 },
+		{ -40, 1, YYAT_ERROR, 0 },
+		{ 0, 0, YYAT_REDUCE, 48 },
+		{ 0, 0, YYAT_REDUCE, 49 },
+		{ 0, 0, YYAT_REDUCE, 50 },
+		{ 0, 0, YYAT_REDUCE, 51 },
 		{ 0, 0, YYAT_REDUCE, 30 },
-		{ -23, 1, YYAT_DEFAULT, 75 },
-		{ -24, 1, YYAT_DEFAULT, 67 },
-		{ -25, 1, YYAT_DEFAULT, 67 },
-		{ -37, 1, YYAT_DEFAULT, 75 },
-		{ 0, 0, YYAT_DEFAULT, 61 },
-		{ -121, 1, YYAT_DEFAULT, 27 },
 		{ 0, 0, YYAT_REDUCE, 29 },
 		{ 0, 0, YYAT_REDUCE, 28 },
-		{ -29, 1, YYAT_DEFAULT, 75 },
-		{ 0, 0, YYAT_REDUCE, 27 },
-		{ -35, 1, YYAT_DEFAULT, 75 },
-		{ -40, 1, YYAT_ERROR, 0 },
-		{ 0, 0, YYAT_REDUCE, 42 },
-		{ 0, 0, YYAT_REDUCE, 43 },
-		{ 0, 0, YYAT_REDUCE, 44 },
-		{ 0, 0, YYAT_REDUCE, 45 },
-		{ 0, 0, YYAT_REDUCE, 26 },
-		{ 0, 0, YYAT_REDUCE, 25 },
-		{ 0, 0, YYAT_REDUCE, 24 },
 		{ -34, 1, YYAT_ERROR, 0 },
-		{ 0, 0, YYAT_REDUCE, 23 }
+		{ 0, 0, YYAT_REDUCE, 27 }
 	};
 	yystateaction = stateaction;
 
-	yynontermgoto_size = 37;
+	yynontermgoto_size = 42;
 
 	static const yynontermgoto_t YYNEARFAR YYBASED_CODE nontermgoto[] = {
-		{ 61, 71 },
-		{ 67, 75 },
-		{ 61, 70 },
-		{ 61, 13 },
-		{ 61, 10 },
-		{ 61, 11 },
-		{ 61, 9 },
-		{ 61, 14 },
-		{ 60, 69 },
-		{ 45, 54 },
-		{ 60, 68 },
-		{ 45, 53 },
-		{ 44, 52 },
-		{ 43, 22 },
-		{ 44, 51 },
-		{ 43, -1 },
-		{ 11, 31 },
-		{ 58, 66 },
-		{ 11, 30 },
-		{ 29, 43 },
-		{ 29, 12 },
-		{ 57, 64 },
-		{ 48, 59 },
-		{ 46, 56 },
-		{ 35, 47 },
-		{ 27, 42 },
-		{ 26, 41 },
-		{ 25, 40 },
-		{ 24, 39 },
-		{ 23, 38 },
-		{ 21, 37 },
-		{ 20, 36 },
-		{ 19, 34 },
-		{ 18, 33 },
-		{ 2, 17 },
-		{ 1, 16 },
-		{ 0, 8 }
+		{ 77, 87 },
+		{ 77, 26 },
+		{ 77, 24 },
+		{ 77, 86 },
+		{ 77, 20 },
+		{ 77, 25 },
+		{ 77, 18 },
+		{ 77, 23 },
+		{ 76, 85 },
+		{ 77, 21 },
+		{ 62, 70 },
+		{ 76, 84 },
+		{ 61, 68 },
+		{ 62, 69 },
+		{ 53, 33 },
+		{ 61, 67 },
+		{ 18, 36 },
+		{ 53, -1 },
+		{ 74, 82 },
+		{ 18, 35 },
+		{ 83, 91 },
+		{ 83, 19 },
+		{ 34, 53 },
+		{ 34, 22 },
+		{ 73, 80 },
+		{ 65, 75 },
+		{ 63, 72 },
+		{ 50, 64 },
+		{ 45, 60 },
+		{ 41, 58 },
+		{ 40, 57 },
+		{ 39, 56 },
+		{ 38, 55 },
+		{ 37, 54 },
+		{ 32, 52 },
+		{ 31, 51 },
+		{ 30, 49 },
+		{ 29, 48 },
+		{ 24, 44 },
+		{ 2, 28 },
+		{ 1, 27 },
+		{ 0, 17 }
 	};
 	yynontermgoto = nontermgoto;
 
 	static const yystategoto_t YYNEARFAR YYBASED_CODE stategoto[] = {
-		{ 35, 29 },
-		{ 27, -1 },
-		{ 26, -1 },
-		{ 0, -1 },
-		{ 0, -1 },
-		{ 0, -1 },
-		{ 0, -1 },
-		{ 0, -1 },
-		{ 0, 43 },
-		{ 0, -1 },
-		{ 0, -1 },
-		{ 14, 61 },
+		{ 40, 34 },
+		{ 31, 83 },
+		{ 30, 83 },
 		{ 0, -1 },
 		{ 0, -1 },
 		{ 0, -1 },
 		{ 0, -1 },
 		{ 0, -1 },
 		{ 0, -1 },
-		{ 25, -1 },
-		{ 24, -1 },
-		{ 23, -1 },
-		{ 22, -1 },
 		{ 0, -1 },
-		{ 21, -1 },
-		{ 20, -1 },
-		{ 19, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 0, 53 },
+		{ 14, 77 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 28, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 28, 83 },
+		{ 27, 83 },
+		{ 26, 83 },
+		{ 25, 83 },
+		{ 0, -1 },
+		{ 21, 53 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 24, 83 },
+		{ 23, 83 },
+		{ 22, 83 },
+		{ 21, 83 },
+		{ 20, 83 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
 		{ 18, -1 },
-		{ 17, -1 },
-		{ 0, -1 },
-		{ 18, 43 },
 		{ 0, -1 },
 		{ 0, -1 },
 		{ 0, -1 },
 		{ 0, -1 },
-		{ 0, -1 },
-		{ 16, -1 },
-		{ 0, -1 },
+		{ 18, 83 },
 		{ 0, -1 },
 		{ 0, -1 },
-		{ 0, -1 },
-		{ 0, -1 },
-		{ 0, -1 },
-		{ 0, -1 },
-		{ 11, 61 },
-		{ 10, 61 },
-		{ 7, 61 },
-		{ 15, -1 },
-		{ 0, -1 },
-		{ 14, -1 },
+		{ 12, 77 },
 		{ 0, -1 },
 		{ 0, -1 },
 		{ 0, -1 },
@@ -963,18 +1113,29 @@ void YYPARSERNAME::yytables()
 		{ 0, -1 },
 		{ 0, -1 },
 		{ 0, -1 },
+		{ 10, 77 },
+		{ 8, 77 },
+		{ 17, 83 },
 		{ 0, -1 },
-		{ 13, -1 },
-		{ 9, -1 },
-		{ 0, -1 },
-		{ 6, 61 },
-		{ -2, -1 },
-		{ 0, -1 },
+		{ 16, 83 },
 		{ 0, -1 },
 		{ 0, -1 },
 		{ 0, -1 },
 		{ 0, -1 },
-		{ -7, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 15, 83 },
+		{ 9, 83 },
+		{ 0, -1 },
+		{ 6, 77 },
+		{ -2, 83 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 0, -1 },
+		{ 11, -1 },
 		{ 0, -1 },
 		{ 0, -1 },
 		{ 0, -1 },
@@ -995,7 +1156,7 @@ void YYPARSERNAME::yytables()
 	yytokendestbaseptr = NULL;
 	yytokendestbase_size = 0;
 }
-#line 135 ".\\myparser.y"
+#line 151 ".\\myparser.y"
 
 
 /////////////////////////////////////////////////////////////////////////////

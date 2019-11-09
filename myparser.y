@@ -37,6 +37,7 @@ struct symtable symtable[MAXSYM];
 %token <symp> ID
 %token <dval> NUMBER
 %type <dval> expression
+%type <dval> assign_expr
 // parser name
 %name myparser
 
@@ -74,12 +75,17 @@ struct symtable symtable[MAXSYM];
 statement_list:	statement
 	|			statement_list statement
 	;
-statement:		ID '=' expression ';'	{$1->value = $3;}
-	|			expression ';'			{printf("Expression.\n");}
+statement:		expression ';'			{printf("Expression.\n");}
 	|			while_stat				{printf("Repeat Statement, while\n");}
 	|			for_stat				{printf("Repeat Statement, for\n");}
-	|			ifelse_stat
-	;			
+	|			ifelse_stat				{printf("Condition Statement, if\n");}
+	|			var_declaration_front ';'	{printf("Var Declaration\n");}
+	;
+var_declaration_front:	type assign_expr	{printf("Expr, op:=\n");}
+	|					type ID				{printf("ID Declaration, symbol: %s\n", $2->name);}
+	|					var_declaration_front ',' ID		{printf("ID Declaration, symbol: %s\n", $3->name);}
+	|					var_declaration_front ',' assign_expr		{printf("Expr, op:=\n");}
+	;
 type:			INT						{printf("Type Specifier, int\n");}
 	|			DOUBLE
 	|			FLOAT
@@ -121,8 +127,18 @@ expression:		expression '+' expression	{$$ = $1 + $3;}
 											}
 	|			'-' expression %prec UMINUS	{$$ = -$2;}
 	|			'(' expression ')'			{$$ = $2;}
-	|			NUMBER
-	|			ID							{$$ = $1->value;}
+	|			NUMBER						{printf("Const Declaration, %g\n", $1);}
+	|			ID							{
+												$$ = $1->value;
+												printf("ID Declaration, symbol: %s\n", $1->name);
+											}
+	|			assign_expr					{printf("Expr, op:=\n");}
+	;
+assign_expr:	ID '=' expression			{
+												$1->value = $3;
+												$$ = $3;
+												printf("ID Declaration, symbol: %s\n", $1->name);
+											}
 	;
 ifelse_stat:	IF '(' expression ')' code_block
 	|			IF '(' expression ')' statement

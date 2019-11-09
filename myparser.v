@@ -18,8 +18,8 @@
 # myparser.v
 # YACC verbose file generated from myparser.y.
 # 
-# Date: 11/08/19
-# Time: 21:51:29
+# Date: 11/09/19
+# Time: 12:43:40
 # 
 # AYACC Version: 2.07
 #############################################################################
@@ -34,56 +34,64 @@
     1  statement_list : statement
     2                 | statement_list statement
 
-    3  statement : ID '=' expression ';'
-    4            | expression ';'
-    5            | while_stat
-    6            | for_stat
-    7            | ifelse_stat
+    3  statement : expression ';'
+    4            | while_stat
+    5            | for_stat
+    6            | ifelse_stat
+    7            | var_declaration_front ';'
 
-    8  type : INT
-    9       | DOUBLE
-   10       | FLOAT
-   11       | BOOL
-   12       | LONGINT
-   13       | LONGLONGINT
-   14       | BYTE
-   15       | STRUCT
-   16       | VOID
-   17       | BYTE
+    8  var_declaration_front : type assign_expr
+    9                        | type ID
+   10                        | var_declaration_front ',' ID
+   11                        | var_declaration_front ',' assign_expr
 
-   18  code_block : '{' statement_list '}'
+   12  type : INT
+   13       | DOUBLE
+   14       | FLOAT
+   15       | BOOL
+   16       | LONGINT
+   17       | LONGLONGINT
+   18       | BYTE
+   19       | STRUCT
+   20       | VOID
+   21       | BYTE
 
-   19  while_stat : WHILE '(' expression ')' code_block
-   20             | WHILE '(' expression ')' statement
+   22  code_block : '{' statement_list '}'
 
-   21  for_stat : for_front code_block
-   22           | for_front statement
+   23  while_stat : WHILE '(' expression ')' code_block
+   24             | WHILE '(' expression ')' statement
 
-   23  for_front : FOR '(' expression ';' expression ';' expression ')'
-   24            | FOR '(' expression ';' expression ';' ')'
-   25            | FOR '(' expression ';' ';' expression ')'
-   26            | FOR '(' ';' expression ';' expression ')'
-   27            | FOR '(' expression ';' ';' ')'
-   28            | FOR '(' ';' expression ';' ')'
-   29            | FOR '(' ';' ';' expression ')'
-   30            | FOR '(' ';' ';' ')'
+   25  for_stat : for_front code_block
+   26           | for_front statement
 
-   31  expression : expression '+' expression
-   32             | expression '-' expression
-   33             | expression '*' expression
-   34             | expression '/' expression
-   35             | expression '%' expression
-   36             | '-' expression
-   37             | '(' expression ')'
-   38             | NUMBER
-   39             | ID
+   27  for_front : FOR '(' expression ';' expression ';' expression ')'
+   28            | FOR '(' expression ';' expression ';' ')'
+   29            | FOR '(' expression ';' ';' expression ')'
+   30            | FOR '(' ';' expression ';' expression ')'
+   31            | FOR '(' expression ';' ';' ')'
+   32            | FOR '(' ';' expression ';' ')'
+   33            | FOR '(' ';' ';' expression ')'
+   34            | FOR '(' ';' ';' ')'
 
-   40  ifelse_stat : IF '(' expression ')' code_block
-   41              | IF '(' expression ')' statement
-   42              | IF '(' expression ')' code_block ELSE code_block
-   43              | IF '(' expression ')' code_block ELSE statement
-   44              | IF '(' expression ')' statement ELSE code_block
-   45              | IF '(' expression ')' statement ELSE statement
+   35  expression : expression '+' expression
+   36             | expression '-' expression
+   37             | expression '*' expression
+   38             | expression '/' expression
+   39             | expression '%' expression
+   40             | '-' expression
+   41             | '(' expression ')'
+   42             | NUMBER
+   43             | ID
+   44             | assign_expr
+
+   45  assign_expr : ID '=' expression
+
+   46  ifelse_stat : IF '(' expression ')' code_block
+   47              | IF '(' expression ')' statement
+   48              | IF '(' expression ')' code_block ELSE code_block
+   49              | IF '(' expression ')' code_block ELSE statement
+   50              | IF '(' expression ')' statement ELSE code_block
+   51              | IF '(' expression ')' statement ELSE statement
 
 
 ##############################################################################
@@ -96,18 +104,30 @@ state 0
 	'('  shift 1
 	'-'  shift 2
 	IF  shift 3
-	WHILE  shift 4
-	FOR  shift 5
-	ID  shift 6
-	NUMBER  shift 7
+	VOID  shift 4
+	INT  shift 5
+	WHILE  shift 6
+	FOR  shift 7
+	STRUCT  shift 8
+	LONGINT  shift 9
+	DOUBLE  shift 10
+	LONGLONGINT  shift 11
+	FLOAT  shift 12
+	BOOL  shift 13
+	BYTE  shift 14
+	ID  shift 15
+	NUMBER  shift 16
 
-	statement_list  goto 8
-	expression  goto 9
-	for_stat  goto 10
-	for_front  goto 11
-	statement  goto 12
-	while_stat  goto 13
-	ifelse_stat  goto 14
+	statement_list  goto 17
+	for_front  goto 18
+	assign_expr  goto 19
+	while_stat  goto 20
+	ifelse_stat  goto 21
+	statement  goto 22
+	expression  goto 23
+	type  goto 24
+	for_stat  goto 25
+	var_declaration_front  goto 26
 
 
 state 1
@@ -116,9 +136,10 @@ state 1
 	'('  shift 1
 	'-'  shift 2
 	ID  shift 15
-	NUMBER  shift 7
+	NUMBER  shift 16
 
-	expression  goto 16
+	assign_expr  goto 19
+	expression  goto 27
 
 
 state 2
@@ -127,57 +148,114 @@ state 2
 	'('  shift 1
 	'-'  shift 2
 	ID  shift 15
-	NUMBER  shift 7
+	NUMBER  shift 16
 
-	expression  goto 17
+	assign_expr  goto 19
+	expression  goto 28
 
 
 state 3
-	ifelse_stat : IF . '(' expression ')' code_block ELSE statement
-	ifelse_stat : IF . '(' expression ')' statement ELSE statement
 	ifelse_stat : IF . '(' expression ')' statement
+	ifelse_stat : IF . '(' expression ')' statement ELSE statement
+	ifelse_stat : IF . '(' expression ')' code_block ELSE code_block
+	ifelse_stat : IF . '(' expression ')' code_block ELSE statement
 	ifelse_stat : IF . '(' expression ')' statement ELSE code_block
 	ifelse_stat : IF . '(' expression ')' code_block
-	ifelse_stat : IF . '(' expression ')' code_block ELSE code_block
 
-	'('  shift 18
+	'('  shift 29
 
 
 state 4
-	while_stat : WHILE . '(' expression ')' statement
-	while_stat : WHILE . '(' expression ')' code_block
+	type : VOID .  (20)
 
-	'('  shift 19
+	.  reduce 20
 
 
 state 5
-	for_front : FOR . '(' ';' ';' ')'
-	for_front : FOR . '(' expression ';' expression ';' ')'
-	for_front : FOR . '(' ';' expression ';' expression ')'
-	for_front : FOR . '(' expression ';' expression ';' expression ')'
-	for_front : FOR . '(' expression ';' ';' ')'
-	for_front : FOR . '(' expression ';' ';' expression ')'
-	for_front : FOR . '(' ';' expression ';' ')'
-	for_front : FOR . '(' ';' ';' expression ')'
+	type : INT .  (12)
 
-	'('  shift 20
+	.  reduce 12
 
 
 state 6
-	statement : ID . '=' expression ';'
-	expression : ID .  (39)
+	while_stat : WHILE . '(' expression ')' code_block
+	while_stat : WHILE . '(' expression ')' statement
 
-	'='  shift 21
-	.  reduce 39
+	'('  shift 30
 
 
 state 7
-	expression : NUMBER .  (38)
+	for_front : FOR . '(' expression ';' ';' ')'
+	for_front : FOR . '(' ';' expression ';' ')'
+	for_front : FOR . '(' ';' ';' expression ')'
+	for_front : FOR . '(' expression ';' expression ';' ')'
+	for_front : FOR . '(' expression ';' ';' expression ')'
+	for_front : FOR . '(' ';' expression ';' expression ')'
+	for_front : FOR . '(' expression ';' expression ';' expression ')'
+	for_front : FOR . '(' ';' ';' ')'
 
-	.  reduce 38
+	'('  shift 31
 
 
 state 8
+	type : STRUCT .  (19)
+
+	.  reduce 19
+
+
+state 9
+	type : LONGINT .  (16)
+
+	.  reduce 16
+
+
+state 10
+	type : DOUBLE .  (13)
+
+	.  reduce 13
+
+
+state 11
+	type : LONGLONGINT .  (17)
+
+	.  reduce 17
+
+
+state 12
+	type : FLOAT .  (14)
+
+	.  reduce 14
+
+
+state 13
+	type : BOOL .  (15)
+
+	.  reduce 15
+
+
+14: reduce-reduce conflict (reduce 18, reduce 21) on ID
+state 14
+	type : BYTE .  (21)
+	type : BYTE .  (18)
+
+	.  reduce 18
+
+
+state 15
+	assign_expr : ID . '=' expression
+	expression : ID .  (43)
+
+	'='  shift 32
+	.  reduce 43
+
+
+state 16
+	expression : NUMBER .  (42)
+
+	.  reduce 42
+
+
+state 17
 	$accept : statement_list . $end  (0)
 	statement_list : statement_list . statement
 
@@ -185,855 +263,1007 @@ state 8
 	'('  shift 1
 	'-'  shift 2
 	IF  shift 3
-	WHILE  shift 4
-	FOR  shift 5
-	ID  shift 6
-	NUMBER  shift 7
+	VOID  shift 4
+	INT  shift 5
+	WHILE  shift 6
+	FOR  shift 7
+	STRUCT  shift 8
+	LONGINT  shift 9
+	DOUBLE  shift 10
+	LONGLONGINT  shift 11
+	FLOAT  shift 12
+	BOOL  shift 13
+	BYTE  shift 14
+	ID  shift 15
+	NUMBER  shift 16
 
-	expression  goto 9
-	for_stat  goto 10
-	for_front  goto 11
-	statement  goto 22
-	while_stat  goto 13
-	ifelse_stat  goto 14
-
-
-state 9
-	statement : expression . ';'
-	expression : expression . '-' expression
-	expression : expression . '*' expression
-	expression : expression . '+' expression
-	expression : expression . '/' expression
-	expression : expression . '%' expression
-
-	'%'  shift 23
-	'*'  shift 24
-	'+'  shift 25
-	'-'  shift 26
-	'/'  shift 27
-	';'  shift 28
+	for_front  goto 18
+	assign_expr  goto 19
+	while_stat  goto 20
+	ifelse_stat  goto 21
+	statement  goto 33
+	expression  goto 23
+	type  goto 24
+	for_stat  goto 25
+	var_declaration_front  goto 26
 
 
-state 10
-	statement : for_stat .  (6)
-
-	.  reduce 6
-
-
-state 11
+state 18
 	for_stat : for_front . code_block
 	for_stat : for_front . statement
 
 	'('  shift 1
 	'-'  shift 2
-	'{'  shift 29
+	'{'  shift 34
 	IF  shift 3
-	WHILE  shift 4
-	FOR  shift 5
-	ID  shift 6
-	NUMBER  shift 7
+	VOID  shift 4
+	INT  shift 5
+	WHILE  shift 6
+	FOR  shift 7
+	STRUCT  shift 8
+	LONGINT  shift 9
+	DOUBLE  shift 10
+	LONGLONGINT  shift 11
+	FLOAT  shift 12
+	BOOL  shift 13
+	BYTE  shift 14
+	ID  shift 15
+	NUMBER  shift 16
 
-	expression  goto 9
-	code_block  goto 30
-	for_stat  goto 10
-	for_front  goto 11
-	statement  goto 31
-	while_stat  goto 13
-	ifelse_stat  goto 14
+	for_front  goto 18
+	code_block  goto 35
+	assign_expr  goto 19
+	while_stat  goto 20
+	ifelse_stat  goto 21
+	statement  goto 36
+	expression  goto 23
+	type  goto 24
+	for_stat  goto 25
+	var_declaration_front  goto 26
 
 
-state 12
+state 19
+	expression : assign_expr .  (44)
+
+	.  reduce 44
+
+
+state 20
+	statement : while_stat .  (4)
+
+	.  reduce 4
+
+
+state 21
+	statement : ifelse_stat .  (6)
+
+	.  reduce 6
+
+
+state 22
 	statement_list : statement .  (1)
 
 	.  reduce 1
 
 
-state 13
-	statement : while_stat .  (5)
+state 23
+	statement : expression . ';'
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+	expression : expression . '%' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+
+	'%'  shift 37
+	'*'  shift 38
+	'+'  shift 39
+	'-'  shift 40
+	'/'  shift 41
+	';'  shift 42
+
+
+state 24
+	var_declaration_front : type . assign_expr
+	var_declaration_front : type . ID
+
+	ID  shift 43
+
+	assign_expr  goto 44
+
+
+state 25
+	statement : for_stat .  (5)
 
 	.  reduce 5
 
 
-state 14
-	statement : ifelse_stat .  (7)
+state 26
+	statement : var_declaration_front . ';'
+	var_declaration_front : var_declaration_front . ',' ID
+	var_declaration_front : var_declaration_front . ',' assign_expr
 
-	.  reduce 7
-
-
-state 15
-	expression : ID .  (39)
-
-	.  reduce 39
+	','  shift 45
+	';'  shift 46
 
 
-state 16
-	expression : expression . '-' expression
-	expression : expression . '*' expression
-	expression : expression . '+' expression
+state 27
 	expression : expression . '/' expression
+	expression : expression . '*' expression
 	expression : expression . '%' expression
 	expression : '(' expression . ')'
-
-	'%'  shift 23
-	')'  shift 32
-	'*'  shift 24
-	'+'  shift 25
-	'-'  shift 26
-	'/'  shift 27
-
-
-state 17
-	expression : expression . '-' expression
-	expression : expression . '*' expression
 	expression : expression . '+' expression
-	expression : '-' expression .  (36)
+	expression : expression . '-' expression
+
+	'%'  shift 37
+	')'  shift 47
+	'*'  shift 38
+	'+'  shift 39
+	'-'  shift 40
+	'/'  shift 41
+
+
+state 28
 	expression : expression . '/' expression
+	expression : expression . '*' expression
+	expression : '-' expression .  (40)
 	expression : expression . '%' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
 
-	.  reduce 36
+	.  reduce 40
 
 
-state 18
-	ifelse_stat : IF '(' . expression ')' code_block ELSE statement
-	ifelse_stat : IF '(' . expression ')' statement ELSE statement
+state 29
 	ifelse_stat : IF '(' . expression ')' statement
+	ifelse_stat : IF '(' . expression ')' statement ELSE statement
+	ifelse_stat : IF '(' . expression ')' code_block ELSE code_block
+	ifelse_stat : IF '(' . expression ')' code_block ELSE statement
 	ifelse_stat : IF '(' . expression ')' statement ELSE code_block
 	ifelse_stat : IF '(' . expression ')' code_block
-	ifelse_stat : IF '(' . expression ')' code_block ELSE code_block
 
 	'('  shift 1
 	'-'  shift 2
 	ID  shift 15
-	NUMBER  shift 7
+	NUMBER  shift 16
 
-	expression  goto 33
+	assign_expr  goto 19
+	expression  goto 48
 
 
-state 19
-	while_stat : WHILE '(' . expression ')' statement
+state 30
 	while_stat : WHILE '(' . expression ')' code_block
+	while_stat : WHILE '(' . expression ')' statement
 
 	'('  shift 1
 	'-'  shift 2
 	ID  shift 15
-	NUMBER  shift 7
+	NUMBER  shift 16
 
-	expression  goto 34
+	assign_expr  goto 19
+	expression  goto 49
 
 
-state 20
-	for_front : FOR '(' . ';' ';' ')'
-	for_front : FOR '(' . expression ';' expression ';' ')'
-	for_front : FOR '(' . ';' expression ';' expression ')'
-	for_front : FOR '(' . expression ';' expression ';' expression ')'
+state 31
 	for_front : FOR '(' . expression ';' ';' ')'
-	for_front : FOR '(' . expression ';' ';' expression ')'
 	for_front : FOR '(' . ';' expression ';' ')'
 	for_front : FOR '(' . ';' ';' expression ')'
+	for_front : FOR '(' . expression ';' expression ';' ')'
+	for_front : FOR '(' . expression ';' ';' expression ')'
+	for_front : FOR '(' . ';' expression ';' expression ')'
+	for_front : FOR '(' . expression ';' expression ';' expression ')'
+	for_front : FOR '(' . ';' ';' ')'
 
 	'('  shift 1
 	'-'  shift 2
-	';'  shift 35
+	';'  shift 50
 	ID  shift 15
-	NUMBER  shift 7
+	NUMBER  shift 16
 
-	expression  goto 36
+	assign_expr  goto 19
+	expression  goto 51
 
 
-state 21
-	statement : ID '=' . expression ';'
+state 32
+	assign_expr : ID '=' . expression
 
 	'('  shift 1
 	'-'  shift 2
 	ID  shift 15
-	NUMBER  shift 7
+	NUMBER  shift 16
 
-	expression  goto 37
+	assign_expr  goto 19
+	expression  goto 52
 
 
-state 22
+state 33
 	statement_list : statement_list statement .  (2)
 
 	.  reduce 2
 
 
-state 23
-	expression : expression '%' . expression
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 7
-
-	expression  goto 38
-
-
-state 24
-	expression : expression '*' . expression
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 7
-
-	expression  goto 39
-
-
-state 25
-	expression : expression '+' . expression
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 7
-
-	expression  goto 40
-
-
-state 26
-	expression : expression '-' . expression
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 7
-
-	expression  goto 41
-
-
-state 27
-	expression : expression '/' . expression
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 7
-
-	expression  goto 42
-
-
-state 28
-	statement : expression ';' .  (4)
-
-	.  reduce 4
-
-
-state 29
+state 34
 	code_block : '{' . statement_list '}'
 
 	'('  shift 1
 	'-'  shift 2
 	IF  shift 3
-	WHILE  shift 4
-	FOR  shift 5
-	ID  shift 6
-	NUMBER  shift 7
+	VOID  shift 4
+	INT  shift 5
+	WHILE  shift 6
+	FOR  shift 7
+	STRUCT  shift 8
+	LONGINT  shift 9
+	DOUBLE  shift 10
+	LONGLONGINT  shift 11
+	FLOAT  shift 12
+	BOOL  shift 13
+	BYTE  shift 14
+	ID  shift 15
+	NUMBER  shift 16
 
-	statement_list  goto 43
-	expression  goto 9
-	for_stat  goto 10
-	for_front  goto 11
-	statement  goto 12
-	while_stat  goto 13
-	ifelse_stat  goto 14
-
-
-state 30
-	for_stat : for_front code_block .  (21)
-
-	.  reduce 21
-
-
-state 31
-	for_stat : for_front statement .  (22)
-
-	.  reduce 22
-
-
-state 32
-	expression : '(' expression ')' .  (37)
-
-	.  reduce 37
-
-
-state 33
-	expression : expression . '-' expression
-	expression : expression . '*' expression
-	expression : expression . '+' expression
-	ifelse_stat : IF '(' expression . ')' code_block ELSE statement
-	ifelse_stat : IF '(' expression . ')' statement ELSE statement
-	expression : expression . '/' expression
-	expression : expression . '%' expression
-	ifelse_stat : IF '(' expression . ')' statement
-	ifelse_stat : IF '(' expression . ')' statement ELSE code_block
-	ifelse_stat : IF '(' expression . ')' code_block
-	ifelse_stat : IF '(' expression . ')' code_block ELSE code_block
-
-	'%'  shift 23
-	')'  shift 44
-	'*'  shift 24
-	'+'  shift 25
-	'-'  shift 26
-	'/'  shift 27
-
-
-state 34
-	expression : expression . '-' expression
-	expression : expression . '*' expression
-	while_stat : WHILE '(' expression . ')' statement
-	while_stat : WHILE '(' expression . ')' code_block
-	expression : expression . '+' expression
-	expression : expression . '/' expression
-	expression : expression . '%' expression
-
-	'%'  shift 23
-	')'  shift 45
-	'*'  shift 24
-	'+'  shift 25
-	'-'  shift 26
-	'/'  shift 27
+	statement_list  goto 53
+	for_front  goto 18
+	assign_expr  goto 19
+	while_stat  goto 20
+	ifelse_stat  goto 21
+	statement  goto 22
+	expression  goto 23
+	type  goto 24
+	for_stat  goto 25
+	var_declaration_front  goto 26
 
 
 state 35
-	for_front : FOR '(' ';' . ';' ')'
-	for_front : FOR '(' ';' . expression ';' expression ')'
-	for_front : FOR '(' ';' . expression ';' ')'
-	for_front : FOR '(' ';' . ';' expression ')'
+	for_stat : for_front code_block .  (25)
 
-	'('  shift 1
-	'-'  shift 2
-	';'  shift 46
-	ID  shift 15
-	NUMBER  shift 7
-
-	expression  goto 47
+	.  reduce 25
 
 
 state 36
-	for_front : FOR '(' expression . ';' expression ';' ')'
-	expression : expression . '-' expression
-	for_front : FOR '(' expression . ';' expression ';' expression ')'
-	for_front : FOR '(' expression . ';' ';' ')'
-	for_front : FOR '(' expression . ';' ';' expression ')'
-	expression : expression . '*' expression
-	expression : expression . '+' expression
-	expression : expression . '/' expression
-	expression : expression . '%' expression
+	for_stat : for_front statement .  (26)
 
-	'%'  shift 23
-	'*'  shift 24
-	'+'  shift 25
-	'-'  shift 26
-	'/'  shift 27
-	';'  shift 48
+	.  reduce 26
 
 
 state 37
-	statement : ID '=' expression . ';'
-	expression : expression . '-' expression
-	expression : expression . '*' expression
-	expression : expression . '+' expression
-	expression : expression . '/' expression
-	expression : expression . '%' expression
+	expression : expression '%' . expression
 
-	'%'  shift 23
-	'*'  shift 24
-	'+'  shift 25
-	'-'  shift 26
-	'/'  shift 27
-	';'  shift 49
+	'('  shift 1
+	'-'  shift 2
+	ID  shift 15
+	NUMBER  shift 16
+
+	assign_expr  goto 19
+	expression  goto 54
 
 
 state 38
-	expression : expression . '-' expression
-	expression : expression . '*' expression
-	expression : expression . '+' expression
-	expression : expression . '/' expression
-	expression : expression '%' expression .  (35)
-	expression : expression . '%' expression
+	expression : expression '*' . expression
 
-	.  reduce 35
+	'('  shift 1
+	'-'  shift 2
+	ID  shift 15
+	NUMBER  shift 16
+
+	assign_expr  goto 19
+	expression  goto 55
 
 
 state 39
-	expression : expression . '-' expression
-	expression : expression '*' expression .  (33)
-	expression : expression . '*' expression
-	expression : expression . '+' expression
-	expression : expression . '/' expression
-	expression : expression . '%' expression
+	expression : expression '+' . expression
 
-	.  reduce 33
+	'('  shift 1
+	'-'  shift 2
+	ID  shift 15
+	NUMBER  shift 16
+
+	assign_expr  goto 19
+	expression  goto 56
 
 
 state 40
-	expression : expression . '-' expression
-	expression : expression . '*' expression
-	expression : expression '+' expression .  (31)
-	expression : expression . '+' expression
-	expression : expression . '/' expression
-	expression : expression . '%' expression
+	expression : expression '-' . expression
 
-	'%'  shift 23
-	'*'  shift 24
-	'/'  shift 27
-	.  reduce 31
+	'('  shift 1
+	'-'  shift 2
+	ID  shift 15
+	NUMBER  shift 16
+
+	assign_expr  goto 19
+	expression  goto 57
 
 
 state 41
-	expression : expression '-' expression .  (32)
-	expression : expression . '-' expression
-	expression : expression . '*' expression
-	expression : expression . '+' expression
-	expression : expression . '/' expression
-	expression : expression . '%' expression
+	expression : expression '/' . expression
 
-	'%'  shift 23
-	'*'  shift 24
-	'/'  shift 27
-	.  reduce 32
+	'('  shift 1
+	'-'  shift 2
+	ID  shift 15
+	NUMBER  shift 16
+
+	assign_expr  goto 19
+	expression  goto 58
 
 
 state 42
-	expression : expression . '-' expression
-	expression : expression . '*' expression
-	expression : expression . '+' expression
-	expression : expression '/' expression .  (34)
-	expression : expression . '/' expression
-	expression : expression . '%' expression
+	statement : expression ';' .  (3)
 
-	.  reduce 34
+	.  reduce 3
 
 
 state 43
+	var_declaration_front : type ID .  (9)
+	assign_expr : ID . '=' expression
+
+	'='  shift 32
+	.  reduce 9
+
+
+state 44
+	var_declaration_front : type assign_expr .  (8)
+
+	.  reduce 8
+
+
+state 45
+	var_declaration_front : var_declaration_front ',' . ID
+	var_declaration_front : var_declaration_front ',' . assign_expr
+
+	ID  shift 59
+
+	assign_expr  goto 60
+
+
+state 46
+	statement : var_declaration_front ';' .  (7)
+
+	.  reduce 7
+
+
+state 47
+	expression : '(' expression ')' .  (41)
+
+	.  reduce 41
+
+
+state 48
+	ifelse_stat : IF '(' expression . ')' statement
+	ifelse_stat : IF '(' expression . ')' statement ELSE statement
+	ifelse_stat : IF '(' expression . ')' code_block ELSE code_block
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+	ifelse_stat : IF '(' expression . ')' code_block ELSE statement
+	ifelse_stat : IF '(' expression . ')' statement ELSE code_block
+	expression : expression . '%' expression
+	ifelse_stat : IF '(' expression . ')' code_block
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+
+	'%'  shift 37
+	')'  shift 61
+	'*'  shift 38
+	'+'  shift 39
+	'-'  shift 40
+	'/'  shift 41
+
+
+state 49
+	while_stat : WHILE '(' expression . ')' code_block
+	while_stat : WHILE '(' expression . ')' statement
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+	expression : expression . '%' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+
+	'%'  shift 37
+	')'  shift 62
+	'*'  shift 38
+	'+'  shift 39
+	'-'  shift 40
+	'/'  shift 41
+
+
+state 50
+	for_front : FOR '(' ';' . expression ';' ')'
+	for_front : FOR '(' ';' . ';' expression ')'
+	for_front : FOR '(' ';' . expression ';' expression ')'
+	for_front : FOR '(' ';' . ';' ')'
+
+	'('  shift 1
+	'-'  shift 2
+	';'  shift 63
+	ID  shift 15
+	NUMBER  shift 16
+
+	assign_expr  goto 19
+	expression  goto 64
+
+
+state 51
+	for_front : FOR '(' expression . ';' ';' ')'
+	for_front : FOR '(' expression . ';' expression ';' ')'
+	for_front : FOR '(' expression . ';' ';' expression ')'
+	for_front : FOR '(' expression . ';' expression ';' expression ')'
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+	expression : expression . '%' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+
+	'%'  shift 37
+	'*'  shift 38
+	'+'  shift 39
+	'-'  shift 40
+	'/'  shift 41
+	';'  shift 65
+
+
+52: shift-reduce conflict (shift 37, reduce 45) on '%'
+52: shift-reduce conflict (shift 38, reduce 45) on '*'
+52: shift-reduce conflict (shift 39, reduce 45) on '+'
+52: shift-reduce conflict (shift 40, reduce 45) on '-'
+52: shift-reduce conflict (shift 41, reduce 45) on '/'
+state 52
+	assign_expr : ID '=' expression .  (45)
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+	expression : expression . '%' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+
+	'%'  shift 37
+	'*'  shift 38
+	'+'  shift 39
+	'-'  shift 40
+	'/'  shift 41
+	.  reduce 45
+
+
+state 53
 	statement_list : statement_list . statement
 	code_block : '{' statement_list . '}'
 
 	'('  shift 1
 	'-'  shift 2
-	'}'  shift 50
+	'}'  shift 66
 	IF  shift 3
-	WHILE  shift 4
-	FOR  shift 5
-	ID  shift 6
-	NUMBER  shift 7
-
-	expression  goto 9
-	for_stat  goto 10
-	for_front  goto 11
-	statement  goto 22
-	while_stat  goto 13
-	ifelse_stat  goto 14
-
-
-state 44
-	ifelse_stat : IF '(' expression ')' . code_block ELSE statement
-	ifelse_stat : IF '(' expression ')' . statement ELSE statement
-	ifelse_stat : IF '(' expression ')' . statement
-	ifelse_stat : IF '(' expression ')' . statement ELSE code_block
-	ifelse_stat : IF '(' expression ')' . code_block
-	ifelse_stat : IF '(' expression ')' . code_block ELSE code_block
-
-	'('  shift 1
-	'-'  shift 2
-	'{'  shift 29
-	IF  shift 3
-	WHILE  shift 4
-	FOR  shift 5
-	ID  shift 6
-	NUMBER  shift 7
-
-	expression  goto 9
-	code_block  goto 51
-	for_stat  goto 10
-	for_front  goto 11
-	statement  goto 52
-	while_stat  goto 13
-	ifelse_stat  goto 14
-
-
-state 45
-	while_stat : WHILE '(' expression ')' . statement
-	while_stat : WHILE '(' expression ')' . code_block
-
-	'('  shift 1
-	'-'  shift 2
-	'{'  shift 29
-	IF  shift 3
-	WHILE  shift 4
-	FOR  shift 5
-	ID  shift 6
-	NUMBER  shift 7
-
-	expression  goto 9
-	code_block  goto 53
-	for_stat  goto 10
-	for_front  goto 11
-	statement  goto 54
-	while_stat  goto 13
-	ifelse_stat  goto 14
-
-
-state 46
-	for_front : FOR '(' ';' ';' . ')'
-	for_front : FOR '(' ';' ';' . expression ')'
-
-	'('  shift 1
-	')'  shift 55
-	'-'  shift 2
+	VOID  shift 4
+	INT  shift 5
+	WHILE  shift 6
+	FOR  shift 7
+	STRUCT  shift 8
+	LONGINT  shift 9
+	DOUBLE  shift 10
+	LONGLONGINT  shift 11
+	FLOAT  shift 12
+	BOOL  shift 13
+	BYTE  shift 14
 	ID  shift 15
-	NUMBER  shift 7
+	NUMBER  shift 16
 
-	expression  goto 56
-
-
-state 47
-	for_front : FOR '(' ';' expression . ';' expression ')'
-	expression : expression . '-' expression
-	expression : expression . '*' expression
-	expression : expression . '+' expression
-	for_front : FOR '(' ';' expression . ';' ')'
-	expression : expression . '/' expression
-	expression : expression . '%' expression
-
-	'%'  shift 23
-	'*'  shift 24
-	'+'  shift 25
-	'-'  shift 26
-	'/'  shift 27
-	';'  shift 57
-
-
-state 48
-	for_front : FOR '(' expression ';' . expression ';' ')'
-	for_front : FOR '(' expression ';' . expression ';' expression ')'
-	for_front : FOR '(' expression ';' . ';' ')'
-	for_front : FOR '(' expression ';' . ';' expression ')'
-
-	'('  shift 1
-	'-'  shift 2
-	';'  shift 58
-	ID  shift 15
-	NUMBER  shift 7
-
-	expression  goto 59
-
-
-state 49
-	statement : ID '=' expression ';' .  (3)
-
-	.  reduce 3
-
-
-state 50
-	code_block : '{' statement_list '}' .  (18)
-
-	.  reduce 18
-
-
-51: shift-reduce conflict (shift 60, reduce 40) on ELSE
-state 51
-	ifelse_stat : IF '(' expression ')' code_block . ELSE statement
-	ifelse_stat : IF '(' expression ')' code_block .  (40)
-	ifelse_stat : IF '(' expression ')' code_block . ELSE code_block
-
-	ELSE  shift 60
-	.  reduce 40
-
-
-52: shift-reduce conflict (shift 61, reduce 41) on ELSE
-state 52
-	ifelse_stat : IF '(' expression ')' statement . ELSE statement
-	ifelse_stat : IF '(' expression ')' statement .  (41)
-	ifelse_stat : IF '(' expression ')' statement . ELSE code_block
-
-	ELSE  shift 61
-	.  reduce 41
-
-
-state 53
-	while_stat : WHILE '(' expression ')' code_block .  (19)
-
-	.  reduce 19
+	for_front  goto 18
+	assign_expr  goto 19
+	while_stat  goto 20
+	ifelse_stat  goto 21
+	statement  goto 33
+	expression  goto 23
+	type  goto 24
+	for_stat  goto 25
+	var_declaration_front  goto 26
 
 
 state 54
-	while_stat : WHILE '(' expression ')' statement .  (20)
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+	expression : expression '%' expression .  (39)
+	expression : expression . '%' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
 
-	.  reduce 20
+	.  reduce 39
 
 
 state 55
-	for_front : FOR '(' ';' ';' ')' .  (30)
+	expression : expression . '/' expression
+	expression : expression '*' expression .  (37)
+	expression : expression . '*' expression
+	expression : expression . '%' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
 
-	.  reduce 30
+	.  reduce 37
 
 
 state 56
-	expression : expression . '-' expression
-	expression : expression . '*' expression
-	expression : expression . '+' expression
-	for_front : FOR '(' ';' ';' expression . ')'
 	expression : expression . '/' expression
+	expression : expression . '*' expression
 	expression : expression . '%' expression
+	expression : expression '+' expression .  (35)
+	expression : expression . '+' expression
+	expression : expression . '-' expression
 
-	'%'  shift 23
-	')'  shift 62
-	'*'  shift 24
-	'+'  shift 25
-	'-'  shift 26
-	'/'  shift 27
+	'%'  shift 37
+	'*'  shift 38
+	'/'  shift 41
+	.  reduce 35
 
 
 state 57
-	for_front : FOR '(' ';' expression ';' . expression ')'
-	for_front : FOR '(' ';' expression ';' . ')'
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+	expression : expression . '%' expression
+	expression : expression . '+' expression
+	expression : expression '-' expression .  (36)
+	expression : expression . '-' expression
 
-	'('  shift 1
-	')'  shift 63
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 7
-
-	expression  goto 64
+	'%'  shift 37
+	'*'  shift 38
+	'/'  shift 41
+	.  reduce 36
 
 
 state 58
+	expression : expression '/' expression .  (38)
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+	expression : expression . '%' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+
+	.  reduce 38
+
+
+state 59
+	var_declaration_front : var_declaration_front ',' ID .  (10)
+	assign_expr : ID . '=' expression
+
+	'='  shift 32
+	.  reduce 10
+
+
+state 60
+	var_declaration_front : var_declaration_front ',' assign_expr .  (11)
+
+	.  reduce 11
+
+
+state 61
+	ifelse_stat : IF '(' expression ')' . statement
+	ifelse_stat : IF '(' expression ')' . statement ELSE statement
+	ifelse_stat : IF '(' expression ')' . code_block ELSE code_block
+	ifelse_stat : IF '(' expression ')' . code_block ELSE statement
+	ifelse_stat : IF '(' expression ')' . statement ELSE code_block
+	ifelse_stat : IF '(' expression ')' . code_block
+
+	'('  shift 1
+	'-'  shift 2
+	'{'  shift 34
+	IF  shift 3
+	VOID  shift 4
+	INT  shift 5
+	WHILE  shift 6
+	FOR  shift 7
+	STRUCT  shift 8
+	LONGINT  shift 9
+	DOUBLE  shift 10
+	LONGLONGINT  shift 11
+	FLOAT  shift 12
+	BOOL  shift 13
+	BYTE  shift 14
+	ID  shift 15
+	NUMBER  shift 16
+
+	for_front  goto 18
+	code_block  goto 67
+	assign_expr  goto 19
+	while_stat  goto 20
+	ifelse_stat  goto 21
+	statement  goto 68
+	expression  goto 23
+	type  goto 24
+	for_stat  goto 25
+	var_declaration_front  goto 26
+
+
+state 62
+	while_stat : WHILE '(' expression ')' . code_block
+	while_stat : WHILE '(' expression ')' . statement
+
+	'('  shift 1
+	'-'  shift 2
+	'{'  shift 34
+	IF  shift 3
+	VOID  shift 4
+	INT  shift 5
+	WHILE  shift 6
+	FOR  shift 7
+	STRUCT  shift 8
+	LONGINT  shift 9
+	DOUBLE  shift 10
+	LONGLONGINT  shift 11
+	FLOAT  shift 12
+	BOOL  shift 13
+	BYTE  shift 14
+	ID  shift 15
+	NUMBER  shift 16
+
+	for_front  goto 18
+	code_block  goto 69
+	assign_expr  goto 19
+	while_stat  goto 20
+	ifelse_stat  goto 21
+	statement  goto 70
+	expression  goto 23
+	type  goto 24
+	for_stat  goto 25
+	var_declaration_front  goto 26
+
+
+state 63
+	for_front : FOR '(' ';' ';' . expression ')'
+	for_front : FOR '(' ';' ';' . ')'
+
+	'('  shift 1
+	')'  shift 71
+	'-'  shift 2
+	ID  shift 15
+	NUMBER  shift 16
+
+	assign_expr  goto 19
+	expression  goto 72
+
+
+state 64
+	for_front : FOR '(' ';' expression . ';' ')'
+	for_front : FOR '(' ';' expression . ';' expression ')'
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+	expression : expression . '%' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+
+	'%'  shift 37
+	'*'  shift 38
+	'+'  shift 39
+	'-'  shift 40
+	'/'  shift 41
+	';'  shift 73
+
+
+state 65
+	for_front : FOR '(' expression ';' . ';' ')'
+	for_front : FOR '(' expression ';' . expression ';' ')'
+	for_front : FOR '(' expression ';' . ';' expression ')'
+	for_front : FOR '(' expression ';' . expression ';' expression ')'
+
+	'('  shift 1
+	'-'  shift 2
+	';'  shift 74
+	ID  shift 15
+	NUMBER  shift 16
+
+	assign_expr  goto 19
+	expression  goto 75
+
+
+state 66
+	code_block : '{' statement_list '}' .  (22)
+
+	.  reduce 22
+
+
+67: shift-reduce conflict (shift 76, reduce 46) on ELSE
+state 67
+	ifelse_stat : IF '(' expression ')' code_block . ELSE code_block
+	ifelse_stat : IF '(' expression ')' code_block . ELSE statement
+	ifelse_stat : IF '(' expression ')' code_block .  (46)
+
+	ELSE  shift 76
+	.  reduce 46
+
+
+68: shift-reduce conflict (shift 77, reduce 47) on ELSE
+state 68
+	ifelse_stat : IF '(' expression ')' statement .  (47)
+	ifelse_stat : IF '(' expression ')' statement . ELSE statement
+	ifelse_stat : IF '(' expression ')' statement . ELSE code_block
+
+	ELSE  shift 77
+	.  reduce 47
+
+
+state 69
+	while_stat : WHILE '(' expression ')' code_block .  (23)
+
+	.  reduce 23
+
+
+state 70
+	while_stat : WHILE '(' expression ')' statement .  (24)
+
+	.  reduce 24
+
+
+state 71
+	for_front : FOR '(' ';' ';' ')' .  (34)
+
+	.  reduce 34
+
+
+state 72
+	for_front : FOR '(' ';' ';' expression . ')'
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+	expression : expression . '%' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+
+	'%'  shift 37
+	')'  shift 78
+	'*'  shift 38
+	'+'  shift 39
+	'-'  shift 40
+	'/'  shift 41
+
+
+state 73
+	for_front : FOR '(' ';' expression ';' . ')'
+	for_front : FOR '(' ';' expression ';' . expression ')'
+
+	'('  shift 1
+	')'  shift 79
+	'-'  shift 2
+	ID  shift 15
+	NUMBER  shift 16
+
+	assign_expr  goto 19
+	expression  goto 80
+
+
+state 74
 	for_front : FOR '(' expression ';' ';' . ')'
 	for_front : FOR '(' expression ';' ';' . expression ')'
 
 	'('  shift 1
-	')'  shift 65
+	')'  shift 81
 	'-'  shift 2
 	ID  shift 15
-	NUMBER  shift 7
+	NUMBER  shift 16
 
-	expression  goto 66
+	assign_expr  goto 19
+	expression  goto 82
 
 
-state 59
+state 75
 	for_front : FOR '(' expression ';' expression . ';' ')'
-	expression : expression . '-' expression
 	for_front : FOR '(' expression ';' expression . ';' expression ')'
-	expression : expression . '*' expression
-	expression : expression . '+' expression
 	expression : expression . '/' expression
+	expression : expression . '*' expression
 	expression : expression . '%' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
 
-	'%'  shift 23
-	'*'  shift 24
-	'+'  shift 25
-	'-'  shift 26
-	'/'  shift 27
-	';'  shift 67
+	'%'  shift 37
+	'*'  shift 38
+	'+'  shift 39
+	'-'  shift 40
+	'/'  shift 41
+	';'  shift 83
 
 
-state 60
-	ifelse_stat : IF '(' expression ')' code_block ELSE . statement
+state 76
 	ifelse_stat : IF '(' expression ')' code_block ELSE . code_block
+	ifelse_stat : IF '(' expression ')' code_block ELSE . statement
 
 	'('  shift 1
 	'-'  shift 2
-	'{'  shift 29
+	'{'  shift 34
 	IF  shift 3
-	WHILE  shift 4
-	FOR  shift 5
-	ID  shift 6
-	NUMBER  shift 7
+	VOID  shift 4
+	INT  shift 5
+	WHILE  shift 6
+	FOR  shift 7
+	STRUCT  shift 8
+	LONGINT  shift 9
+	DOUBLE  shift 10
+	LONGLONGINT  shift 11
+	FLOAT  shift 12
+	BOOL  shift 13
+	BYTE  shift 14
+	ID  shift 15
+	NUMBER  shift 16
 
-	expression  goto 9
-	code_block  goto 68
-	for_stat  goto 10
-	for_front  goto 11
-	statement  goto 69
-	while_stat  goto 13
-	ifelse_stat  goto 14
+	for_front  goto 18
+	code_block  goto 84
+	assign_expr  goto 19
+	while_stat  goto 20
+	ifelse_stat  goto 21
+	statement  goto 85
+	expression  goto 23
+	type  goto 24
+	for_stat  goto 25
+	var_declaration_front  goto 26
 
 
-state 61
+state 77
 	ifelse_stat : IF '(' expression ')' statement ELSE . statement
 	ifelse_stat : IF '(' expression ')' statement ELSE . code_block
 
 	'('  shift 1
 	'-'  shift 2
-	'{'  shift 29
+	'{'  shift 34
 	IF  shift 3
-	WHILE  shift 4
-	FOR  shift 5
-	ID  shift 6
-	NUMBER  shift 7
+	VOID  shift 4
+	INT  shift 5
+	WHILE  shift 6
+	FOR  shift 7
+	STRUCT  shift 8
+	LONGINT  shift 9
+	DOUBLE  shift 10
+	LONGLONGINT  shift 11
+	FLOAT  shift 12
+	BOOL  shift 13
+	BYTE  shift 14
+	ID  shift 15
+	NUMBER  shift 16
 
-	expression  goto 9
-	code_block  goto 70
-	for_stat  goto 10
-	for_front  goto 11
-	statement  goto 71
-	while_stat  goto 13
-	ifelse_stat  goto 14
+	for_front  goto 18
+	code_block  goto 86
+	assign_expr  goto 19
+	while_stat  goto 20
+	ifelse_stat  goto 21
+	statement  goto 87
+	expression  goto 23
+	type  goto 24
+	for_stat  goto 25
+	var_declaration_front  goto 26
 
 
-state 62
-	for_front : FOR '(' ';' ';' expression ')' .  (29)
+state 78
+	for_front : FOR '(' ';' ';' expression ')' .  (33)
 
-	.  reduce 29
-
-
-state 63
-	for_front : FOR '(' ';' expression ';' ')' .  (28)
-
-	.  reduce 28
+	.  reduce 33
 
 
-state 64
+state 79
+	for_front : FOR '(' ';' expression ';' ')' .  (32)
+
+	.  reduce 32
+
+
+state 80
 	for_front : FOR '(' ';' expression ';' expression . ')'
-	expression : expression . '-' expression
-	expression : expression . '*' expression
-	expression : expression . '+' expression
 	expression : expression . '/' expression
+	expression : expression . '*' expression
 	expression : expression . '%' expression
-
-	'%'  shift 23
-	')'  shift 72
-	'*'  shift 24
-	'+'  shift 25
-	'-'  shift 26
-	'/'  shift 27
-
-
-state 65
-	for_front : FOR '(' expression ';' ';' ')' .  (27)
-
-	.  reduce 27
-
-
-state 66
+	expression : expression . '+' expression
 	expression : expression . '-' expression
+
+	'%'  shift 37
+	')'  shift 88
+	'*'  shift 38
+	'+'  shift 39
+	'-'  shift 40
+	'/'  shift 41
+
+
+state 81
+	for_front : FOR '(' expression ';' ';' ')' .  (31)
+
+	.  reduce 31
+
+
+state 82
 	for_front : FOR '(' expression ';' ';' expression . ')'
-	expression : expression . '*' expression
-	expression : expression . '+' expression
 	expression : expression . '/' expression
+	expression : expression . '*' expression
 	expression : expression . '%' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
 
-	'%'  shift 23
-	')'  shift 73
-	'*'  shift 24
-	'+'  shift 25
-	'-'  shift 26
-	'/'  shift 27
+	'%'  shift 37
+	')'  shift 89
+	'*'  shift 38
+	'+'  shift 39
+	'-'  shift 40
+	'/'  shift 41
 
 
-state 67
+state 83
 	for_front : FOR '(' expression ';' expression ';' . ')'
 	for_front : FOR '(' expression ';' expression ';' . expression ')'
 
 	'('  shift 1
-	')'  shift 74
+	')'  shift 90
 	'-'  shift 2
 	ID  shift 15
-	NUMBER  shift 7
+	NUMBER  shift 16
 
-	expression  goto 75
-
-
-state 68
-	ifelse_stat : IF '(' expression ')' code_block ELSE code_block .  (42)
-
-	.  reduce 42
+	assign_expr  goto 19
+	expression  goto 91
 
 
-state 69
-	ifelse_stat : IF '(' expression ')' code_block ELSE statement .  (43)
+state 84
+	ifelse_stat : IF '(' expression ')' code_block ELSE code_block .  (48)
 
-	.  reduce 43
-
-
-state 70
-	ifelse_stat : IF '(' expression ')' statement ELSE code_block .  (44)
-
-	.  reduce 44
+	.  reduce 48
 
 
-state 71
-	ifelse_stat : IF '(' expression ')' statement ELSE statement .  (45)
+state 85
+	ifelse_stat : IF '(' expression ')' code_block ELSE statement .  (49)
 
-	.  reduce 45
-
-
-state 72
-	for_front : FOR '(' ';' expression ';' expression ')' .  (26)
-
-	.  reduce 26
+	.  reduce 49
 
 
-state 73
-	for_front : FOR '(' expression ';' ';' expression ')' .  (25)
+state 86
+	ifelse_stat : IF '(' expression ')' statement ELSE code_block .  (50)
 
-	.  reduce 25
-
-
-state 74
-	for_front : FOR '(' expression ';' expression ';' ')' .  (24)
-
-	.  reduce 24
+	.  reduce 50
 
 
-state 75
-	expression : expression . '-' expression
+state 87
+	ifelse_stat : IF '(' expression ')' statement ELSE statement .  (51)
+
+	.  reduce 51
+
+
+state 88
+	for_front : FOR '(' ';' expression ';' expression ')' .  (30)
+
+	.  reduce 30
+
+
+state 89
+	for_front : FOR '(' expression ';' ';' expression ')' .  (29)
+
+	.  reduce 29
+
+
+state 90
+	for_front : FOR '(' expression ';' expression ';' ')' .  (28)
+
+	.  reduce 28
+
+
+state 91
 	for_front : FOR '(' expression ';' expression ';' expression . ')'
-	expression : expression . '*' expression
-	expression : expression . '+' expression
 	expression : expression . '/' expression
+	expression : expression . '*' expression
 	expression : expression . '%' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
 
-	'%'  shift 23
-	')'  shift 76
-	'*'  shift 24
-	'+'  shift 25
-	'-'  shift 26
-	'/'  shift 27
-
-
-state 76
-	for_front : FOR '(' expression ';' expression ';' expression ')' .  (23)
-
-	.  reduce 23
+	'%'  shift 37
+	')'  shift 92
+	'*'  shift 38
+	'+'  shift 39
+	'-'  shift 40
+	'/'  shift 41
 
 
-Tokens never shifted
-	VOID  (284)
-	INT  (286)
-	DOUBLE  (297)
-	LONGLONGINT  (298)
-	FLOAT  (299)
-	STRUCT  (295)
-	LONGINT  (296)
-	BOOL  (300)
-	BYTE  (302)
+state 92
+	for_front : FOR '(' expression ';' expression ';' expression ')' .  (27)
+
+	.  reduce 27
 
 
 Rules never reduced
-	type : INT  (8)
-	type : DOUBLE  (9)
-	type : FLOAT  (10)
-	type : BOOL  (11)
-	type : LONGINT  (12)
-	type : LONGLONGINT  (13)
-	type : BYTE  (14)
-	type : STRUCT  (15)
-	type : VOID  (16)
-	type : BYTE  (17)
+	type : BYTE  (21)
 
 
 ##############################################################################
 # Summary
 ##############################################################################
 
-State 51 contains 1 shift-reduce conflict(s)
-State 52 contains 1 shift-reduce conflict(s)
+State 14 contains 1 reduce-reduce conflict(s)
+State 52 contains 5 shift-reduce conflict(s)
+State 67 contains 1 shift-reduce conflict(s)
+State 68 contains 1 shift-reduce conflict(s)
 
 
-29 token(s), 10 nonterminal(s)
-46 grammar rule(s), 77 state(s)
+30 token(s), 12 nonterminal(s)
+52 grammar rule(s), 93 state(s)
 
 
 ##############################################################################

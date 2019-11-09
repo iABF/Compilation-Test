@@ -18,8 +18,8 @@
 * myparser.h
 * C++ header file generated from myparser.y.
 * 
-* Date: 11/08/19
-* Time: 21:51:29
+* Date: 11/09/19
+* Time: 12:43:40
 * 
 * AYACC Version: 2.07
 ****************************************************************************/
@@ -124,7 +124,7 @@ protected:
 	virtual void yycopyattribute(void YYFAR* dest, const void YYFAR* src, int count);
 
 public:
-#line 44 ".\\myparser.y"
+#line 45 ".\\myparser.y"
 
 	// place any extra class members here
 
@@ -135,7 +135,7 @@ public:
 #define YYPARSERNAME myparser
 #endif
 
-#line 59 ".\\myparser.y"
+#line 60 ".\\myparser.y"
 
 #ifndef YYSTYPE
 #define YYSTYPE int
