@@ -61,6 +61,16 @@ class ParseTreeNode;
 /////////////////////////////////////////////////////////////////////////////
 // rules section
 
+prog:	VOID MAIN '(' ')' code_block {
+		ParseTreeNode *cur = new ParseTreeNode("Main Function", "");
+		cur->addChildNode($5);
+		cur->print();
+	}
+	|	INT MAIN '(' ')' code_block {
+		ParseTreeNode *cur = new ParseTreeNode("Main Function", "");
+		cur->addChildNode($5);
+		cur->print();
+	};
 
 statement_list:	statement {$$ = $1;}
 	|			statement_list statement	{
@@ -162,7 +172,6 @@ code_block:		LBRACE statement_list RBRACE {
 		ParseTreeNode *cur = new ParseTreeNode("Compound Statement", "");
 		cur->addChildNode($2);
 		$$ = cur;
-		cur->print();
 	}
 	;
 while_stat:		WHILE '(' expression ')' code_block {

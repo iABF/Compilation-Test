@@ -19,7 +19,7 @@
 # YACC verbose file generated from myparser.y.
 # 
 # Date: 11/11/19
-# Time: 02:25:54
+# Time: 02:46:42
 # 
 # AYACC Version: 2.07
 #############################################################################
@@ -29,1711 +29,1720 @@
 # Rules
 ##############################################################################
 
-    0  $accept : statement_list $end
+    0  $accept : prog $end
 
-    1  statement_list : statement
-    2                 | statement_list statement
+    1  prog : VOID MAIN '(' ')' code_block
+    2       | INT MAIN '(' ')' code_block
 
-    3  statement : expression ';'
-    4            | while_stat
-    5            | for_stat
-    6            | ifelse_stat
-    7            | var_declaration_front ';'
+    3  statement_list : statement
+    4                 | statement_list statement
 
-    8  var_declaration_front : type assign_expr
-    9                        | type id_expr
-   10                        | var_declaration_front ',' id_expr
-   11                        | var_declaration_front ',' assign_expr
+    5  statement : expression ';'
+    6            | while_stat
+    7            | for_stat
+    8            | ifelse_stat
+    9            | var_declaration_front ';'
 
-   12  type :
-   13       | DOUBLE
-   14       | FLOAT
-   15       | BOOL
-   16       | LONGINT
-   17       | LONGLONGINT
-   18       | BYTE
-   19       | STRUCT
-   20       | INT
-   21       | VOID
+   10  var_declaration_front : type assign_expr
+   11                        | type id_expr
+   12                        | var_declaration_front ',' id_expr
+   13                        | var_declaration_front ',' assign_expr
 
-   22  code_block : LBRACE statement_list RBRACE
+   14  type :
+   15       | DOUBLE
+   16       | FLOAT
+   17       | BOOL
+   18       | LONGINT
+   19       | LONGLONGINT
+   20       | BYTE
+   21       | STRUCT
+   22       | INT
+   23       | VOID
 
-   23  while_stat : WHILE '(' expression ')' code_block
-   24             | WHILE '(' expression ')' statement
+   24  code_block : LBRACE statement_list RBRACE
 
-   25  for_stat : for_front code_block
-   26           | for_front statement
+   25  while_stat : WHILE '(' expression ')' code_block
+   26             | WHILE '(' expression ')' statement
 
-   27  for_front : FOR '(' expression ';' expression ';' expression ')'
-   28            | FOR '(' expression ';' expression ';' ')'
-   29            | FOR '(' expression ';' ';' expression ')'
-   30            | FOR '(' ';' expression ';' expression ')'
-   31            | FOR '(' expression ';' ';' ')'
-   32            | FOR '(' ';' expression ';' ')'
-   33            | FOR '(' ';' ';' expression ')'
-   34            | FOR '(' ';' ';' ')'
+   27  for_stat : for_front code_block
+   28           | for_front statement
 
-   35  expression : expression '+' expression
-   36             | expression '-' expression
-   37             | expression '*' expression
-   38             | expression '/' expression
-   39             | expression '%' expression
-   40             | expression '<' expression
-   41             | expression '>' expression
-   42             | expression EQ expression
-   43             | expression LE expression
-   44             | expression GE expression
-   45             | expression NE expression
-   46             | '-' expression
-   47             | '(' expression ')'
-   48             | NUMBER
-   49             | id_expr
-   50             | assign_expr
+   29  for_front : FOR '(' expression ';' expression ';' expression ')'
+   30            | FOR '(' expression ';' expression ';' ')'
+   31            | FOR '(' expression ';' ';' expression ')'
+   32            | FOR '(' ';' expression ';' expression ')'
+   33            | FOR '(' expression ';' ';' ')'
+   34            | FOR '(' ';' expression ';' ')'
+   35            | FOR '(' ';' ';' expression ')'
+   36            | FOR '(' ';' ';' ')'
 
-   51  id_expr : ID
+   37  expression : expression '+' expression
+   38             | expression '-' expression
+   39             | expression '*' expression
+   40             | expression '/' expression
+   41             | expression '%' expression
+   42             | expression '<' expression
+   43             | expression '>' expression
+   44             | expression EQ expression
+   45             | expression LE expression
+   46             | expression GE expression
+   47             | expression NE expression
+   48             | '-' expression
+   49             | '(' expression ')'
+   50             | NUMBER
+   51             | id_expr
+   52             | assign_expr
 
-   52  assign_expr : id_expr '=' expression
+   53  id_expr : ID
 
-   53  ifelse_stat : IF '(' expression ')' code_block
-   54              | IF '(' expression ')' statement
-   55              | IF '(' expression ')' code_block ELSE code_block
-   56              | IF '(' expression ')' code_block ELSE statement
-   57              | IF '(' expression ')' statement ELSE code_block
-   58              | IF '(' expression ')' statement ELSE statement
+   54  assign_expr : id_expr '=' expression
+
+   55  ifelse_stat : IF '(' expression ')' code_block
+   56              | IF '(' expression ')' statement
+   57              | IF '(' expression ')' code_block ELSE code_block
+   58              | IF '(' expression ')' code_block ELSE statement
+   59              | IF '(' expression ')' statement ELSE code_block
+   60              | IF '(' expression ')' statement ELSE statement
 
 
 ##############################################################################
 # States
 ##############################################################################
 
-0: shift-reduce conflict (shift 15, reduce 12) on ID
 state 0
-	$accept : . statement_list $end
-	type : .  (12)
+	$accept : . prog $end
 
-	'('  shift 1
-	'-'  shift 2
-	IF  shift 3
-	VOID  shift 4
-	INT  shift 5
-	WHILE  shift 6
-	FOR  shift 7
-	STRUCT  shift 8
-	LONGINT  shift 9
-	DOUBLE  shift 10
-	LONGLONGINT  shift 11
-	FLOAT  shift 12
-	BOOL  shift 13
-	BYTE  shift 14
-	ID  shift 15
-	NUMBER  shift 16
+	VOID  shift 1
+	INT  shift 2
 
-	for_front  goto 17
-	id_expr  goto 18
-	var_declaration_front  goto 19
-	ifelse_stat  goto 20
-	statement  goto 21
-	statement_list  goto 22
-	type  goto 23
-	while_stat  goto 24
-	for_stat  goto 25
-	expression  goto 26
-	assign_expr  goto 27
+	prog  goto 3
 
 
 state 1
-	expression : '(' . expression ')'
+	prog : VOID . MAIN '(' ')' code_block
 
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 28
-	assign_expr  goto 27
+	MAIN  shift 4
 
 
 state 2
-	expression : '-' . expression
+	prog : INT . MAIN '(' ')' code_block
 
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 29
-	assign_expr  goto 27
+	MAIN  shift 5
 
 
 state 3
-	ifelse_stat : IF . '(' expression ')' code_block
-	ifelse_stat : IF . '(' expression ')' statement
-	ifelse_stat : IF . '(' expression ')' statement ELSE code_block
-	ifelse_stat : IF . '(' expression ')' code_block ELSE code_block
-	ifelse_stat : IF . '(' expression ')' code_block ELSE statement
-	ifelse_stat : IF . '(' expression ')' statement ELSE statement
+	$accept : prog . $end  (0)
 
-	'('  shift 30
+	$end  accept
 
 
 state 4
-	type : VOID .  (21)
+	prog : VOID MAIN . '(' ')' code_block
 
-	.  reduce 21
+	'('  shift 6
 
 
 state 5
-	type : INT .  (20)
+	prog : INT MAIN . '(' ')' code_block
 
-	.  reduce 20
+	'('  shift 7
 
 
 state 6
-	while_stat : WHILE . '(' expression ')' code_block
-	while_stat : WHILE . '(' expression ')' statement
+	prog : VOID MAIN '(' . ')' code_block
 
-	'('  shift 31
+	')'  shift 8
 
 
 state 7
-	for_front : FOR . '(' ';' expression ';' expression ')'
-	for_front : FOR . '(' expression ';' ';' expression ')'
-	for_front : FOR . '(' expression ';' ';' ')'
-	for_front : FOR . '(' expression ';' expression ';' expression ')'
-	for_front : FOR . '(' ';' expression ';' ')'
-	for_front : FOR . '(' expression ';' expression ';' ')'
-	for_front : FOR . '(' ';' ';' expression ')'
-	for_front : FOR . '(' ';' ';' ')'
+	prog : INT MAIN '(' . ')' code_block
 
-	'('  shift 32
+	')'  shift 9
 
 
 state 8
-	type : STRUCT .  (19)
+	prog : VOID MAIN '(' ')' . code_block
 
-	.  reduce 19
+	LBRACE  shift 10
+
+	code_block  goto 11
 
 
 state 9
-	type : LONGINT .  (16)
+	prog : INT MAIN '(' ')' . code_block
 
-	.  reduce 16
+	LBRACE  shift 10
+
+	code_block  goto 12
 
 
+10: shift-reduce conflict (shift 27, reduce 14) on ID
 state 10
-	type : DOUBLE .  (13)
+	code_block : LBRACE . statement_list RBRACE
+	type : .  (14)
 
-	.  reduce 13
+	'('  shift 13
+	'-'  shift 14
+	IF  shift 15
+	VOID  shift 16
+	INT  shift 17
+	WHILE  shift 18
+	FOR  shift 19
+	STRUCT  shift 20
+	LONGINT  shift 21
+	DOUBLE  shift 22
+	LONGLONGINT  shift 23
+	FLOAT  shift 24
+	BOOL  shift 25
+	BYTE  shift 26
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	type  goto 30
+	for_front  goto 31
+	id_expr  goto 32
+	for_stat  goto 33
+	statement  goto 34
+	expression  goto 35
+	ifelse_stat  goto 36
+	statement_list  goto 37
+	while_stat  goto 38
+	var_declaration_front  goto 39
 
 
 state 11
-	type : LONGLONGINT .  (17)
-
-	.  reduce 17
-
-
-state 12
-	type : FLOAT .  (14)
-
-	.  reduce 14
-
-
-state 13
-	type : BOOL .  (15)
-
-	.  reduce 15
-
-
-state 14
-	type : BYTE .  (18)
-
-	.  reduce 18
-
-
-state 15
-	id_expr : ID .  (51)
-
-	.  reduce 51
-
-
-state 16
-	expression : NUMBER .  (48)
-
-	.  reduce 48
-
-
-17: shift-reduce conflict (shift 15, reduce 12) on ID
-state 17
-	for_stat : for_front . code_block
-	for_stat : for_front . statement
-	type : .  (12)
-
-	'('  shift 1
-	'-'  shift 2
-	IF  shift 3
-	VOID  shift 4
-	LBRACE  shift 33
-	INT  shift 5
-	WHILE  shift 6
-	FOR  shift 7
-	STRUCT  shift 8
-	LONGINT  shift 9
-	DOUBLE  shift 10
-	LONGLONGINT  shift 11
-	FLOAT  shift 12
-	BOOL  shift 13
-	BYTE  shift 14
-	ID  shift 15
-	NUMBER  shift 16
-
-	for_front  goto 17
-	id_expr  goto 18
-	var_declaration_front  goto 19
-	ifelse_stat  goto 20
-	statement  goto 34
-	type  goto 23
-	while_stat  goto 24
-	code_block  goto 35
-	for_stat  goto 25
-	expression  goto 26
-	assign_expr  goto 27
-
-
-state 18
-	assign_expr : id_expr . '=' expression
-	expression : id_expr .  (49)
-
-	'='  shift 36
-	.  reduce 49
-
-
-state 19
-	statement : var_declaration_front . ';'
-	var_declaration_front : var_declaration_front . ',' id_expr
-	var_declaration_front : var_declaration_front . ',' assign_expr
-
-	','  shift 37
-	';'  shift 38
-
-
-state 20
-	statement : ifelse_stat .  (6)
-
-	.  reduce 6
-
-
-state 21
-	statement_list : statement .  (1)
+	prog : VOID MAIN '(' ')' code_block .  (1)
 
 	.  reduce 1
 
 
-22: shift-reduce conflict (shift 15, reduce 12) on ID
-state 22
-	$accept : statement_list . $end  (0)
-	statement_list : statement_list . statement
-	type : .  (12)
-
-	$end  accept
-	'('  shift 1
-	'-'  shift 2
-	IF  shift 3
-	VOID  shift 4
-	INT  shift 5
-	WHILE  shift 6
-	FOR  shift 7
-	STRUCT  shift 8
-	LONGINT  shift 9
-	DOUBLE  shift 10
-	LONGLONGINT  shift 11
-	FLOAT  shift 12
-	BOOL  shift 13
-	BYTE  shift 14
-	ID  shift 15
-	NUMBER  shift 16
-
-	for_front  goto 17
-	id_expr  goto 18
-	var_declaration_front  goto 19
-	ifelse_stat  goto 20
-	statement  goto 39
-	type  goto 23
-	while_stat  goto 24
-	for_stat  goto 25
-	expression  goto 26
-	assign_expr  goto 27
-
-
-state 23
-	var_declaration_front : type . assign_expr
-	var_declaration_front : type . id_expr
-
-	ID  shift 15
-
-	id_expr  goto 40
-	assign_expr  goto 41
-
-
-state 24
-	statement : while_stat .  (4)
-
-	.  reduce 4
-
-
-state 25
-	statement : for_stat .  (5)
-
-	.  reduce 5
-
-
-state 26
-	statement : expression . ';'
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	';'  shift 47
-	'<'  shift 48
-	'>'  shift 49
-	EQ  shift 50
-	NE  shift 51
-	LE  shift 52
-	GE  shift 53
-
-
-state 27
-	expression : assign_expr .  (50)
-
-	.  reduce 50
-
-
-state 28
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : '(' expression . ')'
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	')'  shift 54
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	'<'  shift 48
-	'>'  shift 49
-	EQ  shift 50
-	NE  shift 51
-	LE  shift 52
-	GE  shift 53
-
-
-state 29
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : '-' expression .  (46)
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	.  reduce 46
-
-
-state 30
-	ifelse_stat : IF '(' . expression ')' code_block
-	ifelse_stat : IF '(' . expression ')' statement
-	ifelse_stat : IF '(' . expression ')' statement ELSE code_block
-	ifelse_stat : IF '(' . expression ')' code_block ELSE code_block
-	ifelse_stat : IF '(' . expression ')' code_block ELSE statement
-	ifelse_stat : IF '(' . expression ')' statement ELSE statement
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 55
-	assign_expr  goto 27
-
-
-state 31
-	while_stat : WHILE '(' . expression ')' code_block
-	while_stat : WHILE '(' . expression ')' statement
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 56
-	assign_expr  goto 27
-
-
-state 32
-	for_front : FOR '(' . ';' expression ';' expression ')'
-	for_front : FOR '(' . expression ';' ';' expression ')'
-	for_front : FOR '(' . expression ';' ';' ')'
-	for_front : FOR '(' . expression ';' expression ';' expression ')'
-	for_front : FOR '(' . ';' expression ';' ')'
-	for_front : FOR '(' . expression ';' expression ';' ')'
-	for_front : FOR '(' . ';' ';' expression ')'
-	for_front : FOR '(' . ';' ';' ')'
-
-	'('  shift 1
-	'-'  shift 2
-	';'  shift 57
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 58
-	assign_expr  goto 27
-
-
-33: shift-reduce conflict (shift 15, reduce 12) on ID
-state 33
-	code_block : LBRACE . statement_list RBRACE
-	type : .  (12)
-
-	'('  shift 1
-	'-'  shift 2
-	IF  shift 3
-	VOID  shift 4
-	INT  shift 5
-	WHILE  shift 6
-	FOR  shift 7
-	STRUCT  shift 8
-	LONGINT  shift 9
-	DOUBLE  shift 10
-	LONGLONGINT  shift 11
-	FLOAT  shift 12
-	BOOL  shift 13
-	BYTE  shift 14
-	ID  shift 15
-	NUMBER  shift 16
-
-	for_front  goto 17
-	id_expr  goto 18
-	var_declaration_front  goto 19
-	ifelse_stat  goto 20
-	statement  goto 21
-	statement_list  goto 59
-	type  goto 23
-	while_stat  goto 24
-	for_stat  goto 25
-	expression  goto 26
-	assign_expr  goto 27
-
-
-state 34
-	for_stat : for_front statement .  (26)
-
-	.  reduce 26
-
-
-state 35
-	for_stat : for_front code_block .  (25)
-
-	.  reduce 25
-
-
-state 36
-	assign_expr : id_expr '=' . expression
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 60
-	assign_expr  goto 27
-
-
-state 37
-	var_declaration_front : var_declaration_front ',' . id_expr
-	var_declaration_front : var_declaration_front ',' . assign_expr
-
-	ID  shift 15
-
-	id_expr  goto 61
-	assign_expr  goto 62
-
-
-state 38
-	statement : var_declaration_front ';' .  (7)
-
-	.  reduce 7
-
-
-state 39
-	statement_list : statement_list statement .  (2)
+state 12
+	prog : INT MAIN '(' ')' code_block .  (2)
 
 	.  reduce 2
 
 
-state 40
-	var_declaration_front : type id_expr .  (9)
-	assign_expr : id_expr . '=' expression
+state 13
+	expression : '(' . expression ')'
 
-	'='  shift 36
-	.  reduce 9
+	'('  shift 13
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
 
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 40
 
-state 41
-	var_declaration_front : type assign_expr .  (8)
 
-	.  reduce 8
+state 14
+	expression : '-' . expression
 
+	'('  shift 13
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
 
-state 42
-	expression : expression '%' . expression
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 41
 
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
 
-	id_expr  goto 18
-	expression  goto 63
-	assign_expr  goto 27
+state 15
+	ifelse_stat : IF . '(' expression ')' statement ELSE code_block
+	ifelse_stat : IF . '(' expression ')' code_block ELSE code_block
+	ifelse_stat : IF . '(' expression ')' statement
+	ifelse_stat : IF . '(' expression ')' statement ELSE statement
+	ifelse_stat : IF . '(' expression ')' code_block ELSE statement
+	ifelse_stat : IF . '(' expression ')' code_block
 
+	'('  shift 42
 
-state 43
-	expression : expression '*' . expression
 
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 64
-	assign_expr  goto 27
-
-
-state 44
-	expression : expression '+' . expression
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 65
-	assign_expr  goto 27
-
-
-state 45
-	expression : expression '-' . expression
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 66
-	assign_expr  goto 27
-
-
-state 46
-	expression : expression '/' . expression
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 67
-	assign_expr  goto 27
-
-
-state 47
-	statement : expression ';' .  (3)
-
-	.  reduce 3
-
-
-state 48
-	expression : expression '<' . expression
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 68
-	assign_expr  goto 27
-
-
-state 49
-	expression : expression '>' . expression
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 69
-	assign_expr  goto 27
-
-
-state 50
-	expression : expression EQ . expression
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 70
-	assign_expr  goto 27
-
-
-state 51
-	expression : expression NE . expression
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 71
-	assign_expr  goto 27
-
-
-state 52
-	expression : expression LE . expression
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 72
-	assign_expr  goto 27
-
-
-state 53
-	expression : expression GE . expression
-
-	'('  shift 1
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 73
-	assign_expr  goto 27
-
-
-state 54
-	expression : '(' expression ')' .  (47)
-
-	.  reduce 47
-
-
-state 55
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	ifelse_stat : IF '(' expression . ')' code_block
-	ifelse_stat : IF '(' expression . ')' statement
-	expression : expression . GE expression
-	ifelse_stat : IF '(' expression . ')' statement ELSE code_block
-	ifelse_stat : IF '(' expression . ')' code_block ELSE code_block
-	ifelse_stat : IF '(' expression . ')' code_block ELSE statement
-	expression : expression . '+' expression
-	expression : expression . NE expression
-	ifelse_stat : IF '(' expression . ')' statement ELSE statement
-
-	'%'  shift 42
-	')'  shift 74
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	'<'  shift 48
-	'>'  shift 49
-	EQ  shift 50
-	NE  shift 51
-	LE  shift 52
-	GE  shift 53
-
-
-state 56
-	while_stat : WHILE '(' expression . ')' code_block
-	while_stat : WHILE '(' expression . ')' statement
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	')'  shift 75
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	'<'  shift 48
-	'>'  shift 49
-	EQ  shift 50
-	NE  shift 51
-	LE  shift 52
-	GE  shift 53
-
-
-state 57
-	for_front : FOR '(' ';' . expression ';' expression ')'
-	for_front : FOR '(' ';' . expression ';' ')'
-	for_front : FOR '(' ';' . ';' expression ')'
-	for_front : FOR '(' ';' . ';' ')'
-
-	'('  shift 1
-	'-'  shift 2
-	';'  shift 76
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 77
-	assign_expr  goto 27
-
-
-state 58
-	for_front : FOR '(' expression . ';' ';' expression ')'
-	for_front : FOR '(' expression . ';' ';' ')'
-	for_front : FOR '(' expression . ';' expression ';' expression ')'
-	for_front : FOR '(' expression . ';' expression ';' ')'
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	';'  shift 78
-	'<'  shift 48
-	'>'  shift 49
-	EQ  shift 50
-	NE  shift 51
-	LE  shift 52
-	GE  shift 53
-
-
-59: shift-reduce conflict (shift 15, reduce 12) on ID
-state 59
-	statement_list : statement_list . statement
-	code_block : LBRACE statement_list . RBRACE
-	type : .  (12)
-
-	'('  shift 1
-	'-'  shift 2
-	IF  shift 3
-	VOID  shift 4
-	RBRACE  shift 79
-	INT  shift 5
-	WHILE  shift 6
-	FOR  shift 7
-	STRUCT  shift 8
-	LONGINT  shift 9
-	DOUBLE  shift 10
-	LONGLONGINT  shift 11
-	FLOAT  shift 12
-	BOOL  shift 13
-	BYTE  shift 14
-	ID  shift 15
-	NUMBER  shift 16
-
-	for_front  goto 17
-	id_expr  goto 18
-	var_declaration_front  goto 19
-	ifelse_stat  goto 20
-	statement  goto 39
-	type  goto 23
-	while_stat  goto 24
-	for_stat  goto 25
-	expression  goto 26
-	assign_expr  goto 27
-
-
-60: shift-reduce conflict (shift 42, reduce 52) on '%'
-60: shift-reduce conflict (shift 43, reduce 52) on '*'
-60: shift-reduce conflict (shift 44, reduce 52) on '+'
-60: shift-reduce conflict (shift 45, reduce 52) on '-'
-60: shift-reduce conflict (shift 46, reduce 52) on '/'
-60: shift-reduce conflict (shift 48, reduce 52) on '<'
-60: shift-reduce conflict (shift 49, reduce 52) on '>'
-60: shift-reduce conflict (shift 50, reduce 52) on EQ
-60: shift-reduce conflict (shift 51, reduce 52) on NE
-60: shift-reduce conflict (shift 52, reduce 52) on LE
-60: shift-reduce conflict (shift 53, reduce 52) on GE
-state 60
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	assign_expr : id_expr '=' expression .  (52)
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	'<'  shift 48
-	'>'  shift 49
-	EQ  shift 50
-	NE  shift 51
-	LE  shift 52
-	GE  shift 53
-	.  reduce 52
-
-
-state 61
-	var_declaration_front : var_declaration_front ',' id_expr .  (10)
-	assign_expr : id_expr . '=' expression
-
-	'='  shift 36
-	.  reduce 10
-
-
-state 62
-	var_declaration_front : var_declaration_front ',' assign_expr .  (11)
-
-	.  reduce 11
-
-
-state 63
-	expression : expression . '*' expression
-	expression : expression '%' expression .  (39)
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	.  reduce 39
-
-
-state 64
-	expression : expression '*' expression .  (37)
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	.  reduce 37
-
-
-state 65
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : expression '+' expression .  (35)
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	'*'  shift 43
-	'/'  shift 46
-	.  reduce 35
-
-
-state 66
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression '-' expression .  (36)
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	'*'  shift 43
-	'/'  shift 46
-	.  reduce 36
-
-
-state 67
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression '/' expression .  (38)
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	.  reduce 38
-
-
-state 68
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression '<' expression .  (40)
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	.  reduce 40
-
-
-state 69
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression '>' expression .  (41)
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	.  reduce 41
-
-
-state 70
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression EQ expression .  (42)
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	'<'  shift 48
-	'>'  shift 49
-	LE  shift 52
-	GE  shift 53
-	.  reduce 42
-
-
-state 71
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression NE expression .  (45)
-	expression : expression . NE expression
-
-	'%'  shift 42
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	'<'  shift 48
-	'>'  shift 49
-	LE  shift 52
-	GE  shift 53
-	.  reduce 45
-
-
-state 72
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression LE expression .  (43)
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	.  reduce 43
-
-
-state 73
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression GE expression .  (44)
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	.  reduce 44
-
-
-74: shift-reduce conflict (shift 15, reduce 12) on ID
-state 74
-	ifelse_stat : IF '(' expression ')' . code_block
-	ifelse_stat : IF '(' expression ')' . statement
-	ifelse_stat : IF '(' expression ')' . statement ELSE code_block
-	ifelse_stat : IF '(' expression ')' . code_block ELSE code_block
-	ifelse_stat : IF '(' expression ')' . code_block ELSE statement
-	ifelse_stat : IF '(' expression ')' . statement ELSE statement
-	type : .  (12)
-
-	'('  shift 1
-	'-'  shift 2
-	IF  shift 3
-	VOID  shift 4
-	LBRACE  shift 33
-	INT  shift 5
-	WHILE  shift 6
-	FOR  shift 7
-	STRUCT  shift 8
-	LONGINT  shift 9
-	DOUBLE  shift 10
-	LONGLONGINT  shift 11
-	FLOAT  shift 12
-	BOOL  shift 13
-	BYTE  shift 14
-	ID  shift 15
-	NUMBER  shift 16
-
-	for_front  goto 17
-	id_expr  goto 18
-	var_declaration_front  goto 19
-	ifelse_stat  goto 20
-	statement  goto 80
-	type  goto 23
-	while_stat  goto 24
-	code_block  goto 81
-	for_stat  goto 25
-	expression  goto 26
-	assign_expr  goto 27
-
-
-75: shift-reduce conflict (shift 15, reduce 12) on ID
-state 75
-	while_stat : WHILE '(' expression ')' . code_block
-	while_stat : WHILE '(' expression ')' . statement
-	type : .  (12)
-
-	'('  shift 1
-	'-'  shift 2
-	IF  shift 3
-	VOID  shift 4
-	LBRACE  shift 33
-	INT  shift 5
-	WHILE  shift 6
-	FOR  shift 7
-	STRUCT  shift 8
-	LONGINT  shift 9
-	DOUBLE  shift 10
-	LONGLONGINT  shift 11
-	FLOAT  shift 12
-	BOOL  shift 13
-	BYTE  shift 14
-	ID  shift 15
-	NUMBER  shift 16
-
-	for_front  goto 17
-	id_expr  goto 18
-	var_declaration_front  goto 19
-	ifelse_stat  goto 20
-	statement  goto 82
-	type  goto 23
-	while_stat  goto 24
-	code_block  goto 83
-	for_stat  goto 25
-	expression  goto 26
-	assign_expr  goto 27
-
-
-state 76
-	for_front : FOR '(' ';' ';' . expression ')'
-	for_front : FOR '(' ';' ';' . ')'
-
-	'('  shift 1
-	')'  shift 84
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 85
-	assign_expr  goto 27
-
-
-state 77
-	for_front : FOR '(' ';' expression . ';' expression ')'
-	for_front : FOR '(' ';' expression . ';' ')'
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	';'  shift 86
-	'<'  shift 48
-	'>'  shift 49
-	EQ  shift 50
-	NE  shift 51
-	LE  shift 52
-	GE  shift 53
-
-
-state 78
-	for_front : FOR '(' expression ';' . ';' expression ')'
-	for_front : FOR '(' expression ';' . ';' ')'
-	for_front : FOR '(' expression ';' . expression ';' expression ')'
-	for_front : FOR '(' expression ';' . expression ';' ')'
-
-	'('  shift 1
-	'-'  shift 2
-	';'  shift 87
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 88
-	assign_expr  goto 27
-
-
-state 79
-	code_block : LBRACE statement_list RBRACE .  (22)
-
-	.  reduce 22
-
-
-80: shift-reduce conflict (shift 89, reduce 54) on ELSE
-state 80
-	ifelse_stat : IF '(' expression ')' statement .  (54)
-	ifelse_stat : IF '(' expression ')' statement . ELSE code_block
-	ifelse_stat : IF '(' expression ')' statement . ELSE statement
-
-	ELSE  shift 89
-	.  reduce 54
-
-
-81: shift-reduce conflict (shift 90, reduce 53) on ELSE
-state 81
-	ifelse_stat : IF '(' expression ')' code_block .  (53)
-	ifelse_stat : IF '(' expression ')' code_block . ELSE code_block
-	ifelse_stat : IF '(' expression ')' code_block . ELSE statement
-
-	ELSE  shift 90
-	.  reduce 53
-
-
-state 82
-	while_stat : WHILE '(' expression ')' statement .  (24)
-
-	.  reduce 24
-
-
-state 83
-	while_stat : WHILE '(' expression ')' code_block .  (23)
+state 16
+	type : VOID .  (23)
 
 	.  reduce 23
 
 
-state 84
-	for_front : FOR '(' ';' ';' ')' .  (34)
+state 17
+	type : INT .  (22)
 
-	.  reduce 34
+	.  reduce 22
 
 
-state 85
-	for_front : FOR '(' ';' ';' expression . ')'
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+state 18
+	while_stat : WHILE . '(' expression ')' code_block
+	while_stat : WHILE . '(' expression ')' statement
+
+	'('  shift 43
+
+
+state 19
+	for_front : FOR . '(' expression ';' expression ';' expression ')'
+	for_front : FOR . '(' expression ';' ';' ')'
+	for_front : FOR . '(' expression ';' expression ';' ')'
+	for_front : FOR . '(' expression ';' ';' expression ')'
+	for_front : FOR . '(' ';' expression ';' expression ')'
+	for_front : FOR . '(' ';' expression ';' ')'
+	for_front : FOR . '(' ';' ';' ')'
+	for_front : FOR . '(' ';' ';' expression ')'
+
+	'('  shift 44
+
+
+state 20
+	type : STRUCT .  (21)
+
+	.  reduce 21
+
+
+state 21
+	type : LONGINT .  (18)
+
+	.  reduce 18
+
+
+state 22
+	type : DOUBLE .  (15)
+
+	.  reduce 15
+
+
+state 23
+	type : LONGLONGINT .  (19)
+
+	.  reduce 19
+
+
+state 24
+	type : FLOAT .  (16)
+
+	.  reduce 16
+
+
+state 25
+	type : BOOL .  (17)
+
+	.  reduce 17
+
+
+state 26
+	type : BYTE .  (20)
+
+	.  reduce 20
+
+
+state 27
+	id_expr : ID .  (53)
+
+	.  reduce 53
+
+
+state 28
+	expression : NUMBER .  (50)
+
+	.  reduce 50
+
+
+state 29
+	expression : assign_expr .  (52)
+
+	.  reduce 52
+
+
+state 30
+	var_declaration_front : type . assign_expr
+	var_declaration_front : type . id_expr
+
+	ID  shift 27
+
+	assign_expr  goto 45
+	id_expr  goto 46
+
+
+31: shift-reduce conflict (shift 27, reduce 14) on ID
+state 31
+	for_stat : for_front . code_block
+	for_stat : for_front . statement
+	type : .  (14)
+
+	'('  shift 13
+	'-'  shift 14
+	IF  shift 15
+	VOID  shift 16
+	LBRACE  shift 10
+	INT  shift 17
+	WHILE  shift 18
+	FOR  shift 19
+	STRUCT  shift 20
+	LONGINT  shift 21
+	DOUBLE  shift 22
+	LONGLONGINT  shift 23
+	FLOAT  shift 24
+	BOOL  shift 25
+	BYTE  shift 26
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	type  goto 30
+	for_front  goto 31
+	id_expr  goto 32
+	for_stat  goto 33
+	statement  goto 47
+	expression  goto 35
+	ifelse_stat  goto 36
+	while_stat  goto 38
+	var_declaration_front  goto 39
+	code_block  goto 48
+
+
+state 32
+	expression : id_expr .  (51)
+	assign_expr : id_expr . '=' expression
+
+	'='  shift 49
+	.  reduce 51
+
+
+state 33
+	statement : for_stat .  (7)
+
+	.  reduce 7
+
+
+state 34
+	statement_list : statement .  (3)
+
+	.  reduce 3
+
+
+state 35
+	statement : expression . ';'
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
 	expression : expression . '<' expression
 	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
 	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	')'  shift 91
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	'<'  shift 48
-	'>'  shift 49
-	EQ  shift 50
-	NE  shift 51
-	LE  shift 52
-	GE  shift 53
-
-
-state 86
-	for_front : FOR '(' ';' expression ';' . expression ')'
-	for_front : FOR '(' ';' expression ';' . ')'
-
-	'('  shift 1
-	')'  shift 92
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 93
-	assign_expr  goto 27
-
-
-state 87
-	for_front : FOR '(' expression ';' ';' . expression ')'
-	for_front : FOR '(' expression ';' ';' . ')'
-
-	'('  shift 1
-	')'  shift 94
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
-
-	id_expr  goto 18
-	expression  goto 95
-	assign_expr  goto 27
-
-
-state 88
-	for_front : FOR '(' expression ';' expression . ';' expression ')'
-	for_front : FOR '(' expression ';' expression . ';' ')'
-	expression : expression . '*' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
 	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	';'  shift 55
+	'<'  shift 56
+	'>'  shift 57
+	EQ  shift 58
+	NE  shift 59
+	LE  shift 60
+	GE  shift 61
+
+
+state 36
+	statement : ifelse_stat .  (8)
+
+	.  reduce 8
+
+
+37: shift-reduce conflict (shift 27, reduce 14) on ID
+state 37
+	statement_list : statement_list . statement
+	code_block : LBRACE statement_list . RBRACE
+	type : .  (14)
+
+	'('  shift 13
+	'-'  shift 14
+	IF  shift 15
+	VOID  shift 16
+	RBRACE  shift 62
+	INT  shift 17
+	WHILE  shift 18
+	FOR  shift 19
+	STRUCT  shift 20
+	LONGINT  shift 21
+	DOUBLE  shift 22
+	LONGLONGINT  shift 23
+	FLOAT  shift 24
+	BOOL  shift 25
+	BYTE  shift 26
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	type  goto 30
+	for_front  goto 31
+	id_expr  goto 32
+	for_stat  goto 33
+	statement  goto 63
+	expression  goto 35
+	ifelse_stat  goto 36
+	while_stat  goto 38
+	var_declaration_front  goto 39
+
+
+state 38
+	statement : while_stat .  (6)
+
+	.  reduce 6
+
+
+state 39
+	statement : var_declaration_front . ';'
+	var_declaration_front : var_declaration_front . ',' id_expr
+	var_declaration_front : var_declaration_front . ',' assign_expr
+
+	','  shift 64
+	';'  shift 65
+
+
+state 40
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
 	expression : expression . '<' expression
 	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
 	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	';'  shift 96
-	'<'  shift 48
-	'>'  shift 49
-	EQ  shift 50
-	NE  shift 51
-	LE  shift 52
-	GE  shift 53
-
-
-89: shift-reduce conflict (shift 15, reduce 12) on ID
-state 89
-	ifelse_stat : IF '(' expression ')' statement ELSE . code_block
-	ifelse_stat : IF '(' expression ')' statement ELSE . statement
-	type : .  (12)
-
-	'('  shift 1
-	'-'  shift 2
-	IF  shift 3
-	VOID  shift 4
-	LBRACE  shift 33
-	INT  shift 5
-	WHILE  shift 6
-	FOR  shift 7
-	STRUCT  shift 8
-	LONGINT  shift 9
-	DOUBLE  shift 10
-	LONGLONGINT  shift 11
-	FLOAT  shift 12
-	BOOL  shift 13
-	BYTE  shift 14
-	ID  shift 15
-	NUMBER  shift 16
-
-	for_front  goto 17
-	id_expr  goto 18
-	var_declaration_front  goto 19
-	ifelse_stat  goto 20
-	statement  goto 97
-	type  goto 23
-	while_stat  goto 24
-	code_block  goto 98
-	for_stat  goto 25
-	expression  goto 26
-	assign_expr  goto 27
-
-
-90: shift-reduce conflict (shift 15, reduce 12) on ID
-state 90
-	ifelse_stat : IF '(' expression ')' code_block ELSE . code_block
-	ifelse_stat : IF '(' expression ')' code_block ELSE . statement
-	type : .  (12)
-
-	'('  shift 1
-	'-'  shift 2
-	IF  shift 3
-	VOID  shift 4
-	LBRACE  shift 33
-	INT  shift 5
-	WHILE  shift 6
-	FOR  shift 7
-	STRUCT  shift 8
-	LONGINT  shift 9
-	DOUBLE  shift 10
-	LONGLONGINT  shift 11
-	FLOAT  shift 12
-	BOOL  shift 13
-	BYTE  shift 14
-	ID  shift 15
-	NUMBER  shift 16
-
-	for_front  goto 17
-	id_expr  goto 18
-	var_declaration_front  goto 19
-	ifelse_stat  goto 20
-	statement  goto 99
-	type  goto 23
-	while_stat  goto 24
-	code_block  goto 100
-	for_stat  goto 25
-	expression  goto 26
-	assign_expr  goto 27
-
-
-state 91
-	for_front : FOR '(' ';' ';' expression ')' .  (33)
-
-	.  reduce 33
-
-
-state 92
-	for_front : FOR '(' ';' expression ';' ')' .  (32)
-
-	.  reduce 32
-
-
-state 93
-	for_front : FOR '(' ';' expression ';' expression . ')'
-	expression : expression . '*' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
 	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+	expression : '(' expression . ')'
+
+	'%'  shift 50
+	')'  shift 66
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	'<'  shift 56
+	'>'  shift 57
+	EQ  shift 58
+	NE  shift 59
+	LE  shift 60
+	GE  shift 61
+
+
+state 41
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
 	expression : expression . '<' expression
 	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
 	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	')'  shift 101
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	'<'  shift 48
-	'>'  shift 49
-	EQ  shift 50
-	NE  shift 51
-	LE  shift 52
-	GE  shift 53
-
-
-state 94
-	for_front : FOR '(' expression ';' ';' ')' .  (31)
-
-	.  reduce 31
-
-
-state 95
-	for_front : FOR '(' expression ';' ';' expression . ')'
-	expression : expression . '*' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
 	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
 	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression . NE expression
+	expression : '-' expression .  (48)
+	expression : expression . '*' expression
 
-	'%'  shift 42
-	')'  shift 102
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	'<'  shift 48
-	'>'  shift 49
-	EQ  shift 50
-	NE  shift 51
-	LE  shift 52
-	GE  shift 53
+	.  reduce 48
 
 
-state 96
-	for_front : FOR '(' expression ';' expression ';' . expression ')'
-	for_front : FOR '(' expression ';' expression ';' . ')'
+state 42
+	ifelse_stat : IF '(' . expression ')' statement ELSE code_block
+	ifelse_stat : IF '(' . expression ')' code_block ELSE code_block
+	ifelse_stat : IF '(' . expression ')' statement
+	ifelse_stat : IF '(' . expression ')' statement ELSE statement
+	ifelse_stat : IF '(' . expression ')' code_block ELSE statement
+	ifelse_stat : IF '(' . expression ')' code_block
 
-	'('  shift 1
-	')'  shift 103
-	'-'  shift 2
-	ID  shift 15
-	NUMBER  shift 16
+	'('  shift 13
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
 
-	id_expr  goto 18
-	expression  goto 104
-	assign_expr  goto 27
-
-
-state 97
-	ifelse_stat : IF '(' expression ')' statement ELSE statement .  (58)
-
-	.  reduce 58
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 67
 
 
-state 98
-	ifelse_stat : IF '(' expression ')' statement ELSE code_block .  (57)
+state 43
+	while_stat : WHILE '(' . expression ')' code_block
+	while_stat : WHILE '(' . expression ')' statement
 
-	.  reduce 57
+	'('  shift 13
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
 
-
-state 99
-	ifelse_stat : IF '(' expression ')' code_block ELSE statement .  (56)
-
-	.  reduce 56
-
-
-state 100
-	ifelse_stat : IF '(' expression ')' code_block ELSE code_block .  (55)
-
-	.  reduce 55
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 68
 
 
-state 101
-	for_front : FOR '(' ';' expression ';' expression ')' .  (30)
+state 44
+	for_front : FOR '(' . expression ';' expression ';' expression ')'
+	for_front : FOR '(' . expression ';' ';' ')'
+	for_front : FOR '(' . expression ';' expression ';' ')'
+	for_front : FOR '(' . expression ';' ';' expression ')'
+	for_front : FOR '(' . ';' expression ';' expression ')'
+	for_front : FOR '(' . ';' expression ';' ')'
+	for_front : FOR '(' . ';' ';' ')'
+	for_front : FOR '(' . ';' ';' expression ')'
 
-	.  reduce 30
+	'('  shift 13
+	'-'  shift 14
+	';'  shift 69
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 70
 
 
-state 102
-	for_front : FOR '(' expression ';' ';' expression ')' .  (29)
+state 45
+	var_declaration_front : type assign_expr .  (10)
 
-	.  reduce 29
+	.  reduce 10
 
 
-state 103
-	for_front : FOR '(' expression ';' expression ';' ')' .  (28)
+state 46
+	var_declaration_front : type id_expr .  (11)
+	assign_expr : id_expr . '=' expression
+
+	'='  shift 49
+	.  reduce 11
+
+
+state 47
+	for_stat : for_front statement .  (28)
 
 	.  reduce 28
 
 
-state 104
-	for_front : FOR '(' expression ';' expression ';' expression . ')'
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . '<' expression
-	expression : expression . '>' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '/' expression
-	expression : expression . '-' expression
-	expression : expression . GE expression
-	expression : expression . '+' expression
-	expression : expression . NE expression
-
-	'%'  shift 42
-	')'  shift 105
-	'*'  shift 43
-	'+'  shift 44
-	'-'  shift 45
-	'/'  shift 46
-	'<'  shift 48
-	'>'  shift 49
-	EQ  shift 50
-	NE  shift 51
-	LE  shift 52
-	GE  shift 53
-
-
-state 105
-	for_front : FOR '(' expression ';' expression ';' expression ')' .  (27)
+state 48
+	for_stat : for_front code_block .  (27)
 
 	.  reduce 27
 
 
+state 49
+	assign_expr : id_expr '=' . expression
+
+	'('  shift 13
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 71
+
+
+state 50
+	expression : expression '%' . expression
+
+	'('  shift 13
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 72
+
+
+state 51
+	expression : expression '*' . expression
+
+	'('  shift 13
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 73
+
+
+state 52
+	expression : expression '+' . expression
+
+	'('  shift 13
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 74
+
+
+state 53
+	expression : expression '-' . expression
+
+	'('  shift 13
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 75
+
+
+state 54
+	expression : expression '/' . expression
+
+	'('  shift 13
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 76
+
+
+state 55
+	statement : expression ';' .  (5)
+
+	.  reduce 5
+
+
+state 56
+	expression : expression '<' . expression
+
+	'('  shift 13
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 77
+
+
+state 57
+	expression : expression '>' . expression
+
+	'('  shift 13
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 78
+
+
+state 58
+	expression : expression EQ . expression
+
+	'('  shift 13
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 79
+
+
+state 59
+	expression : expression NE . expression
+
+	'('  shift 13
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 80
+
+
+state 60
+	expression : expression LE . expression
+
+	'('  shift 13
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 81
+
+
+state 61
+	expression : expression GE . expression
+
+	'('  shift 13
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 82
+
+
+state 62
+	code_block : LBRACE statement_list RBRACE .  (24)
+
+	.  reduce 24
+
+
+state 63
+	statement_list : statement_list statement .  (4)
+
+	.  reduce 4
+
+
+state 64
+	var_declaration_front : var_declaration_front ',' . id_expr
+	var_declaration_front : var_declaration_front ',' . assign_expr
+
+	ID  shift 27
+
+	assign_expr  goto 83
+	id_expr  goto 84
+
+
+state 65
+	statement : var_declaration_front ';' .  (9)
+
+	.  reduce 9
+
+
+state 66
+	expression : '(' expression ')' .  (49)
+
+	.  reduce 49
+
+
+state 67
+	ifelse_stat : IF '(' expression . ')' statement ELSE code_block
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	ifelse_stat : IF '(' expression . ')' code_block ELSE code_block
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	ifelse_stat : IF '(' expression . ')' statement
+	expression : expression . '%' expression
+	ifelse_stat : IF '(' expression . ')' statement ELSE statement
+	expression : expression . '/' expression
+	ifelse_stat : IF '(' expression . ')' code_block ELSE statement
+	expression : expression . '*' expression
+	ifelse_stat : IF '(' expression . ')' code_block
+
+	'%'  shift 50
+	')'  shift 85
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	'<'  shift 56
+	'>'  shift 57
+	EQ  shift 58
+	NE  shift 59
+	LE  shift 60
+	GE  shift 61
+
+
+state 68
+	while_stat : WHILE '(' expression . ')' code_block
+	while_stat : WHILE '(' expression . ')' statement
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	')'  shift 86
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	'<'  shift 56
+	'>'  shift 57
+	EQ  shift 58
+	NE  shift 59
+	LE  shift 60
+	GE  shift 61
+
+
+state 69
+	for_front : FOR '(' ';' . expression ';' expression ')'
+	for_front : FOR '(' ';' . expression ';' ')'
+	for_front : FOR '(' ';' . ';' ')'
+	for_front : FOR '(' ';' . ';' expression ')'
+
+	'('  shift 13
+	'-'  shift 14
+	';'  shift 87
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 88
+
+
+state 70
+	for_front : FOR '(' expression . ';' expression ';' expression ')'
+	for_front : FOR '(' expression . ';' ';' ')'
+	for_front : FOR '(' expression . ';' expression ';' ')'
+	for_front : FOR '(' expression . ';' ';' expression ')'
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	';'  shift 89
+	'<'  shift 56
+	'>'  shift 57
+	EQ  shift 58
+	NE  shift 59
+	LE  shift 60
+	GE  shift 61
+
+
+71: shift-reduce conflict (shift 50, reduce 54) on '%'
+71: shift-reduce conflict (shift 51, reduce 54) on '*'
+71: shift-reduce conflict (shift 52, reduce 54) on '+'
+71: shift-reduce conflict (shift 53, reduce 54) on '-'
+71: shift-reduce conflict (shift 54, reduce 54) on '/'
+71: shift-reduce conflict (shift 56, reduce 54) on '<'
+71: shift-reduce conflict (shift 57, reduce 54) on '>'
+71: shift-reduce conflict (shift 58, reduce 54) on EQ
+71: shift-reduce conflict (shift 59, reduce 54) on NE
+71: shift-reduce conflict (shift 60, reduce 54) on LE
+71: shift-reduce conflict (shift 61, reduce 54) on GE
+state 71
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	assign_expr : id_expr '=' expression .  (54)
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	'<'  shift 56
+	'>'  shift 57
+	EQ  shift 58
+	NE  shift 59
+	LE  shift 60
+	GE  shift 61
+	.  reduce 54
+
+
+state 72
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression '%' expression .  (41)
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	.  reduce 41
+
+
+state 73
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression '*' expression .  (39)
+	expression : expression . '*' expression
+
+	.  reduce 39
+
+
+state 74
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression '+' expression .  (37)
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	'*'  shift 51
+	'/'  shift 54
+	.  reduce 37
+
+
+state 75
+	expression : expression '-' expression .  (38)
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	'*'  shift 51
+	'/'  shift 54
+	.  reduce 38
+
+
+state 76
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression '/' expression .  (40)
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	.  reduce 40
+
+
+state 77
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression '<' expression .  (42)
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	.  reduce 42
+
+
+state 78
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression '>' expression .  (43)
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	.  reduce 43
+
+
+state 79
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression EQ expression .  (44)
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	'<'  shift 56
+	'>'  shift 57
+	LE  shift 60
+	GE  shift 61
+	.  reduce 44
+
+
+state 80
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression NE expression .  (47)
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	'<'  shift 56
+	'>'  shift 57
+	LE  shift 60
+	GE  shift 61
+	.  reduce 47
+
+
+state 81
+	expression : expression . '-' expression
+	expression : expression LE expression .  (45)
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	.  reduce 45
+
+
+state 82
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression GE expression .  (46)
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	.  reduce 46
+
+
+state 83
+	var_declaration_front : var_declaration_front ',' assign_expr .  (13)
+
+	.  reduce 13
+
+
+state 84
+	var_declaration_front : var_declaration_front ',' id_expr .  (12)
+	assign_expr : id_expr . '=' expression
+
+	'='  shift 49
+	.  reduce 12
+
+
+85: shift-reduce conflict (shift 27, reduce 14) on ID
+state 85
+	ifelse_stat : IF '(' expression ')' . statement ELSE code_block
+	ifelse_stat : IF '(' expression ')' . code_block ELSE code_block
+	ifelse_stat : IF '(' expression ')' . statement
+	ifelse_stat : IF '(' expression ')' . statement ELSE statement
+	ifelse_stat : IF '(' expression ')' . code_block ELSE statement
+	ifelse_stat : IF '(' expression ')' . code_block
+	type : .  (14)
+
+	'('  shift 13
+	'-'  shift 14
+	IF  shift 15
+	VOID  shift 16
+	LBRACE  shift 10
+	INT  shift 17
+	WHILE  shift 18
+	FOR  shift 19
+	STRUCT  shift 20
+	LONGINT  shift 21
+	DOUBLE  shift 22
+	LONGLONGINT  shift 23
+	FLOAT  shift 24
+	BOOL  shift 25
+	BYTE  shift 26
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	type  goto 30
+	for_front  goto 31
+	id_expr  goto 32
+	for_stat  goto 33
+	statement  goto 90
+	expression  goto 35
+	ifelse_stat  goto 36
+	while_stat  goto 38
+	var_declaration_front  goto 39
+	code_block  goto 91
+
+
+86: shift-reduce conflict (shift 27, reduce 14) on ID
+state 86
+	while_stat : WHILE '(' expression ')' . code_block
+	while_stat : WHILE '(' expression ')' . statement
+	type : .  (14)
+
+	'('  shift 13
+	'-'  shift 14
+	IF  shift 15
+	VOID  shift 16
+	LBRACE  shift 10
+	INT  shift 17
+	WHILE  shift 18
+	FOR  shift 19
+	STRUCT  shift 20
+	LONGINT  shift 21
+	DOUBLE  shift 22
+	LONGLONGINT  shift 23
+	FLOAT  shift 24
+	BOOL  shift 25
+	BYTE  shift 26
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	type  goto 30
+	for_front  goto 31
+	id_expr  goto 32
+	for_stat  goto 33
+	statement  goto 92
+	expression  goto 35
+	ifelse_stat  goto 36
+	while_stat  goto 38
+	var_declaration_front  goto 39
+	code_block  goto 93
+
+
+state 87
+	for_front : FOR '(' ';' ';' . ')'
+	for_front : FOR '(' ';' ';' . expression ')'
+
+	'('  shift 13
+	')'  shift 94
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 95
+
+
+state 88
+	for_front : FOR '(' ';' expression . ';' expression ')'
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	for_front : FOR '(' ';' expression . ';' ')'
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	';'  shift 96
+	'<'  shift 56
+	'>'  shift 57
+	EQ  shift 58
+	NE  shift 59
+	LE  shift 60
+	GE  shift 61
+
+
+state 89
+	for_front : FOR '(' expression ';' . expression ';' expression ')'
+	for_front : FOR '(' expression ';' . ';' ')'
+	for_front : FOR '(' expression ';' . expression ';' ')'
+	for_front : FOR '(' expression ';' . ';' expression ')'
+
+	'('  shift 13
+	'-'  shift 14
+	';'  shift 97
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 98
+
+
+90: shift-reduce conflict (shift 99, reduce 56) on ELSE
+state 90
+	ifelse_stat : IF '(' expression ')' statement . ELSE code_block
+	ifelse_stat : IF '(' expression ')' statement .  (56)
+	ifelse_stat : IF '(' expression ')' statement . ELSE statement
+
+	ELSE  shift 99
+	.  reduce 56
+
+
+91: shift-reduce conflict (shift 100, reduce 55) on ELSE
+state 91
+	ifelse_stat : IF '(' expression ')' code_block . ELSE code_block
+	ifelse_stat : IF '(' expression ')' code_block . ELSE statement
+	ifelse_stat : IF '(' expression ')' code_block .  (55)
+
+	ELSE  shift 100
+	.  reduce 55
+
+
+state 92
+	while_stat : WHILE '(' expression ')' statement .  (26)
+
+	.  reduce 26
+
+
+state 93
+	while_stat : WHILE '(' expression ')' code_block .  (25)
+
+	.  reduce 25
+
+
+state 94
+	for_front : FOR '(' ';' ';' ')' .  (36)
+
+	.  reduce 36
+
+
+state 95
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	for_front : FOR '(' ';' ';' expression . ')'
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	')'  shift 101
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	'<'  shift 56
+	'>'  shift 57
+	EQ  shift 58
+	NE  shift 59
+	LE  shift 60
+	GE  shift 61
+
+
+state 96
+	for_front : FOR '(' ';' expression ';' . expression ')'
+	for_front : FOR '(' ';' expression ';' . ')'
+
+	'('  shift 13
+	')'  shift 102
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 103
+
+
+state 97
+	for_front : FOR '(' expression ';' ';' . ')'
+	for_front : FOR '(' expression ';' ';' . expression ')'
+
+	'('  shift 13
+	')'  shift 104
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 105
+
+
+state 98
+	for_front : FOR '(' expression ';' expression . ';' expression ')'
+	for_front : FOR '(' expression ';' expression . ';' ')'
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	';'  shift 106
+	'<'  shift 56
+	'>'  shift 57
+	EQ  shift 58
+	NE  shift 59
+	LE  shift 60
+	GE  shift 61
+
+
+99: shift-reduce conflict (shift 27, reduce 14) on ID
+state 99
+	ifelse_stat : IF '(' expression ')' statement ELSE . code_block
+	ifelse_stat : IF '(' expression ')' statement ELSE . statement
+	type : .  (14)
+
+	'('  shift 13
+	'-'  shift 14
+	IF  shift 15
+	VOID  shift 16
+	LBRACE  shift 10
+	INT  shift 17
+	WHILE  shift 18
+	FOR  shift 19
+	STRUCT  shift 20
+	LONGINT  shift 21
+	DOUBLE  shift 22
+	LONGLONGINT  shift 23
+	FLOAT  shift 24
+	BOOL  shift 25
+	BYTE  shift 26
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	type  goto 30
+	for_front  goto 31
+	id_expr  goto 32
+	for_stat  goto 33
+	statement  goto 107
+	expression  goto 35
+	ifelse_stat  goto 36
+	while_stat  goto 38
+	var_declaration_front  goto 39
+	code_block  goto 108
+
+
+100: shift-reduce conflict (shift 27, reduce 14) on ID
+state 100
+	ifelse_stat : IF '(' expression ')' code_block ELSE . code_block
+	ifelse_stat : IF '(' expression ')' code_block ELSE . statement
+	type : .  (14)
+
+	'('  shift 13
+	'-'  shift 14
+	IF  shift 15
+	VOID  shift 16
+	LBRACE  shift 10
+	INT  shift 17
+	WHILE  shift 18
+	FOR  shift 19
+	STRUCT  shift 20
+	LONGINT  shift 21
+	DOUBLE  shift 22
+	LONGLONGINT  shift 23
+	FLOAT  shift 24
+	BOOL  shift 25
+	BYTE  shift 26
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	type  goto 30
+	for_front  goto 31
+	id_expr  goto 32
+	for_stat  goto 33
+	statement  goto 109
+	expression  goto 35
+	ifelse_stat  goto 36
+	while_stat  goto 38
+	var_declaration_front  goto 39
+	code_block  goto 110
+
+
+state 101
+	for_front : FOR '(' ';' ';' expression ')' .  (35)
+
+	.  reduce 35
+
+
+state 102
+	for_front : FOR '(' ';' expression ';' ')' .  (34)
+
+	.  reduce 34
+
+
+state 103
+	for_front : FOR '(' ';' expression ';' expression . ')'
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	')'  shift 111
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	'<'  shift 56
+	'>'  shift 57
+	EQ  shift 58
+	NE  shift 59
+	LE  shift 60
+	GE  shift 61
+
+
+state 104
+	for_front : FOR '(' expression ';' ';' ')' .  (33)
+
+	.  reduce 33
+
+
+state 105
+	for_front : FOR '(' expression ';' ';' expression . ')'
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	')'  shift 112
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	'<'  shift 56
+	'>'  shift 57
+	EQ  shift 58
+	NE  shift 59
+	LE  shift 60
+	GE  shift 61
+
+
+state 106
+	for_front : FOR '(' expression ';' expression ';' . expression ')'
+	for_front : FOR '(' expression ';' expression ';' . ')'
+
+	'('  shift 13
+	')'  shift 113
+	'-'  shift 14
+	ID  shift 27
+	NUMBER  shift 28
+
+	assign_expr  goto 29
+	id_expr  goto 32
+	expression  goto 114
+
+
+state 107
+	ifelse_stat : IF '(' expression ')' statement ELSE statement .  (60)
+
+	.  reduce 60
+
+
+state 108
+	ifelse_stat : IF '(' expression ')' statement ELSE code_block .  (59)
+
+	.  reduce 59
+
+
+state 109
+	ifelse_stat : IF '(' expression ')' code_block ELSE statement .  (58)
+
+	.  reduce 58
+
+
+state 110
+	ifelse_stat : IF '(' expression ')' code_block ELSE code_block .  (57)
+
+	.  reduce 57
+
+
+state 111
+	for_front : FOR '(' ';' expression ';' expression ')' .  (32)
+
+	.  reduce 32
+
+
+state 112
+	for_front : FOR '(' expression ';' ';' expression ')' .  (31)
+
+	.  reduce 31
+
+
+state 113
+	for_front : FOR '(' expression ';' expression ';' ')' .  (30)
+
+	.  reduce 30
+
+
+state 114
+	for_front : FOR '(' expression ';' expression ';' expression . ')'
+	expression : expression . '-' expression
+	expression : expression . LE expression
+	expression : expression . NE expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . '+' expression
+	expression : expression . EQ expression
+	expression : expression . GE expression
+	expression : expression . '%' expression
+	expression : expression . '/' expression
+	expression : expression . '*' expression
+
+	'%'  shift 50
+	')'  shift 115
+	'*'  shift 51
+	'+'  shift 52
+	'-'  shift 53
+	'/'  shift 54
+	'<'  shift 56
+	'>'  shift 57
+	EQ  shift 58
+	NE  shift 59
+	LE  shift 60
+	GE  shift 61
+
+
+state 115
+	for_front : FOR '(' expression ';' expression ';' expression ')' .  (29)
+
+	.  reduce 29
+
+
 Rules never reduced
-	type :  (12)
+	type :  (14)
 
 
 ##############################################################################
 # Summary
 ##############################################################################
 
-State 0 contains 1 shift-reduce conflict(s)
-State 17 contains 1 shift-reduce conflict(s)
-State 22 contains 1 shift-reduce conflict(s)
-State 33 contains 1 shift-reduce conflict(s)
-State 59 contains 1 shift-reduce conflict(s)
-State 60 contains 11 shift-reduce conflict(s)
-State 74 contains 1 shift-reduce conflict(s)
-State 75 contains 1 shift-reduce conflict(s)
-State 80 contains 1 shift-reduce conflict(s)
-State 81 contains 1 shift-reduce conflict(s)
-State 89 contains 1 shift-reduce conflict(s)
+State 10 contains 1 shift-reduce conflict(s)
+State 31 contains 1 shift-reduce conflict(s)
+State 37 contains 1 shift-reduce conflict(s)
+State 71 contains 11 shift-reduce conflict(s)
+State 85 contains 1 shift-reduce conflict(s)
+State 86 contains 1 shift-reduce conflict(s)
 State 90 contains 1 shift-reduce conflict(s)
+State 91 contains 1 shift-reduce conflict(s)
+State 99 contains 1 shift-reduce conflict(s)
+State 100 contains 1 shift-reduce conflict(s)
 
 
-36 token(s), 13 nonterminal(s)
-59 grammar rule(s), 106 state(s)
+37 token(s), 14 nonterminal(s)
+61 grammar rule(s), 116 state(s)
 
 
 ##############################################################################

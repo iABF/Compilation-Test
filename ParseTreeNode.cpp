@@ -36,8 +36,8 @@ void ParseTreeNode::printNode(ParseTreeNode *root, int depth)
 	if (root == NULL)return;
 	if (depth == 0)printf("* ");
 	else {
-		for (int k = 1; k < depth; k++)printf(" ");
-		printf("|-*");
+		for (int k = 1; k < depth; k++)printf("  ");
+		printf("|-* ");
 	}
 	std::cout << root->type << ", " << root->value << std::endl;
 	ParseTreeNode *c = root->child;
