@@ -20,22 +20,6 @@ extern struct symtable symtable[MAXSYM];
 // lexical analyser name
 %name mylexer
 
-// class definition
-{
-	// place any extra class members here
-}
-
-// constructor
-{
-	// place any extra initialisation code here
-}
-
-// destructor
-{
-	// place any extra cleanup code here
-}
-
-
 /* regular definitions */
 
 delim		[ \t\n]
@@ -417,7 +401,7 @@ printf		{
 	fflush(fp);
 	fprintf(fp, "\n");
 	fflush(fp);
-	return yytext[0];
+	return LBRACE;
 }
 "}"			{
 	fprintf(fp, "RBRACE\t\t");
@@ -426,7 +410,7 @@ printf		{
 	fflush(fp);
 	fprintf(fp, "\n");
 	fflush(fp);
-	return yytext[0];
+	return RBRACE;
 }
 "["			{
 	fprintf(fp, "LMBRACE\t\t");

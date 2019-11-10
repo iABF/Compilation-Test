@@ -1,7 +1,7 @@
 /****************************************************************************
 *                     U N R E G I S T E R E D   C O P Y
 * 
-* You are on day 54 of your 30 day trial period.
+* You are on day 56 of your 30 day trial period.
 * 
 * This file was produced by an UNREGISTERED COPY of Parser Generator. It is
 * for evaluation purposes only. If you continue to use Parser Generator 30
@@ -18,8 +18,8 @@
 * myparser.h
 * C++ header file generated from myparser.y.
 * 
-* Date: 11/09/19
-* Time: 12:43:40
+* Date: 11/11/19
+* Time: 02:25:54
 * 
 * AYACC Version: 2.07
 ****************************************************************************/
@@ -58,40 +58,43 @@
 #define RELOP 283
 #define VOID 284
 #define MAIN 285
-#define INT 286
-#define DEFINE 287
-#define STRING 288
-#define INCLUDE 289
-#define WHILE 290
-#define FOR 291
-#define RETURN 292
-#define GOTO 293
-#define GETCHAR 294
-#define STRUCT 295
-#define LONGINT 296
-#define DOUBLE 297
-#define LONGLONGINT 298
-#define FLOAT 299
-#define BOOL 300
-#define SHORT 301
-#define BYTE 302
-#define SCANF 303
-#define PRINTF 304
+#define LBRACE 286
+#define RBRACE 287
+#define INT 288
+#define DEFINE 289
+#define STRING 290
+#define INCLUDE 291
+#define WHILE 292
+#define FOR 293
+#define RETURN 294
+#define GOTO 295
+#define GETCHAR 296
+#define STRUCT 297
+#define LONGINT 298
+#define DOUBLE 299
+#define LONGLONGINT 300
+#define FLOAT 301
+#define BOOL 302
+#define SHORT 303
+#define BYTE 304
+#define SCANF 305
+#define PRINTF 306
 #ifndef YYSTYPE
 union tagYYSTYPE {
-#line 33 ".\\myparser.y"
+#line 36 ".\\myparser.y"
 
 	double dval;
 	struct symtable *symp;
+	class ParseTreeNode *node;
 
-#line 88 "myparser.h"
+#line 91 "myparser.h"
 };
 
 #define YYSTYPE union tagYYSTYPE
 #endif
 
-#define ID 305
-#define NUMBER 306
+#define ID 307
+#define NUMBER 308
 /////////////////////////////////////////////////////////////////////////////
 // myparser
 
@@ -124,22 +127,17 @@ protected:
 	virtual void yycopyattribute(void YYFAR* dest, const void YYFAR* src, int count);
 
 public:
-#line 45 ".\\myparser.y"
-
-	// place any extra class members here
-
-#line 132 "myparser.h"
 };
 
 #ifndef YYPARSERNAME
 #define YYPARSERNAME myparser
 #endif
 
-#line 60 ".\\myparser.y"
+#line 51 ".\\myparser.y"
 
 #ifndef YYSTYPE
 #define YYSTYPE int
 #endif
 
-#line 145 "myparser.h"
+#line 143 "myparser.h"
 #endif
