@@ -18,8 +18,8 @@
 # mylexer.v
 # Lex verbose file generated from mylexer.l.
 # 
-# Date: 11/10/19
-# Time: 22:40:01
+# Date: 11/11/19
+# Time: 02:53:24
 # 
 # ALex Version: 2.07
 #############################################################################
@@ -35,7 +35,7 @@
 
     3  \/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/
 
-    4  (#define)|(#DEFINE)git
+    4  (#define)|(#DEFINE)
 
     5  \"(.)*\"
 
@@ -83,9 +83,9 @@
 
    27  main
 
-   28  scanf
+   28  scan
 
-   29  printf
+   29  print
 
    30  [A-Za-z_]([A-Za-z_]|[0-9])*
 
@@ -1346,11 +1346,9 @@ state 135
 	0x30 - 0x39 (10)   goto 24
 	0x41 - 0x5a (26)   goto 24
 	0x5f               goto 24
-	0x61 - 0x65 (5)    goto 24
-	0x66               goto 150
-	0x67 - 0x7a (20)   goto 24
+	0x61 - 0x7a (26)   goto 24
 
-	match 30
+	match 28
 
 
 state 136
@@ -1358,7 +1356,7 @@ state 136
 	0x41 - 0x5a (26)   goto 24
 	0x5f               goto 24
 	0x61 - 0x73 (19)   goto 24
-	0x74               goto 151
+	0x74               goto 150
 	0x75 - 0x7a (6)    goto 24
 
 	match 30
@@ -1369,7 +1367,7 @@ state 137
 	0x41 - 0x5a (26)   goto 24
 	0x5f               goto 24
 	0x61 - 0x62 (2)    goto 24
-	0x63               goto 152
+	0x63               goto 151
 	0x64 - 0x7a (23)   goto 24
 
 	match 30
@@ -1389,26 +1387,26 @@ state 139
 	0x41 - 0x5a (26)   goto 24
 	0x5f               goto 24
 	0x61 - 0x64 (4)    goto 24
-	0x65               goto 153
+	0x65               goto 152
 	0x66 - 0x7a (21)   goto 24
 
 	match 30
 
 
 state 140
-	0x4e               goto 154
+	0x4e               goto 153
 
 
 state 141
-	0x55               goto 155
+	0x55               goto 154
 
 
 state 142
-	0x6e               goto 156
+	0x6e               goto 155
 
 
 state 143
-	0x75               goto 157
+	0x75               goto 156
 
 
 state 144
@@ -1416,7 +1414,7 @@ state 144
 	0x41 - 0x5a (26)   goto 24
 	0x5f               goto 24
 	0x61 - 0x64 (4)    goto 24
-	0x65               goto 158
+	0x65               goto 157
 	0x66 - 0x7a (21)   goto 24
 
 	match 30
@@ -1435,26 +1433,24 @@ state 146
 	0x30 - 0x39 (10)   goto 24
 	0x41 - 0x5a (26)   goto 24
 	0x5f               goto 24
-	0x61               goto 159
+	0x61               goto 158
 	0x62 - 0x7a (25)   goto 24
 
 	match 30
 
 
 state 147
-	0x69               goto 160
-	0x6c               goto 161
+	0x69               goto 159
+	0x6c               goto 160
 
 
 state 148
 	0x30 - 0x39 (10)   goto 24
 	0x41 - 0x5a (26)   goto 24
 	0x5f               goto 24
-	0x61 - 0x65 (5)    goto 24
-	0x66               goto 162
-	0x67 - 0x7a (20)   goto 24
+	0x61 - 0x7a (26)   goto 24
 
-	match 30
+	match 29
 
 
 state 149
@@ -1462,7 +1458,7 @@ state 149
 	0x41 - 0x5a (26)   goto 24
 	0x5f               goto 24
 	0x61 - 0x6d (13)   goto 24
-	0x6e               goto 163
+	0x6e               goto 161
 	0x6f - 0x7a (12)   goto 24
 
 	match 30
@@ -1474,30 +1470,21 @@ state 150
 	0x5f               goto 24
 	0x61 - 0x7a (26)   goto 24
 
-	match 28
+	match 25
 
 
 state 151
 	0x30 - 0x39 (10)   goto 24
 	0x41 - 0x5a (26)   goto 24
 	0x5f               goto 24
-	0x61 - 0x7a (26)   goto 24
-
-	match 25
-
-
-state 152
-	0x30 - 0x39 (10)   goto 24
-	0x41 - 0x5a (26)   goto 24
-	0x5f               goto 24
 	0x61 - 0x73 (19)   goto 24
-	0x74               goto 164
+	0x74               goto 162
 	0x75 - 0x7a (6)    goto 24
 
 	match 30
 
 
-state 153
+state 152
 	0x30 - 0x39 (10)   goto 24
 	0x41 - 0x5a (26)   goto 24
 	0x5f               goto 24
@@ -1506,23 +1493,23 @@ state 153
 	match 12
 
 
+state 153
+	0x45               goto 163
+
+
 state 154
-	0x45               goto 165
+	0x44               goto 164
 
 
 state 155
-	0x44               goto 166
+	0x65               goto 163
 
 
 state 156
-	0x65               goto 167
+	0x64               goto 165
 
 
 state 157
-	0x64               goto 168
-
-
-state 158
 	0x30 - 0x39 (10)   goto 24
 	0x41 - 0x5a (26)   goto 24
 	0x5f               goto 24
@@ -1531,35 +1518,26 @@ state 158
 	match 21
 
 
-state 159
+state 158
 	0x30 - 0x39 (10)   goto 24
 	0x41 - 0x5a (26)   goto 24
 	0x5f               goto 24
 	0x61 - 0x71 (17)   goto 24
-	0x72               goto 169
+	0x72               goto 166
 	0x73 - 0x7a (8)    goto 24
 
 	match 30
 
 
+state 159
+	0x6e               goto 167
+
+
 state 160
-	0x6e               goto 170
+	0x6f               goto 168
 
 
 state 161
-	0x6f               goto 171
-
-
-state 162
-	0x30 - 0x39 (10)   goto 24
-	0x41 - 0x5a (26)   goto 24
-	0x5f               goto 24
-	0x61 - 0x7a (26)   goto 24
-
-	match 29
-
-
-state 163
 	0x30 - 0x39 (10)   goto 24
 	0x41 - 0x5a (26)   goto 24
 	0x5f               goto 24
@@ -1568,7 +1546,7 @@ state 163
 	match 14
 
 
-state 164
+state 162
 	0x30 - 0x39 (10)   goto 24
 	0x41 - 0x5a (26)   goto 24
 	0x5f               goto 24
@@ -1577,23 +1555,19 @@ state 164
 	match 19
 
 
-state 165
-	0x67               goto 172
-
-
-state 166
-	0x45               goto 173
-
-
-state 167
+state 163
 	match 4
 
 
-state 168
-	0x65               goto 173
+state 164
+	0x45               goto 169
 
 
-state 169
+state 165
+	0x65               goto 169
+
+
+state 166
 	0x30 - 0x39 (10)   goto 24
 	0x41 - 0x5a (26)   goto 24
 	0x5f               goto 24
@@ -1602,51 +1576,43 @@ state 169
 	match 16
 
 
-state 170
-	0x74               goto 174
+state 167
+	0x74               goto 170
 
 
-state 171
-	0x6e               goto 175
+state 168
+	0x6e               goto 171
 
 
-state 172
-	0x69               goto 176
-
-
-state 173
+state 169
 	match 8
 
 
-state 174
+state 170
 	match 20
 
 
+state 171
+	0x67               goto 172
+
+
+state 172
+	0x20               goto 173
+
+
+state 173
+	0x69               goto 174
+
+
+state 174
+	0x6e               goto 175
+
+
 state 175
-	0x67               goto 177
+	0x74               goto 176
 
 
 state 176
-	0x74               goto 167
-
-
-state 177
-	0x20               goto 178
-
-
-state 178
-	0x69               goto 179
-
-
-state 179
-	0x6e               goto 180
-
-
-state 180
-	0x74               goto 181
-
-
-state 181
 	match 22
 
 
@@ -1659,7 +1625,7 @@ Expression 64 is never matched
 
 
 1 start state(s)
-70 expression(s), 181 state(s)
+70 expression(s), 176 state(s)
 
 
 #############################################################################

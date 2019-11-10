@@ -30,7 +30,7 @@ id			{letter}({letter}|{digit})*
 number		{digit}+(\.{digit}+)?(E[+-]?{digit}+)?
 sglcmmt		\/\/(.)*\n
 mtlcmmt		\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/
-def			(#define)|(#DEFINE)git 
+def			(#define)|(#DEFINE)
 include		(#include)|(#INCLUDE)
 string		\"(.)*\"
 abra		\<(.)*\>
@@ -263,23 +263,23 @@ main		{
 	fflush(fp);
 	return MAIN;
 }
-scanf		{
-	fprintf(fp, "SCANF\t\t");
+scan		{
+	fprintf(fp, "SCAN\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
 	fprintf(fp, "\n");
 	fflush(fp);
-	return SCANF;
+	return SCAN;
 }
-printf		{
-	fprintf(fp, "PRINTF\t\t");
+print		{
+	fprintf(fp, "PRINT\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
 	fprintf(fp, "\n");
 	fflush(fp);
-	return PRINTF;
+	return PRINT;
 }
 
 {id}		{

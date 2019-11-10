@@ -32,7 +32,7 @@ class ParseTreeNode;
 %left '/' '*' '%'
 %nonassoc UMINUS POINT AUTODECRE AUTOINCRE ADDRESS '~'
 %nonassoc BRACKET
-%token IF THEN ELSE RELOP VOID MAIN '(' ')' LBRACE RBRACE '[' ']' '!' INT DEFINE STRING INCLUDE WHILE FOR RETURN GOTO GETCHAR STRUCT LONGINT DOUBLE LONGLONGINT FLOAT BOOL SHORT BYTE SCANF PRINTF
+%token IF THEN ELSE RELOP VOID MAIN '(' ')' LBRACE RBRACE '[' ']' '!' INT DEFINE STRING INCLUDE WHILE FOR RETURN GOTO GETCHAR STRUCT LONGINT DOUBLE LONGLONGINT FLOAT BOOL SHORT BYTE SCAN PRINT
 %union {
 	double dval;
 	struct symtable *symp;
@@ -42,7 +42,7 @@ class ParseTreeNode;
 %token <dval> NUMBER
 %type <node> expression
 %type <node> assign_expr
-%type <node> statement statement_list type code_block while_stat for_stat ifelse_stat var_declaration_front for_front id_expr
+%type <node> statement statement_list type code_block while_stat for_stat ifelse_stat var_declaration_front for_front id_expr io_stat
 // parser name
 %name myparser
 
@@ -74,101 +74,95 @@ prog:	VOID MAIN '(' ')' code_block {
 
 statement_list:	statement {$$ = $1;}
 	|			statement_list statement	{
-		printf("This is a statement list.\n");
 		$1->addPeerNode($2);
 	}
 	;
 statement:		expression ';' {
-		printf("Expression statement\n");
 		ParseTreeNode *cur = new ParseTreeNode("Expression statement", "");
 		cur->addChildNode($1);
 		$$ = cur;
 	}
 	|			while_stat {
-		printf("Repeat Statement, while\n");
 		$$ = $1;
 	}
 	|			for_stat {
-		printf("Repeat Statement, for\n");
 		$$ = $1;
 	}
 	|			ifelse_stat {
-		printf("Condition Statement, if\n");
 		$$ = $1;
 	}
 	|			var_declaration_front ';' {
-		printf("Var Declaration\n");
+		$$ = $1;
+	}
+	|			io_stat ';' {
 		$$ = $1;
 	}
 	;
+io_stat:		SCAN '(' id_expr ')' {
+		ParseTreeNode *cur = new ParseTreeNode("Scan Statement", "");
+		cur->addChildNode($3);
+		$$ = cur;
+	}
+	|			PRINT '(' expression ')' {
+		ParseTreeNode *cur = new ParseTreeNode("Print Statement", "");
+		cur->addChildNode($3);
+		$$ = cur;
+	};
 var_declaration_front:	type assign_expr {
-		printf("Expr, op: =\n");
 		ParseTreeNode *cur = new ParseTreeNode("Var Declaration", "");
 		cur->addChildNode($1);
 		$1->addPeerNode($2);
 		$$ = cur;
 	}
 	|					type id_expr {
-		printf("ID Declaration, symbol: %s\n", $2->getText());
 		ParseTreeNode *cur = new ParseTreeNode("Var Declaration", "");
 		cur->addChildNode($1);
 		$1->addPeerNode($2);
 		$$ = cur;
 	}
 	|					var_declaration_front ',' id_expr {
-		printf("ID Declaration, symbol: %s\n", $3->getText());
 		$1->addPeerNode($3);
 	}
 	|					var_declaration_front ',' assign_expr {
-		printf("Expr, op: =\n");
 		$1->addPeerNode($3);
 	}
 	;
 type:			
 	|			DOUBLE {
-		printf("Type Specifier, double\n");
 		ParseTreeNode *cur = new ParseTreeNode("Type Specifier", "double");
 		$$ = cur;
 	}
 	|			FLOAT {
-		printf("Type Specifier, float\n");
 		ParseTreeNode *cur = new ParseTreeNode("Type Specifier", "float");
 		$$ = cur;
 	}
 	|			BOOL {
-		printf("Type Specifier, bool\n");
 		ParseTreeNode *cur = new ParseTreeNode("Type Specifier", "bool");
 		$$ = cur;
 	}
 	|			LONGINT {
-		printf("Type Specifier, long int\n");
 		ParseTreeNode *cur = new ParseTreeNode("Type Specifier", "long int");
 		$$ = cur;
 	}
 	|			LONGLONGINT {
-		printf("Type Specifier, long long int\n");
 		ParseTreeNode *cur = new ParseTreeNode("Type Specifier", "long long int");
 		$$ = cur;
 	}
 	|			BYTE {
-		printf("Type Specifier, byte\n");
 		ParseTreeNode *cur = new ParseTreeNode("Type Specifier", "byte");
 		$$ = cur;
 	}
 	|			STRUCT					
 	|			INT {
-		printf("Type Specifier, int\n");
 		ParseTreeNode *cur = new ParseTreeNode("Type Specifier", "int");
 		$$ = cur;
 	}
 	|			VOID {
-		printf("Type Specifier, void\n");
 		ParseTreeNode *cur = new ParseTreeNode("Type Specifier", "void");
 		$$ = cur;
 	}
 	;
 code_block:		LBRACE statement_list RBRACE {
-		printf("Code Block.\n");
 		ParseTreeNode *cur = new ParseTreeNode("Compound Statement", "");
 		cur->addChildNode($2);
 		$$ = cur;
@@ -267,21 +261,18 @@ for_front:		FOR '(' expression ';' expression ';' expression ')' {
 	;
 expression:		expression '+' expression {
 		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: +", $1->getValue() + $3->getValue());
-		printf("Expr, op: +\n");
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
 	|			expression '-' expression {
 		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: -", $1->getValue() - $3->getValue());
-		printf("Expr, op: -\n");
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
 	|			expression '*' expression {
 		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: *", $1->getValue() * $3->getValue());
-		printf("Expr, op: *\n");
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
@@ -295,7 +286,6 @@ expression:		expression '+' expression {
 		}
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
-		printf("Expr, op: /\n");
 		$$ = cur;
 	}
 	|			expression '%' expression {
@@ -307,47 +297,40 @@ expression:		expression '+' expression {
 		}
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
-		printf("Expr, op: %s\n", "%");
 		$$ = cur;
 	}
 	|			expression '<' expression {
 		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: <", $1->getValue() < $3->getValue());
-		printf("Expr, op: <\n");
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
 	|			expression '>' expression {
 		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: >", $1->getValue() > $3->getValue());
-		printf("Expr, op: >\n");
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
 	|			expression EQ expression {
 		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: ==", $1->getValue() == $3->getValue());
-		printf("Expr, op: ==\n");
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
 	|			expression LE expression {
 		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: <=", $1->getValue() <= $3->getValue());
-		printf("Expr, op: <=\n");
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
 	|			expression GE expression {
 		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: >=", $1->getValue() >= $3->getValue());
-		printf("Expr, op: >=\n");
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
 	|			expression NE expression {
 		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: !=", $1->getValue() != $3->getValue());
-		printf("Expr, op: !=\n");
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
@@ -355,7 +338,6 @@ expression:		expression '+' expression {
 
 	|			'-' expression %prec UMINUS {
 		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: unary -", -$2->getValue());
-		printf("Expr, op: unary -\n");
 		cur->addChildNode($2);
 		$$ = cur;
 	}
@@ -363,7 +345,6 @@ expression:		expression '+' expression {
 		$$ = $2;
 	}
 	|			NUMBER {
-		printf("Const Declaration, %g\n", $1);
 		std::ostringstream os;
 		os << $1;
 		ParseTreeNode *cur = new ParseTreeNode("Const Declaration", os.str(), $1);
@@ -372,12 +353,13 @@ expression:		expression '+' expression {
 	|			id_expr {
 		$$ = $1;
 	}
-	|			assign_expr {printf("Expr, op: =\n");}
+	|			assign_expr {
+		$$ = $1;
+	}
 	;
 id_expr:		ID {
 		ParseTreeNode *cur = new ParseTreeNode("ID Declaration", string("symbol: ") + string($1->name));
 		$$ = cur;
-		printf("ID Declaration, symbol: %s\n", $1->name);
 	};
 assign_expr:	id_expr '=' expression {
 		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: =", $3->getValue());
@@ -385,7 +367,6 @@ assign_expr:	id_expr '=' expression {
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
-		printf("ID Declaration, symbol: %s\n", $1->getText());
 	}
 	;
 ifelse_stat:	IF '(' expression ')' code_block {

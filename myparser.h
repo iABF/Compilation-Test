@@ -19,7 +19,7 @@
 * C++ header file generated from myparser.y.
 * 
 * Date: 11/11/19
-* Time: 02:46:42
+* Time: 03:01:40
 * 
 * AYACC Version: 2.07
 ****************************************************************************/
@@ -77,8 +77,8 @@
 #define BOOL 302
 #define SHORT 303
 #define BYTE 304
-#define SCANF 305
-#define PRINTF 306
+#define SCAN 305
+#define PRINT 306
 #ifndef YYSTYPE
 union tagYYSTYPE {
 #line 36 ".\\myparser.y"
