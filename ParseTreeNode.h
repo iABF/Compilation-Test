@@ -24,6 +24,8 @@ public:
 	inline void addChildNode(ParseTreeNode *c) { this->child = c; }
 	inline double getValue() { return this->dval; }
 	inline void setValue(double val) { this->dval = val; }
+	inline void setType(std::string s) { this->type = s; }
+	inline void setVT(std::string s) { this->value = s; }
 	inline std::string getText() { return type + ", " + value; }
 	void addPeerNode(ParseTreeNode *p);
 };
