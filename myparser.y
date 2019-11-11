@@ -42,7 +42,7 @@ class ParseTreeNode;
 %token <dval> NUMBER
 %type <node> expression
 %type <node> assign_expr
-%type <node> statement statement_list type code_block while_stat for_stat ifelse_stat var_declaration_front for_front id_expr io_stat
+%type <node> statement statement_list type code_block while_stat for_stat ifelse_stat var_declaration_front for_front id_expr io_stat main_func prog
 // parser name
 %name myparser
 
@@ -55,47 +55,82 @@ class ParseTreeNode;
 }
 
 // place any declarations here
+%{
+	ParseTreeNode *root = new ParseTreeNode("Source Code", "");
+	int inFunc = 0;
+	FILE *fpp;
+%}
+
 
 %%
 
 /////////////////////////////////////////////////////////////////////////////
 // rules section
-
-prog:	VOID MAIN '(' ')' code_block {
-		ParseTreeNode *cur = new ParseTreeNode("Main Function", "");
-		cur->addChildNode($5);
-		cur->print();
+prog: main_func {
+		root->addChildNode($1);
+		$$ = root;
 	}
-	|	INT MAIN '(' ')' code_block {
-		ParseTreeNode *cur = new ParseTreeNode("Main Function", "");
-		cur->addChildNode($5);
-		cur->print();
+	| prog statement_list {
+		$1->getChildNode()->addPeerNode($2);
+		$$ = $1;
+	}
+	| statement_list prog {
+		$1->addPeerNode($2->getChildNode());
+		root->addChildNode($1);
+		$$ = root;
 	};
-
-statement_list:	statement {$$ = $1;}
-	|			statement_list statement	{
-		$1->addPeerNode($2);
+main_func: VOID Main '(' ')' code_block {
+		ParseTreeNode *cur = new ParseTreeNode("Main Function", "");
+		cur->addChildNode($5);
+		$$ = cur;
+		inFunc = 0;
+		$$->print();
 	}
-	;
+	| INT Main '(' ')' code_block {
+		ParseTreeNode *cur = new ParseTreeNode("Main Function", "");
+		cur->addChildNode($5);
+		$$ = cur;
+		inFunc = 0;
+		$$->print();
+	};
+code_block:		LBRACE statement_list RBRACE {
+		ParseTreeNode *cur = new ParseTreeNode("Compound Statement", "");
+		cur->addChildNode($2);
+		$$ = cur;
+	};
+Main: MAIN {
+		inFunc = 1;
+	};
+statement_list: statement {$$ = $1;}
+	| statement_list statement {
+		$1->addPeerNode($2);
+		$$ = $1;
+	};
 statement:		expression ';' {
 		ParseTreeNode *cur = new ParseTreeNode("Expression statement", "");
 		cur->addChildNode($1);
 		$$ = cur;
+		if(!inFunc)$$->print();
 	}
 	|			while_stat {
 		$$ = $1;
+		if(!inFunc)$$->print();
 	}
 	|			for_stat {
 		$$ = $1;
+		if(!inFunc)$$->print();
 	}
 	|			ifelse_stat {
 		$$ = $1;
+		if(!inFunc)$$->print();
 	}
 	|			var_declaration_front ';' {
 		$$ = $1;
+		if(!inFunc)$$->print();
 	}
 	|			io_stat ';' {
 		$$ = $1;
+		if(!inFunc)$$->print();
 	}
 	;
 io_stat:		SCAN '(' id_expr ')' {
@@ -162,12 +197,7 @@ type:
 		$$ = cur;
 	}
 	;
-code_block:		LBRACE statement_list RBRACE {
-		ParseTreeNode *cur = new ParseTreeNode("Compound Statement", "");
-		cur->addChildNode($2);
-		$$ = cur;
-	}
-	;
+
 while_stat:		WHILE '(' expression ')' code_block {
 		ParseTreeNode *cur = new ParseTreeNode("Repeat Statement", "while");
 		cur->addChildNode($3);
@@ -421,13 +451,15 @@ int main(void)
 	int n = 1;
 	mylexer lexer;
 	myparser parser;
-	FILE *fp = fopen("in_parser.txt", "r");
+	
+	fpp = fopen("out_parser.txt", "a");
 	if (parser.yycreate(&lexer)) {
 		if (lexer.yycreate(&parser)) {
 			n = parser.yyparse();
 		}
 	}
 	getchar();
+	fclose(fpp);
 	return n;
 }
 

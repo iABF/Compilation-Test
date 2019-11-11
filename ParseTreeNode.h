@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <cstring>
 #include <sstream>
+#include <cstdlib>
 class ParseTreeNode {
 	std::string type;
 	std::string value;
@@ -14,7 +15,7 @@ class ParseTreeNode {
 protected:
 	inline ParseTreeNode* getNextPeerNode() { return this->peer; }
 	ParseTreeNode* getLastPeerNode();
-	void printNode(ParseTreeNode *root, int depth);
+	void printNode(ParseTreeNode *root, int depth, FILE *file);
 public:
 	ParseTreeNode(std::string t, std::string v);
 	ParseTreeNode(std::string t, std::string v, double val);

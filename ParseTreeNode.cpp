@@ -1,5 +1,4 @@
 #include "ParseTreeNode.h"
-
 ParseTreeNode * ParseTreeNode::getLastPeerNode()
 {
 	ParseTreeNode *cur = this;
@@ -28,21 +27,23 @@ ParseTreeNode::ParseTreeNode(std::string t, std::string v, double val)
 
 void ParseTreeNode::print()
 {
-	printNode(this, 0);
+	FILE *file = fopen("out_parser.txt", "a");
+	printNode(this, 0, file);
+	fclose(file);
 }
 
-void ParseTreeNode::printNode(ParseTreeNode *root, int depth)
+void ParseTreeNode::printNode(ParseTreeNode *root, int depth, FILE *file)
 {
 	if (root == NULL)return;
-	if (depth == 0)printf("* ");
+	if (depth == 0)fprintf(file, "* ");
 	else {
-		for (int k = 1; k < depth; k++)printf("  ");
-		printf("|-* ");
+		for (int k = 1; k < depth; k++)fprintf(file, "  ");
+		fprintf(file, "|-* ");
 	}
-	std::cout << root->type << ", " << root->value << std::endl;
+	fprintf(file, "%s, %s\n", root->type.c_str(), root->value.c_str());
 	ParseTreeNode *c = root->child;
 	while (c != NULL) {
-		printNode(c, depth + 1);
+		printNode(c, depth + 1, file);
 		c = c->getNextPeerNode();
 	}
 }

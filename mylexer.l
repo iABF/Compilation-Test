@@ -684,3 +684,8 @@ struct symtable *symlook(char *s)
 	}
 	exit(1);
 }
+
+void addfunc(char *name, double (*func)()) {
+	struct symtable *sp = symlook(name);
+	sp->funcptr = func;
+}

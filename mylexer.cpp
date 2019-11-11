@@ -19,7 +19,7 @@
 * C++ source file generated from mylexer.l.
 * 
 * Date: 11/11/19
-* Time: 02:53:24
+* Time: 14:21:08
 * 
 * ALex Version: 2.07
 ****************************************************************************/
@@ -1832,4 +1832,9 @@ struct symtable *symlook(char *s)
 		}
 	}
 	exit(1);
+}
+
+void addfunc(char *name, double (*func)()) {
+	struct symtable *sp = symlook(name);
+	sp->funcptr = func;
 }

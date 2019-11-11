@@ -6,7 +6,7 @@ ReadOnly=0
 WindowPlacement1=0 1 -1 -1 -8 -31 1 0 1302 498
 WindowOrder1=2
 Position001=0 41
-Cursor001=1 43 1 43
+Cursor001=14 42 14 42
 SyntaxColouring=2
 TargetSyntaxColouring=3
 [Editor2]
@@ -19,7 +19,7 @@ Cursor001=38 25 38 25
 SyntaxColouring=1
 TargetSyntaxColouring=3
 [Output]
-WindowPlacement1=0 1 -1 -1 -1 -1 78 78 1376 572
+WindowPlacement1=0 1 0 694 -1 -1 78 78 1376 572
 WindowOrder1=1
 Position1=0 45
-Cursor1=0 70 0 70
+Cursor1=0 62 0 62
