@@ -58,7 +58,6 @@ class ParseTreeNode;
 %{
 	ParseTreeNode *root = new ParseTreeNode("Source Code", "");
 	int inFunc = 0;
-	FILE *fpp;
 %}
 
 
@@ -451,15 +450,12 @@ int main(void)
 	int n = 1;
 	mylexer lexer;
 	myparser parser;
-	
-	fpp = fopen("out_parser.txt", "a");
 	if (parser.yycreate(&lexer)) {
 		if (lexer.yycreate(&parser)) {
 			n = parser.yyparse();
 		}
 	}
 	getchar();
-	fclose(fpp);
 	return n;
 }
 
