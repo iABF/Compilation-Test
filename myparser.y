@@ -23,13 +23,14 @@ class ParseTreeNode;
 %left OR
 %left AND
 %left '|'
-%left '^'
+//%left '^'
 %left '&'
 %left EQ NE
 %left '<' LE '>' GE
 %left LBITMOVE RBITMOVE
 %left '+' '-'
 %left '/' '*' '%'
+%right '^'
 %nonassoc UMINUS POINT AUTODECRE AUTOINCRE ADDRESS '~'
 %nonassoc BRACKET
 %token IF THEN ELSE RELOP VOID MAIN '(' ')' LBRACE RBRACE '[' ']' '!' INT DEFINE STRING INCLUDE WHILE FOR RETURN GOTO GETCHAR STRUCT LONGINT DOUBLE LONGLONGINT FLOAT BOOL SHORT BYTE SCAN PRINT
@@ -360,6 +361,12 @@ expression:		expression '+' expression {
 	}
 	|			expression NE expression {
 		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: !=", $1->getValue() != $3->getValue());
+		cur->addChildNode($1);
+		$1->addPeerNode($3);
+		$$ = cur;
+	}
+	|			expression '^' expression {
+		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: ^", pow($1->getValue(), $3->getValue()));
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;

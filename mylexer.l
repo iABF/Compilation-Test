@@ -11,6 +11,7 @@ Date: 2019��9��16��
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <math.h>
 extern struct symtable symtable[MAXSYM];
 %}
 

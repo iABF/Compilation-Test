@@ -19,7 +19,7 @@
 * C++ header file generated from myparser.y.
 * 
 * Date: 11/11/19
-* Time: 15:14:43
+* Time: 15:21:30
 * 
 * AYACC Version: 2.07
 ****************************************************************************/
@@ -81,7 +81,7 @@
 #define PRINT 306
 #ifndef YYSTYPE
 union tagYYSTYPE {
-#line 36 ".\\myparser.y"
+#line 37 ".\\myparser.y"
 
 	double dval;
 	struct symtable *symp;
@@ -133,7 +133,7 @@ public:
 #define YYPARSERNAME myparser
 #endif
 
-#line 51 ".\\myparser.y"
+#line 52 ".\\myparser.y"
 
 #ifndef YYSTYPE
 #define YYSTYPE int
