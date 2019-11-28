@@ -8,7 +8,7 @@ Date: 2019��9��16��
 
 #include "mylexer.h"
 #include "symtable.h"
-#include "ParseTreeNode.h"
+#include "./ParseTree/ParseTree.h"
 
 struct symtable symtable[MAXSYM];
 class ParseTreeNode;
@@ -41,9 +41,28 @@ class ParseTreeNode;
 }
 %token <symp> ID
 %token <dval> NUMBER
-%type <node> expression
-%type <node> assign_expr
-%type <node> statement statement_list type code_block while_stat for_stat ifelse_stat var_declaration_front for_front id_expr io_stat main_func prog func_front ori_func_def var_list
+%type <node> expression // Expression that has a value [ExpressionNode]
+%type <node> id_expr // An expression that only contains an ID [ExpressionNode]
+%type <node> assign_expr // <ID = expression>, whose value is right-hand expression [ExpressionNode]
+
+%type <node> param_list // <param, param, ...>, for function params [ParamNode]
+%type <node> param // <type ID>, for function params [ParamNode]
+
+%type <node> type // Just type [TypeNode]
+%type <node> var_declaration_front // <type (id_expr/assign_expr)+>, to be fixed [VarNode]
+%type <node> statement // For all statements [StatementNode]
+%type <node> statement_list // <statement, statement, ...>, just statement [StatementNode]
+%type <node> while_stat // While statement [StatementNode]
+%type <node> ifelse_stat // Selection statement [StatementNode]
+%type <node> for_front // Front of for-loop statement [StatementNode]
+%type <node> for_stat // For-loop statement [StatementNode]
+%type <node> io_stat // Scan/print statement [StatementNode]
+%type <node> code_block // Combined statements [StatementNode]
+%type <node> main_func // Main function [FunctionNode]
+%type <node> individual // Function or external statements [ParseTreeNode](father of FunctionNode and StatementNode)
+%type <node> prog // <individual, individual, ...>, just everything [ParseTreeNode]
+
+
 // parser name
 %name myparser
 
@@ -57,7 +76,7 @@ class ParseTreeNode;
 
 // place any declarations here
 %{
-	ParseTreeNode *root = new ParseTreeNode("Source Code", "");
+	ParseTreeNode *root = new RootNode();
 	int inFunc = 0;
 %}
 
@@ -80,22 +99,22 @@ prog: main_func {
 		$$ = root;
 	};
 main_func: VOID Main '(' ')' code_block {
-		ParseTreeNode *cur = new ParseTreeNode("Main Function", "");
+		ParseTreeNode *cur = new MainNode();
 		cur->addChildNode($5);
 		$$ = cur;
 		inFunc = 0;
 		$$->print();
 	}
 	| INT Main '(' ')' code_block {
-		ParseTreeNode *cur = new ParseTreeNode("Main Function", "");
+		ParseTreeNode *cur = new MainNode();
 		cur->addChildNode($5);
 		$$ = cur;
 		inFunc = 0;
 		$$->print();
 	};
 
-code_block:		LBRACE statement_list RBRACE {
-		ParseTreeNode *cur = new ParseTreeNode("Compound Statement", "");
+code_block: LBRACE statement_list RBRACE {
+		ParseTreeNode *cur = new CompoundStatementNode();
 		cur->addChildNode($2);
 		$$ = cur;
 	};
@@ -107,391 +126,310 @@ statement_list: statement {$$ = $1;}
 		$1->addPeerNode($2);
 		$$ = $1;
 	};
-statement:		expression ';' {
-		ParseTreeNode *cur = new ParseTreeNode("Expression statement", "");
+statement: expression ';' {
+		ParseTreeNode *cur = new StatementNode(1);
 		cur->addChildNode($1);
 		$$ = cur;
 		if(!inFunc)$$->print();
 	}
-	|			while_stat {
+	| while_stat {
 		$$ = $1;
 		if(!inFunc)$$->print();
 	}
-	|			for_stat {
+	| for_stat {
 		$$ = $1;
 		if(!inFunc)$$->print();
 	}
-	|			ifelse_stat {
+	| ifelse_stat {
 		$$ = $1;
 		if(!inFunc)$$->print();
 	}
-	|			var_declaration_front ';' {
+	| var_declaration_front ';' {
 		$$ = $1;
 		if(!inFunc)$$->print();
 	}
-	|			io_stat ';' {
+	| io_stat ';' {
 		$$ = $1;
 		if(!inFunc)$$->print();
 	}
 	;
-io_stat:		SCAN '(' id_expr ')' {
-		ParseTreeNode *cur = new ParseTreeNode("Scan Statement", "");
+io_stat: SCAN '(' id_expr ')' {
+		ParseTreeNode *cur = new StatementNode(6);
 		cur->addChildNode($3);
 		$$ = cur;
 	}
-	|			PRINT '(' expression ')' {
-		ParseTreeNode *cur = new ParseTreeNode("Print Statement", "");
+	| PRINT '(' expression ')' {
+		ParseTreeNode *cur = new StatementNode(6);
 		cur->addChildNode($3);
 		$$ = cur;
 	};
-var_declaration_front:	type assign_expr {
-		ParseTreeNode *cur = new ParseTreeNode("Var Declaration", "");
+var_declaration_front: type assign_expr {
+		ParseTreeNode *cur = new StatementNode(5);
 		cur->addChildNode($1);
 		$1->addPeerNode($2);
 		$$ = cur;
 	}
-	|					type id_expr {
-		ParseTreeNode *cur = new ParseTreeNode("Var Declaration", "");
+	| type id_expr {
+		ParseTreeNode *cur = new StatementNode(5);
 		cur->addChildNode($1);
 		$1->addPeerNode($2);
 		$$ = cur;
 	}
-	|					var_declaration_front ',' id_expr {
+	| var_declaration_front ',' id_expr {
 		$1->addPeerNode($3);
 	}
-	|					var_declaration_front ',' assign_expr {
+	| var_declaration_front ',' assign_expr {
 		$1->addPeerNode($3);
 	}
 	;
 type:			
-	|			DOUBLE {
-		ParseTreeNode *cur = new ParseTreeNode("Type Specifier", "double");
+	| DOUBLE {
+		ParseTreeNode *cur = new TypeNode("double");
 		$$ = cur;
 	}
-	|			FLOAT {
-		ParseTreeNode *cur = new ParseTreeNode("Type Specifier", "float");
+	| FLOAT {
+		ParseTreeNode *cur = new TypeNode("float");
 		$$ = cur;
 	}
-	|			BOOL {
-		ParseTreeNode *cur = new ParseTreeNode("Type Specifier", "bool");
+	| BOOL {
+		ParseTreeNode *cur = new TypeNode("bool");
 		$$ = cur;
 	}
-	|			LONGINT {
-		ParseTreeNode *cur = new ParseTreeNode("Type Specifier", "long int");
+	| LONGINT {
+		ParseTreeNode *cur = new TypeNode("long int");
 		$$ = cur;
 	}
-	|			LONGLONGINT {
-		ParseTreeNode *cur = new ParseTreeNode("Type Specifier", "long long int");
+	| LONGLONGINT {
+		ParseTreeNode *cur = new TypeNode("long long int");
 		$$ = cur;
 	}
-	|			BYTE {
-		ParseTreeNode *cur = new ParseTreeNode("Type Specifier", "byte");
+	| BYTE {
+		ParseTreeNode *cur = new TypeNode("byte");
 		$$ = cur;
 	}
-	|			STRUCT					
-	|			INT {
-		ParseTreeNode *cur = new ParseTreeNode("Type Specifier", "int");
+	| STRUCT					
+	| INT {
+		ParseTreeNode *cur = new TypeNode("int");
 		$$ = cur;
 	}
-	|			VOID {
-		ParseTreeNode *cur = new ParseTreeNode("Type Specifier", "void");
+	| VOID {
+		ParseTreeNode *cur = new TypeNode("void");
 		$$ = cur;
-	}
-	;
+	};
 
-while_stat:		WHILE '(' expression ')' code_block {
-		ParseTreeNode *cur = new ParseTreeNode("Repeat Statement", "while");
-		cur->addChildNode($3);
-		$3->addPeerNode($5);
+while_stat: WHILE '(' expression ')' code_block {
+		ParseTreeNode *cur = new WhileLoopStatementNode($3, $5);
 		$$ = cur;
 	}
-	|			WHILE '(' expression ')' statement {
-		ParseTreeNode *cur = new ParseTreeNode("Repeat Statement", "while");
-		cur->addChildNode($3);
-		$3->addPeerNode($5);
+	| WHILE '(' expression ')' statement {
+		ParseTreeNode *cur = new WhileLoopStatementNode($3, $5);
 		$$ = cur;
-	}
-	;
-for_stat:		for_front code_block {
-		$1->getChildNode()->addPeerNode($2);
+	};
+for_stat: for_front code_block {
+		$1->setBlock($2);
 		$$ = $1;
 	}
-	|			for_front statement {
-		$1->getChildNode()->addPeerNode($2);
+	| for_front statement {
+		$1->setBlock($2);
 		$$ = $1;
-	}
-	;
-for_front:		FOR '(' expression ';' expression ';' expression ')' {
-		ParseTreeNode *cur = new ParseTreeNode("Repeat Statement", "for");
-		cur->addChildNode($3);
-		$3->addPeerNode($5);
-		$5->addPeerNode($7);
+	};
+for_front: FOR '(' expression ';' expression ';' expression ')' {
+		ParseTreeNode *cur = new ForLoopStatementNode($3, $5, $7);
 		$$ = cur;
 	}
 	| FOR '(' type assign_expr ';' expression ';' expression ')' {
-		ParseTreeNode *cur = new ParseTreeNode("Repeat Statement", "for");
-		cur->addChildNode($4);
-		$4->addPeerNode($6);
-		$6->addPeerNode($8);
+		ParseTreeNode *cur = new ForLoopStatementNode($4, $6, $8);
 		$$ = cur;
 	}
-	|			FOR '(' expression ';' expression ';' ')' {
-		ParseTreeNode *cur = new ParseTreeNode("Repeat Statement", "for");
-		cur->addChildNode($3);
-		$3->addPeerNode($5);
-		ParseTreeNode *holder = new ParseTreeNode("Empty Expression", "");
-		$5->addPeerNode(holder);
+	| FOR '(' expression ';' expression ';' ')' {
+		ParseTreeNode *cur = new ForLoopStatementNode($3, $5, NULL);
 		$$ = cur;
 	}
-	|			FOR '(' type assign_expr ';' expression ';' ')' {
-		ParseTreeNode *cur = new ParseTreeNode("Repeat Statement", "for");
-		cur->addChildNode($4);
-		$4->addPeerNode($6);
-		ParseTreeNode *holder = new ParseTreeNode("Empty Expression", "");
-		$6->addPeerNode(holder);
+	| FOR '(' type assign_expr ';' expression ';' ')' {
+		ParseTreeNode *cur = new ForLoopStatementNode($4, $6, NULL);
 		$$ = cur;
 	}
-	|			FOR '(' expression ';' ';' expression ')' {
-		ParseTreeNode *cur = new ParseTreeNode("Repeat Statement", "for");
-		cur->addChildNode($3);
-		ParseTreeNode *holder = new ParseTreeNode("Empty Expression", "");
-		$3->addPeerNode(holder);
-		holder->addPeerNode($6);
+	| FOR '(' expression ';' ';' expression ')' {
+		ParseTreeNode *cur = new ForLoopStatementNode($3, NULL, $6);
 		$$ = cur;
 	}
-	|			FOR '(' type assign_expr ';' ';' expression ')' {
-		ParseTreeNode *cur = new ParseTreeNode("Repeat Statement", "for");
-		cur->addChildNode($4);
-		ParseTreeNode *holder = new ParseTreeNode("Empty Expression", "");
-		$4->addPeerNode(holder);
-		holder->addPeerNode($7);
+	| FOR '(' type assign_expr ';' ';' expression ')' {
+		ParseTreeNode *cur = new ForLoopStatementNode($4, NULL, $7);
 		$$ = cur;
 	}
-	|			FOR '(' ';' expression ';' expression ')' {
-		ParseTreeNode *cur = new ParseTreeNode("Repeat Statement", "for");
-		ParseTreeNode *holder = new ParseTreeNode("Empty Expression", "");
-		cur->addChildNode(holder);
-		holder->addPeerNode($4);
-		$4->addPeerNode($6);
+	| FOR '(' ';' expression ';' expression ')' {
+		ParseTreeNode *cur = new ForLoopStatementNode(NULL, $4, $6);
 		$$ = cur;
 	}
-	|			FOR '(' expression ';' ';' ')' {
-		ParseTreeNode *cur = new ParseTreeNode("Repeat Statement", "for");
-		cur->addChildNode($3);
-		ParseTreeNode *holder = new ParseTreeNode("Empty Expression", "");
-		$3->addPeerNode(holder);
-		ParseTreeNode *holder2 = new ParseTreeNode("Empty Expression", "");
-		holder->addPeerNode(holder2);
+	| FOR '(' expression ';' ';' ')' {
+		ParseTreeNode *cur = new ForLoopStatementNode($3, NULL, NULL);
 		$$ = cur;
 	}
-	|			FOR '(' type assign_expr ';' ';' ')' {
-		ParseTreeNode *cur = new ParseTreeNode("Repeat Statement", "for");
-		cur->addChildNode($4);
-		ParseTreeNode *holder = new ParseTreeNode("Empty Expression", "");
-		$4->addPeerNode(holder);
-		ParseTreeNode *holder2 = new ParseTreeNode("Empty Expression", "");
-		holder->addPeerNode(holder2);
+	| FOR '(' type assign_expr ';' ';' ')' {
+		ParseTreeNode *cur = new ForLoopStatementNode($4, NULL, NULL);
 		$$ = cur;
 	}
-	|			FOR '(' ';' expression ';' ')' {
-		ParseTreeNode *cur = new ParseTreeNode("Repeat Statement", "for");
-		ParseTreeNode *holder = new ParseTreeNode("Empty Expression", "");
-		cur->addChildNode(holder);
-		holder->addPeerNode($4);
-		ParseTreeNode *holder2 = new ParseTreeNode("Empty Expression", "");
-		$4->addPeerNode(holder2);
+	| FOR '(' ';' expression ';' ')' {
+		ParseTreeNode *cur = new ForLoopStatementNode(NULL, $4, NULL);
 		$$ = cur;
 	}
-	|			FOR '(' ';' ';' expression ')' {
-		ParseTreeNode *cur = new ParseTreeNode("Repeat Statement", "for");
-		ParseTreeNode *holder = new ParseTreeNode("Empty Expression", "");
-		cur->addChildNode(holder);
-		ParseTreeNode *holder2 = new ParseTreeNode("Empty Expression", "");
-		holder->addPeerNode(holder2);
-		holder2->addPeerNode($5);
+	| FOR '(' ';' ';' expression ')' {
+		ParseTreeNode *cur = new ForLoopStatementNode(NULL, NULL, $5);
 		$$ = cur;
 	}
-	|			FOR '(' ';' ';' ')' {
-		ParseTreeNode *cur = new ParseTreeNode("Repeat Statement", "for");
-		ParseTreeNode *holder = new ParseTreeNode("Empty Expression", "");
-		cur->addChildNode(holder);
-		ParseTreeNode *holder2 = new ParseTreeNode("Empty Expression", "");
-		holder->addPeerNode(holder2);
-		ParseTreeNode *holder3 = new ParseTreeNode("Empty Expression", "");
-		holder2->addPeerNode(holder3);
+	| FOR '(' ';' ';' ')' {
+		ParseTreeNode *cur = new ForLoopStatementNode(NULL, NULL, NULL);
 		$$ = cur;
-	}
-	;
-assign_expr:	id_expr '=' expression {
-		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: =", $3->getValue());
+	};
+assign_expr: id_expr '=' expression {
+		ParseTreeNode *cur = new OperatorNode($3->getValue(), 1);
 		$1->setValue($3->getValue());
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
-	}
-	;
-expression:		expression '+' expression {
-		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: +", $1->getValue() + $3->getValue());
+	};
+expression: expression '+' expression {
+		ParseTreeNode *cur = new OperatorNode($1->getValue() + $3->getValue(), 2);
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
-	|			expression '-' expression {
-		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: -", $1->getValue() - $3->getValue());
+	| expression '-' expression {
+		ParseTreeNode *cur = new OperatorNode($1->getValue() - $3->getValue(), 3);
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
-	|			expression '*' expression {
-		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: *", $1->getValue() * $3->getValue());
+	| expression '*' expression {
+		ParseTreeNode *cur = new OperatorNode($1->getValue() * $3->getValue(), 4);
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
-	|			expression '/' expression {
+	| expression '/' expression {
 		ParseTreeNode *cur;
-		if($3->getValue() != 0.0)cur = new ParseTreeNode("Expr", "op: /", $1->getValue() / $3->getValue());
+		if($3->getValue() != 0.0)cur = new OperatorNode($1->getValue() / $3->getValue(), 5);
 		else {
 			yyerror("Divide by zero.\n");
-			cur = new ParseTreeNode("Error Expr", "op: /", 0);
+			cur = new OperatorNode(0, 0);
 		}
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
-	|			expression '%' expression {
+	| expression '%' expression {
 		ParseTreeNode *cur;
-		if($3->getValue() != 0.0)cur = new ParseTreeNode("Expr", "op: %", (int)$1->getValue() % (int)$3->getValue());
+		if($3->getValue() != 0.0)cur = new OperatorNode((int)$1->getValue() % (int)$3->getValue(), 6);
 		else {
 			yyerror("Mod by zero.\n");
-			cur = new ParseTreeNode("Error Expr", "op: %", 0);
+			cur = new OperatorNode(0, 0);
 		}
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
-	|			expression '<' expression {
-		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: <", $1->getValue() < $3->getValue());
+	| expression '<' expression {
+		ParseTreeNode *cur = new OperatorNode($1->getValue() < $3->getValue(), 7);
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
-	|			expression '>' expression {
-		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: >", $1->getValue() > $3->getValue());
+	| expression '>' expression {
+		ParseTreeNode *cur = new OperatorNode($1->getValue() > $3->getValue(), 8);
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
-	|			expression EQ expression {
-		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: ==", $1->getValue() == $3->getValue());
+	| expression EQ expression {
+		ParseTreeNode *cur = new OperatorNode($1->getValue() == $3->getValue(), 9);
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
-	|			expression LE expression {
-		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: <=", $1->getValue() <= $3->getValue());
+	| expression LE expression {
+		ParseTreeNode *cur = new OperatorNode($1->getValue() <= $3->getValue(), 10);
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
-	|			expression GE expression {
-		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: >=", $1->getValue() >= $3->getValue());
+	| expression GE expression {
+		ParseTreeNode *cur = new OperatorNode($1->getValue() >= $3->getValue(), 11);
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
-	|			expression NE expression {
-		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: !=", $1->getValue() != $3->getValue());
+	| expression NE expression {
+		ParseTreeNode *cur = new OperatorNode($1->getValue() != $3->getValue(), 12);
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
-	|			expression AND expression {
-		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: &&", $1->getValue() && $3->getValue());
+	| expression AND expression {
+		ParseTreeNode *cur = new OperatorNode($1->getValue() && $3->getValue(), 13);
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
-	|			expression OR expression {
-		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: ||", $1->getValue() || $3->getValue());
+	| expression OR expression {
+		ParseTreeNode *cur = new OperatorNode($1->getValue() || $3->getValue(), 14);
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
-	|			expression '^' expression {
-		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: ^", pow($1->getValue(), $3->getValue()));
+	| expression '^' expression {
+		ParseTreeNode *cur = new OperatorNode(pow($1->getValue(), $3->getValue()), 15);
 		cur->addChildNode($1);
 		$1->addPeerNode($3);
 		$$ = cur;
 	}
 
-	|			'-' expression %prec UMINUS {
-		ParseTreeNode *cur = new ParseTreeNode("Expr", "op: unary -", -$2->getValue());
+	| '-' expression %prec UMINUS {
+		ParseTreeNode *cur = new OperatorNode(-$2->getValue(), 16);
 		cur->addChildNode($2);
 		$$ = cur;
 	}
-	|			'(' expression ')' {
+	| '(' expression ')' {
 		$$ = $2;
 	}
-	|			NUMBER {
-		std::ostringstream os;
-		os << $1;
-		ParseTreeNode *cur = new ParseTreeNode("Const Declaration", os.str(), $1);
+	| NUMBER {
+		ParseTreeNode *cur = new ConstNode($1);
 		$$ = cur;
 	}
-	|			id_expr {
+	| id_expr {
 		$$ = $1;
 	}
-	|			assign_expr {
+	| assign_expr {
 		$$ = $1;
-	}
-	;
-id_expr:		ID {
-		ParseTreeNode *cur = new ParseTreeNode("ID Declaration", string("symbol: ") + string($1->name));
+	};
+id_expr: ID {
+		ParseTreeNode *cur = new VarNode(string($1->name));
 		$$ = cur;
 	};
 
-ifelse_stat:	IF '(' expression ')' code_block {
-		ParseTreeNode *cur = new ParseTreeNode("if-else Statement", "if");
-		cur->addChildNode($3);
-		$3->addPeerNode($5);
+ifelse_stat: IF '(' expression ')' code_block {
+		ParseTreeNode *cur = new SelectionStatementNode($3, $5);
 		$$ = cur;
 	}
-	|			IF '(' expression ')' statement {
-		ParseTreeNode *cur = new ParseTreeNode("if-else Statement", "if");
-		cur->addChildNode($3);
-		$3->addPeerNode($5);
+	| IF '(' expression ')' statement {
+		ParseTreeNode *cur = new SelectionStatementNode($3, $5);
 		$$ = cur;
 	}
-	|			IF '(' expression ')' code_block ELSE code_block {
-		ParseTreeNode *cur = new ParseTreeNode("if-else Statement", "if-else");
-		cur->addChildNode($3);
-		$3->addPeerNode($5);
-		$5->addPeerNode($7);
+	| IF '(' expression ')' code_block ELSE code_block {
+		ParseTreeNode *cur = new SelectionStatementNode($3, $5, $7);
 		$$ = cur;
 	}
-	|			IF '(' expression ')' code_block ELSE statement {
-		ParseTreeNode *cur = new ParseTreeNode("if-else Statement", "if-else");
-		cur->addChildNode($3);
-		$3->addPeerNode($5);
-		$5->addPeerNode($7);
+	| IF '(' expression ')' code_block ELSE statement {
+		ParseTreeNode *cur = new SelectionStatementNode($3, $5, $7);
 		$$ = cur;
 	}
-	|			IF '(' expression ')' statement ELSE code_block {
-		ParseTreeNode *cur = new ParseTreeNode("if-else Statement", "if-else");
-		cur->addChildNode($3);
-		$3->addPeerNode($5);
-		$5->addPeerNode($7);
+	| IF '(' expression ')' statement ELSE code_block {
+		ParseTreeNode *cur = new SelectionStatementNode($3, $5, $7);
 		$$ = cur;
 	}
-	|			IF '(' expression ')' statement ELSE statement {
-		ParseTreeNode *cur = new ParseTreeNode("if-else Statement", "if-else");
-		cur->addChildNode($3);
-		$3->addPeerNode($5);
-		$5->addPeerNode($7);
+	| IF '(' expression ')' statement ELSE statement {
+		ParseTreeNode *cur = new SelectionStatementNode($3, $5, $7);
 		$$ = cur;
-	}
-	;
+	};
 
 %%
 

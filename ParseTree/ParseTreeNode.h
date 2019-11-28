@@ -7,26 +7,21 @@
 #include <sstream>
 #include <cstdlib>
 class ParseTreeNode {
-	std::string type;
-	std::string value;
-	double dval;
 	ParseTreeNode *peer; // allows a peer-chain
 	ParseTreeNode *child; // only one child allowed
 protected:
 	inline ParseTreeNode* getNextPeerNode() { return this->peer; }
 	ParseTreeNode* getLastPeerNode();
 	void printNode(ParseTreeNode *root, int depth, FILE *file);
+	virtual void printText(FILE *file, int depth) = 0;
 public:
-	ParseTreeNode(std::string t, std::string v);
-	ParseTreeNode(std::string t, std::string v, double val);
+	ParseTreeNode();
 	void print();
 	inline ParseTreeNode* getChildNode() { return this->child; }
 	inline void addChildNode(ParseTreeNode *c) { this->child = c; }
-	inline double getValue() { return this->dval; }
-	inline void setValue(double val) { this->dval = val; }
-	inline void setType(std::string s) { this->type = s; }
-	inline void setVT(std::string s) { this->value = s; }
-	inline std::string getText() { return type + ", " + value; }
 	void addPeerNode(ParseTreeNode *p);
+	virtual void setBlock(ParseTreeNode *b) {};
+	virtual double getValue() { return 0; };
+	virtual void setValue(double val) {};
 };
 #endif
