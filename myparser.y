@@ -90,12 +90,8 @@ prog: top_level_definition_list {
 		$$->print();
 	};
 top_level_definition_list: top_level_definition top_level_definition_list {
-		if($2 != NULL) {
-			$1->addPeerNode($2);
-			$$ = $1;
-		} else {
-			$$ = $1;
-		}
+		if($2 != NULL)$1->addPeerNode($2);
+		$$ = $1;
 	} | {
 		$$ = NULL;
 	};
@@ -107,6 +103,7 @@ top_level_definition: type top_level_declarator_list ';' {
 			cur = (VarNode*)cur->getNextPeerNode();
 			cur->setType($1);
 		}
+		$$->print();
 	} | type function_declarator code_block {
 		$$ = $2; // assert $2 is a FunctionNode
 		$2->setReturnType($1);
