@@ -10,13 +10,13 @@ class ParseTreeNode {
 	ParseTreeNode *peer; // allows a peer-chain
 	ParseTreeNode *child; // only one child allowed
 protected:
-	inline ParseTreeNode* getNextPeerNode() { return this->peer; }
 	ParseTreeNode* getLastPeerNode();
 	void printNode(ParseTreeNode *root, int depth, FILE *file);
 	virtual void printText(FILE *file, int depth) = 0;
 public:
 	ParseTreeNode();
 	void print();
+	inline ParseTreeNode* getNextPeerNode() { return this->peer; }
 	inline ParseTreeNode* getChildNode() { return this->child; }
 	inline void addChildNode(ParseTreeNode *c) { this->child = c; }
 	void addPeerNode(ParseTreeNode *p);

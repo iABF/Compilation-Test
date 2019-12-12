@@ -255,15 +255,6 @@ byte		{
 }
 
 
-main		{
-	fprintf(fp, "MAIN\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return MAIN;
-}
 scan		{
 	fprintf(fp, "SCAN\t\t");
 	fflush(fp);
@@ -585,7 +576,7 @@ print		{
 	fflush(fp);
 	return DIVIDEASSIGN;
 }
-"/="			{
+"*="			{
 	fprintf(fp, "MULTIPLYASSIGN\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
@@ -594,7 +585,7 @@ print		{
 	fflush(fp);
 	return MULTIPLYASSIGN;
 }
-"/="			{
+"%="			{
 	fprintf(fp, "MODASSIGN\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
@@ -602,33 +593,6 @@ print		{
 	fprintf(fp, "\n");
 	fflush(fp);
 	return MODASSIGN;
-}
-"&="			{
-	fprintf(fp, "BITANDASSIGN\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return BITANDASSIGN;
-}
-"^="			{
-	fprintf(fp, "XORASSIGN\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return XORASSIGN;
-}
-"|="			{
-	fprintf(fp, "BITORASSIGN\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return BITORASSIGN;
 }
 "--"			{
 	fprintf(fp, "AUTODECRE\t\t");
@@ -648,15 +612,7 @@ print		{
 	fflush(fp);
 	return AUTOINCRE;
 }
-"~"			{
-	fprintf(fp, "BITNOT\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return yytext[0];
-}
+
 
 
 %{

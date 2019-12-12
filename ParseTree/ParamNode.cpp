@@ -1,12 +1,12 @@
 #include "ParamNode.h"
 
-ParamNode::ParamNode(std::string nam, std::string typ)
+ParamNode::ParamNode(TypeNode *t, VarNode *v)
 {
-	name = nam;
-	type = typ;
+	this->var = v;
+	this->type = t;
 }
 
 void ParamNode::printText(FILE * file, int depth)
 {
-	fprintf(file, "Function parameter, %s\n", name.c_str());
+	fprintf(file, "Function parameter, %s\n", this->var->getVarName().c_str());
 }

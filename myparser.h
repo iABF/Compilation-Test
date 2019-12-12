@@ -1,7 +1,7 @@
 /****************************************************************************
 *                     U N R E G I S T E R E D   C O P Y
 * 
-* You are on day 74 of your 30 day trial period.
+* You are on day 88 of your 30 day trial period.
 * 
 * This file was produced by an UNREGISTERED COPY of Parser Generator. It is
 * for evaluation purposes only. If you continue to use Parser Generator 30
@@ -18,8 +18,8 @@
 * myparser.h
 * C++ header file generated from myparser.y.
 * 
-* Date: 11/28/19
-* Time: 18:28:31
+* Date: 12/13/19
+* Time: 01:24:03
 * 
 * AYACC Version: 2.07
 ****************************************************************************/
@@ -34,67 +34,72 @@
 #define MODASSIGN 259
 #define ADDASSIGN 260
 #define ABTRACTASSIGN 261
-#define BITANDASSIGN 262
-#define XORASSIGN 263
-#define BITORASSIGN 264
-#define CONDITIONALOPERATOR 265
-#define OR 266
-#define AND 267
-#define EQ 268
-#define NE 269
-#define LE 270
-#define GE 271
-#define LBITMOVE 272
-#define RBITMOVE 273
-#define UMINUS 274
-#define POINT 275
-#define AUTODECRE 276
-#define AUTOINCRE 277
-#define ADDRESS 278
-#define BRACKET 279
-#define IF 280
-#define THEN 281
-#define ELSE 282
-#define RELOP 283
-#define VOID 284
-#define MAIN 285
-#define LBRACE 286
-#define RBRACE 287
-#define INT 288
-#define DEFINE 289
-#define STRING 290
-#define INCLUDE 291
-#define WHILE 292
-#define FOR 293
-#define RETURN 294
-#define GOTO 295
-#define GETCHAR 296
-#define STRUCT 297
-#define LONGINT 298
-#define DOUBLE 299
-#define LONGLONGINT 300
-#define FLOAT 301
-#define BOOL 302
-#define SHORT 303
-#define BYTE 304
-#define SCAN 305
-#define PRINT 306
+#define CONDITIONALOPERATOR 262
+#define OR 263
+#define AND 264
+#define EQ 265
+#define NE 266
+#define LE 267
+#define GE 268
+#define UMINUS 269
+#define POINT 270
+#define AUTODECRE 271
+#define AUTOINCRE 272
+#define ADDRESS 273
+#define BRACKET 274
+#define IF 275
+#define THEN 276
+#define ELSE 277
+#define RELOP 278
+#define VOID 279
+#define LBRACE 280
+#define RBRACE 281
+#define INT 282
+#define DEFINE 283
+#define STRING 284
+#define INCLUDE 285
+#define WHILE 286
+#define FOR 287
+#define RETURN 288
+#define GOTO 289
+#define GETCHAR 290
+#define STRUCT 291
+#define LONGINT 292
+#define DOUBLE 293
+#define LONGLONGINT 294
+#define FLOAT 295
+#define BOOL 296
+#define SHORT 297
+#define BYTE 298
+#define SCAN 299
+#define PRINT 300
 #ifndef YYSTYPE
 union tagYYSTYPE {
-#line 37 ".\\myparser.y"
+#line 31 ".\\myparser.y"
 
 	double dval;
 	struct symtable *symp;
 	class ParseTreeNode *node;
+	class RootNode *rootnode;
+	class FunctionNode *functionnode;
+	class VarNode *varnode;
+	class ParamNode *paramnode;
+	class TypeNode *typenode;
+	class CompoundStatementNode *compoundstatementnode;
+	class StatementNode *statementnode;
+	class WhileLoopStatementNode *whileloopstatementnode;
+	class ForLoopStatementNode *forloopstatementnode;
+	class OperatorNode *operatornode;
+	class SelectionStatementNode *selectionstatementnode;
 
-#line 91 "myparser.h"
+#line 96 "myparser.h"
 };
 
 #define YYSTYPE union tagYYSTYPE
 #endif
 
-#define ID 307
-#define NUMBER 308
+#define ID 301
+#define NUMBER 302
 /////////////////////////////////////////////////////////////////////////////
 // myparser
 
@@ -133,11 +138,11 @@ public:
 #define YYPARSERNAME myparser
 #endif
 
-#line 71 ".\\myparser.y"
+#line 74 ".\\myparser.y"
 
 #ifndef YYSTYPE
 #define YYSTYPE int
 #endif
 
-#line 143 "myparser.h"
+#line 148 "myparser.h"
 #endif

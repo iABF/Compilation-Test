@@ -10,5 +10,6 @@ public:
 	OperatorNode(double val, int ope);
 	void printText(FILE *file, int depth);
 	double getValue();
+	inline void setValue(double val) { this->value = val; }
 };
 #endif // !OPERATORNODE_H

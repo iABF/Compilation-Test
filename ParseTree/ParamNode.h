@@ -1,11 +1,13 @@
 #ifndef PARAMNODE_H
 #define PARAMNODE_H
 #include "ParseTreeNode.h"
+#include "TypeNode.h"
+#include "VarNode.h"
 class ParamNode : public ParseTreeNode {
-	std::string name; // name of the param
-	std::string type; // type of the param, to be changed to (ParseTreeNode*)
+	VarNode *var; // variable of the param
+	TypeNode *type; // type of the param, to be changed to (ParseTreeNode*)
 public:
-	ParamNode(std::string nam, std::string typ);
+	ParamNode(TypeNode *t, VarNode *v);
 	void printText(FILE *file, int depth);
 };
 #endif // !PARAMNODE_H

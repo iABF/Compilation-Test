@@ -2,12 +2,18 @@
 #define FUNCTIONNODE_H
 #include "ParseTreeNode.h"
 #include "ParamNode.h"
+#include "TypeNode.h"
+#include "CompoundStatementNode.h"
 class FunctionNode : public ParseTreeNode {
-	std::string returnType;
-	ParseTreeNode *paramList;
+	TypeNode *returnType;
+	ParamNode *paramList;
+	CompoundStatementNode *functionBody;
 	std::string name;
 public:
-	FunctionNode(std::string nam, ParseTreeNode *par, std::string ret);
+	FunctionNode(std::string nam);
 	void printText(FILE *file, int depth);
+	inline void setReturnType(TypeNode *typ) { returnType = typ; }
+	inline void setParam(ParamNode *par) { paramList = par; }
+	inline void setBody(CompoundStatementNode *body) { functionBody = body; }
 };
 #endif // !FUNCTIONNODE_H

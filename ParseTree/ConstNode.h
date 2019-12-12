@@ -8,5 +8,6 @@ public:
 	ConstNode(double val);
 	ConstNode(double val, std::string typ);
 	void printText(FILE *file, int depth);
+	double getValue();
 };
 #endif // !CONSTNODE_H

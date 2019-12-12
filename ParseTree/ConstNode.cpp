@@ -15,3 +15,8 @@ void ConstNode::printText(FILE * file, int depth)
 {
 	fprintf(file, "Const Declaration, %g\n", value);
 }
+
+double ConstNode::getValue()
+{
+	return this->value;
+}

@@ -20,3 +20,13 @@ void VarNode::printText(FILE * file, int depth)
 {
 	fprintf(file, "ID Declaration, %s\n", name.c_str());
 }
+
+void VarNode::setType(TypeNode * type)
+{
+	this->type = type;
+}
+
+std::string VarNode::getVarName()
+{
+	return name;
+}
