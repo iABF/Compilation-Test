@@ -47,14 +47,14 @@ class ParseTreeNode;
 %token <symp> ID
 %token <dval> NUMBER
 %type <rootnode> prog // <top_level_definition, top_level_definition, ...>, just everything [RootNode]
-%type <node> top_level_definition_list // [VarNode] / [FunctionNode]
-%type <node> top_level_definition // [VarNode] / [FunctionNode]
+%type <node> top_level_definition_list // [ParseTreeNode]
+%type <node> top_level_definition // [ParseTreeNode]
 %type <varnode> top_level_declarator_list // [VarNode]
 %type <varnode> var_declarator // [VarNode]
 %type <functionnode> function_declarator // [FunctionNode]
 %type <paramnode> param_list // <param, param, ...>, for function params [ParamNode]
 %type <paramnode> param // <type ID>, for function params [ParamNode]
-%type <typenode> type // Just type [TypeNode]
+%type <typenode> type // Just type [TypeNode] / [ArrayNode]
 %type <compoundstatementnode> code_block // Compound statements [CompoundStatementNode]
 %type <statementnode> statement_list // <statement, statement, ...>, just statement [StatementNode]
 %type <statementnode> statement // For all statements [StatementNode]
@@ -87,7 +87,6 @@ prog: top_level_definition_list {
 		root = new RootNode();
 		root->addChildNode($1);
 		$$ = root;
-		$$->print();
 	};
 top_level_definition_list: top_level_definition top_level_definition_list {
 		if($2 != NULL)$1->addPeerNode($2);
@@ -96,18 +95,26 @@ top_level_definition_list: top_level_definition top_level_definition_list {
 		$$ = NULL;
 	};
 top_level_definition: type top_level_declarator_list ';' {
-		$$ = $2; // assert $2 is a VarNode
-		VarNode *cur = (VarNode*)$$;
+		// assert $2 is a VarNode
+		VarNode *cur = (VarNode*)$2;
 		cur->setType($1);
 		while(cur->getNextPeerNode() != NULL) {
 			cur = (VarNode*)cur->getNextPeerNode();
 			cur->setType($1);
 		}
+		TopLevelDefinitionNode *curr = new TopLevelDefinitionNode();
+		curr->addChildNode($1);
+		$1->addPeerNode($2);
+		$$ = curr;
 		$$->print();
 	} | type function_declarator code_block {
-		$$ = $2; // assert $2 is a FunctionNode
+		// assert $2 is a FunctionNode
 		$2->setReturnType($1);
 		$2->setBody($3);
+		TopLevelDefinitionNode *curr = new TopLevelDefinitionNode();
+		curr->addChildNode($1);
+		$1->addPeerNode($2);
+		$$ = curr;
 		$$->print();
 	} | type ';'
 	;
@@ -121,8 +128,12 @@ var_declarator: ID {
 		VarNode *cur = new VarNode(string($1->name));
 		$$ = cur;
 		/* Add checking symtable for value and type. */
-	} | ID '[' NUMBER ']'
-	;
+	} | ID '[' NUMBER ']' {
+		VarNode *cur = new VarNode(string($1->name));
+		ArrayNode *curtyp = new ArrayNode($3);
+		cur->setType(curtyp);
+		$$ = cur;
+	};
 function_declarator: ID '(' param_list ')' {
 		FunctionNode *cur = new FunctionNode(string($1->name));
 		// assert $3 is a ParamNode
@@ -255,7 +266,25 @@ for_front: FOR '(' expression ';' expression ';' expression ')' {
 		ForLoopStatementNode *cur = new ForLoopStatementNode(NULL, NULL, NULL);
 		$$ = cur;
 	};
-
+selection_statement: IF '(' expression ')' code_block {
+		SelectionStatementNode *cur = new SelectionStatementNode($3, $5);
+		$$ = cur;
+	} | IF '(' expression ')' statement {
+		SelectionStatementNode *cur = new SelectionStatementNode($3, $5);
+		$$ = cur;
+	} | IF '(' expression ')' code_block ELSE code_block {
+		SelectionStatementNode *cur = new SelectionStatementNode($3, $5, $7);
+		$$ = cur;
+	} | IF '(' expression ')' code_block ELSE statement {
+		SelectionStatementNode *cur = new SelectionStatementNode($3, $5, $7);
+		$$ = cur;
+	} | IF '(' expression ')' statement ELSE code_block {
+		SelectionStatementNode *cur = new SelectionStatementNode($3, $5, $7);
+		$$ = cur;
+	} | IF '(' expression ')' statement ELSE statement {
+		SelectionStatementNode *cur = new SelectionStatementNode($3, $5, $7);
+		$$ = cur;
+	};
 var_definition: type var_declaration_list ';' {
 		StatementNode *cu = new StatementNode(5);
 		cu->addChildNode($2);
@@ -381,6 +410,10 @@ expression: assignment_expression {
 		$$ = cur;
 	} | '(' expression ')' {
 		$$ = $2;
+	} | ID '(' ')' {
+		// *****************************************************************************************************
+	} | ID '(' argument_list ')' {
+		// *****************************************************************************************************
 	} | NUMBER {
 		ParseTreeNode *cur = new ConstNode($1);
 		$$ = cur;
@@ -388,25 +421,9 @@ expression: assignment_expression {
 		// assert $1 is a VarNode
 		$$ = $1;
 	};
-selection_statement: IF '(' expression ')' code_block {
-		SelectionStatementNode *cur = new SelectionStatementNode($3, $5);
-		$$ = cur;
-	} | IF '(' expression ')' statement {
-		SelectionStatementNode *cur = new SelectionStatementNode($3, $5);
-		$$ = cur;
-	} | IF '(' expression ')' code_block ELSE code_block {
-		SelectionStatementNode *cur = new SelectionStatementNode($3, $5, $7);
-		$$ = cur;
-	} | IF '(' expression ')' code_block ELSE statement {
-		SelectionStatementNode *cur = new SelectionStatementNode($3, $5, $7);
-		$$ = cur;
-	} | IF '(' expression ')' statement ELSE code_block {
-		SelectionStatementNode *cur = new SelectionStatementNode($3, $5, $7);
-		$$ = cur;
-	} | IF '(' expression ')' statement ELSE statement {
-		SelectionStatementNode *cur = new SelectionStatementNode($3, $5, $7);
-		$$ = cur;
-	};
+argument_list: expression
+	| expression ',' argument_list
+	;
 
 %%
 

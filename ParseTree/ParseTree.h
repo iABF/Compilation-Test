@@ -15,4 +15,6 @@
 #include "RootNode.h"
 #include "MainNode.h"
 #include "CompoundStatementNode.h"
+#include "ArrayNode.h"
+#include "TopLevelDefinitionNode.h"
 #endif // !PARSETREE

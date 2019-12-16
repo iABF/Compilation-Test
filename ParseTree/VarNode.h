@@ -2,6 +2,7 @@
 #define VARNODE_H
 #include "ParseTreeNode.h"
 #include "TypeNode.h"
+#include "ArrayNode.h"
 class VarNode : public ParseTreeNode {
 	double value;
 	TypeNode *type;
@@ -14,5 +15,6 @@ public:
 	void setType(TypeNode *type); // set type of this node
 	std::string getVarName();
 	inline double getValue() { return this->value; }
+	inline TypeNode* getType() { return this->type; }
 };
 #endif // !VARNODE_H

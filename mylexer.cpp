@@ -1,7 +1,7 @@
 /****************************************************************************
 *                     U N R E G I S T E R E D   C O P Y
 * 
-* You are on day 88 of your 30 day trial period.
+* You are on day 91 of your 30 day trial period.
 * 
 * This file was produced by an UNREGISTERED COPY of Parser Generator. It is
 * for evaluation purposes only. If you continue to use Parser Generator 30
@@ -18,8 +18,8 @@
 * mylexer.cpp
 * C++ source file generated from mylexer.l.
 * 
-* Date: 12/13/19
-* Time: 00:58:23
+* Date: 12/16/19
+* Time: 01:25:31
 * 
 * ALex Version: 2.07
 ****************************************************************************/
@@ -147,43 +147,37 @@ int YYLEXERNAME::yyaction(int action)
 
 	// extract yylval for use later on in actions
 	YYSTYPE YYFAR& yylval = *(YYSTYPE YYFAR*)yyparserptr->yylvalptr;
-	//time_t tnow;
-	//tnow=time(0);
-	//char s[30];
-	//struct tm *sttm;
-	//sttm=localtime(&tnow);
-	//sprintf(s, "%04u-%02u-%02u-%02u%02u%02u.txt", sttm->tm_year+1900, sttm->tm_mon+1, sttm->tm_mday, sttm->tm_hour, sttm->tm_min, sttm->tm_sec);
 	FILE* fp;
 	fp=fopen("out_lexer.txt", "a");
 	setbuf(fp, NULL);
 
-#line 161 "mylexer.cpp"
+#line 155 "mylexer.cpp"
 	yyreturnflg = yytrue;
 	switch (action) {
 	case 1:
 		{
-#line 62 ".\\mylexer.l"
+#line 56 ".\\mylexer.l"
 /* no action and no return */
-#line 168 "mylexer.cpp"
+#line 162 "mylexer.cpp"
 		}
 		break;
 	case 2:
 		{
-#line 63 ".\\mylexer.l"
+#line 57 ".\\mylexer.l"
 fprintf(fp, "SGLCMMT\t\t"); fflush(fp); fwrite(yytext, yyleng - 1, 1, fp); fflush(fp); fprintf(fp, "\n"); fflush(fp);
-#line 175 "mylexer.cpp"
+#line 169 "mylexer.cpp"
 		}
 		break;
 	case 3:
 		{
-#line 64 ".\\mylexer.l"
+#line 58 ".\\mylexer.l"
 fprintf(fp, "MTLCMMT\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp); fprintf(fp, "\n"); fflush(fp);
-#line 182 "mylexer.cpp"
+#line 176 "mylexer.cpp"
 		}
 		break;
 	case 4:
 		{
-#line 65 ".\\mylexer.l"
+#line 59 ".\\mylexer.l"
 
 	fprintf(fp, "DEFINE\t\t");
 	fflush(fp);
@@ -193,12 +187,12 @@ fprintf(fp, "MTLCMMT\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp
 	fflush(fp);
 	return DEFINE;
 
-#line 197 "mylexer.cpp"
+#line 191 "mylexer.cpp"
 		}
 		break;
 	case 5:
 		{
-#line 74 ".\\mylexer.l"
+#line 68 ".\\mylexer.l"
 
 	fprintf(fp, "STRING\t\t");
 	fflush(fp); fwrite(yytext, yyleng, 1, fp);
@@ -207,12 +201,12 @@ fprintf(fp, "MTLCMMT\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp
 	fflush(fp);
 	return STRING;
 
-#line 211 "mylexer.cpp"
+#line 205 "mylexer.cpp"
 		}
 		break;
 	case 6:
 		{
-#line 82 ".\\mylexer.l"
+#line 76 ".\\mylexer.l"
 
 	fprintf(fp, "SGLSTRING\t");
 	fflush(fp);
@@ -222,19 +216,19 @@ fprintf(fp, "MTLCMMT\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp
 	fflush(fp);
 	return STRING;
 
-#line 226 "mylexer.cpp"
+#line 220 "mylexer.cpp"
 		}
 		break;
 	case 7:
 		{
-#line 91 ".\\mylexer.l"
+#line 85 ".\\mylexer.l"
 fprintf(fp, "ABRACKET\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp); fprintf(fp, "\n"); fflush(fp);
-#line 233 "mylexer.cpp"
+#line 227 "mylexer.cpp"
 		}
 		break;
 	case 8:
 		{
-#line 92 ".\\mylexer.l"
+#line 86 ".\\mylexer.l"
 
 	fprintf(fp, "INCLUDE\t\t");
 	fflush(fp);
@@ -244,19 +238,19 @@ fprintf(fp, "ABRACKET\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp)
 	fflush(fp);
 	return INCLUDE;
 
-#line 248 "mylexer.cpp"
+#line 242 "mylexer.cpp"
 		}
 		break;
 	case 9:
 		{
-#line 101 ".\\mylexer.l"
+#line 95 ".\\mylexer.l"
 fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp); fprintf(fp, "\n"); fflush(fp);
-#line 255 "mylexer.cpp"
+#line 249 "mylexer.cpp"
 		}
 		break;
 	case 10:
 		{
-#line 103 ".\\mylexer.l"
+#line 97 ".\\mylexer.l"
 
 	fprintf(fp, "IF\t\t");
 	fflush(fp);
@@ -266,12 +260,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return IF;
 
-#line 270 "mylexer.cpp"
+#line 264 "mylexer.cpp"
 		}
 		break;
 	case 11:
 		{
-#line 112 ".\\mylexer.l"
+#line 106 ".\\mylexer.l"
 
 	fprintf(fp, "ELSE\t\t");
 	fflush(fp);
@@ -281,12 +275,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return ELSE;
 
-#line 285 "mylexer.cpp"
+#line 279 "mylexer.cpp"
 		}
 		break;
 	case 12:
 		{
-#line 121 ".\\mylexer.l"
+#line 115 ".\\mylexer.l"
 
 	fprintf(fp, "WHILE\t\t");
 	fflush(fp);
@@ -296,12 +290,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return WHILE;
 
-#line 300 "mylexer.cpp"
+#line 294 "mylexer.cpp"
 		}
 		break;
 	case 13:
 		{
-#line 130 ".\\mylexer.l"
+#line 124 ".\\mylexer.l"
 
 	fprintf(fp, "FOR\t\t");
 	fflush(fp);
@@ -311,12 +305,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return FOR;
 
-#line 315 "mylexer.cpp"
+#line 309 "mylexer.cpp"
 		}
 		break;
 	case 14:
 		{
-#line 139 ".\\mylexer.l"
+#line 133 ".\\mylexer.l"
 
 	fprintf(fp, "RETURN\t\t");
 	fflush(fp);
@@ -326,12 +320,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return RETURN;
 
-#line 330 "mylexer.cpp"
+#line 324 "mylexer.cpp"
 		}
 		break;
 	case 15:
 		{
-#line 148 ".\\mylexer.l"
+#line 142 ".\\mylexer.l"
 
 	fprintf(fp, "GOTO\t\t");
 	fflush(fp);
@@ -341,12 +335,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return GOTO;
 
-#line 345 "mylexer.cpp"
+#line 339 "mylexer.cpp"
 		}
 		break;
 	case 16:
 		{
-#line 157 ".\\mylexer.l"
+#line 151 ".\\mylexer.l"
 
 	fprintf(fp, "GETCHAR\t\t");
 	fflush(fp);
@@ -356,12 +350,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return GETCHAR;
 
-#line 360 "mylexer.cpp"
+#line 354 "mylexer.cpp"
 		}
 		break;
 	case 17:
 		{
-#line 167 ".\\mylexer.l"
+#line 161 ".\\mylexer.l"
 
 	fprintf(fp, "INT\t\t");
 	fflush(fp); fwrite(yytext, yyleng, 1, fp);
@@ -370,12 +364,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return INT;
 
-#line 374 "mylexer.cpp"
+#line 368 "mylexer.cpp"
 		}
 		break;
 	case 18:
 		{
-#line 175 ".\\mylexer.l"
+#line 169 ".\\mylexer.l"
 
 	fprintf(fp, "VOID\t\t");
 	fflush(fp);
@@ -385,12 +379,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return VOID;
 
-#line 389 "mylexer.cpp"
+#line 383 "mylexer.cpp"
 		}
 		break;
 	case 19:
 		{
-#line 184 ".\\mylexer.l"
+#line 178 ".\\mylexer.l"
 
 	fprintf(fp, "STRUCT\t\t");
 	fflush(fp);
@@ -400,12 +394,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return STRUCT;
 
-#line 404 "mylexer.cpp"
+#line 398 "mylexer.cpp"
 		}
 		break;
 	case 20:
 		{
-#line 193 ".\\mylexer.l"
+#line 187 ".\\mylexer.l"
 
 	fprintf(fp, "LONGINT\t\t");
 	fflush(fp);
@@ -415,12 +409,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return LONGINT;
 
-#line 419 "mylexer.cpp"
+#line 413 "mylexer.cpp"
 		}
 		break;
 	case 21:
 		{
-#line 202 ".\\mylexer.l"
+#line 196 ".\\mylexer.l"
 
 	fprintf(fp, "DOUBLE\t\t");
 	fflush(fp);
@@ -430,12 +424,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return DOUBLE;
 
-#line 434 "mylexer.cpp"
+#line 428 "mylexer.cpp"
 		}
 		break;
 	case 22:
 		{
-#line 211 ".\\mylexer.l"
+#line 205 ".\\mylexer.l"
 
 	fprintf(fp, "LONGLONGINT\t");
 	fflush(fp);
@@ -445,12 +439,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return LONGLONGINT;
 
-#line 449 "mylexer.cpp"
+#line 443 "mylexer.cpp"
 		}
 		break;
 	case 23:
 		{
-#line 220 ".\\mylexer.l"
+#line 214 ".\\mylexer.l"
 
 	fprintf(fp, "FLOAT\t\t");
 	fflush(fp);
@@ -460,12 +454,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return FLOAT;
 
-#line 464 "mylexer.cpp"
+#line 458 "mylexer.cpp"
 		}
 		break;
 	case 24:
 		{
-#line 229 ".\\mylexer.l"
+#line 223 ".\\mylexer.l"
 
 	fprintf(fp, "BOOL\t\t");
 	fflush(fp);
@@ -475,12 +469,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return BOOL;
 
-#line 479 "mylexer.cpp"
+#line 473 "mylexer.cpp"
 		}
 		break;
 	case 25:
 		{
-#line 238 ".\\mylexer.l"
+#line 232 ".\\mylexer.l"
 
 	fprintf(fp, "SHORT\t\t");
 	fflush(fp);
@@ -490,12 +484,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return SHORT;
 
-#line 494 "mylexer.cpp"
+#line 488 "mylexer.cpp"
 		}
 		break;
 	case 26:
 		{
-#line 247 ".\\mylexer.l"
+#line 241 ".\\mylexer.l"
 
 	fprintf(fp, "BYTE\t\t");
 	fflush(fp);
@@ -505,12 +499,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return BYTE;
 
-#line 509 "mylexer.cpp"
+#line 503 "mylexer.cpp"
 		}
 		break;
 	case 27:
 		{
-#line 258 ".\\mylexer.l"
+#line 252 ".\\mylexer.l"
 
 	fprintf(fp, "SCAN\t\t");
 	fflush(fp);
@@ -520,12 +514,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return SCAN;
 
-#line 524 "mylexer.cpp"
+#line 518 "mylexer.cpp"
 		}
 		break;
 	case 28:
 		{
-#line 267 ".\\mylexer.l"
+#line 261 ".\\mylexer.l"
 
 	fprintf(fp, "PRINT\t\t");
 	fflush(fp);
@@ -535,12 +529,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return PRINT;
 
-#line 539 "mylexer.cpp"
+#line 533 "mylexer.cpp"
 		}
 		break;
 	case 29:
 		{
-#line 277 ".\\mylexer.l"
+#line 271 ".\\mylexer.l"
 
 	yylval.symp = symlook(yytext);
 	fprintf(fp, "ID\t\t");
@@ -551,12 +545,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return ID;
 
-#line 555 "mylexer.cpp"
+#line 549 "mylexer.cpp"
 		}
 		break;
 	case 30:
 		{
-#line 287 ".\\mylexer.l"
+#line 281 ".\\mylexer.l"
 
 	yylval.dval = atof(yytext);
 	fprintf(fp, "NUMBER\t\t");
@@ -567,12 +561,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return NUMBER;
 
-#line 571 "mylexer.cpp"
+#line 565 "mylexer.cpp"
 		}
 		break;
 	case 31:
 		{
-#line 298 ".\\mylexer.l"
+#line 292 ".\\mylexer.l"
 
 	fprintf(fp, "LT\t\t");
 	fflush(fp);
@@ -582,12 +576,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 586 "mylexer.cpp"
+#line 580 "mylexer.cpp"
 		}
 		break;
 	case 32:
 		{
-#line 307 ".\\mylexer.l"
+#line 301 ".\\mylexer.l"
 
 	fprintf(fp, "LE\t\t");
 	fflush(fp);
@@ -597,12 +591,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return LE;
 
-#line 601 "mylexer.cpp"
+#line 595 "mylexer.cpp"
 		}
 		break;
 	case 33:
 		{
-#line 316 ".\\mylexer.l"
+#line 310 ".\\mylexer.l"
 
 	fprintf(fp, "EQ\t\t");
 	fflush(fp);
@@ -612,12 +606,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return EQ;
 
-#line 616 "mylexer.cpp"
+#line 610 "mylexer.cpp"
 		}
 		break;
 	case 34:
 		{
-#line 325 ".\\mylexer.l"
+#line 319 ".\\mylexer.l"
 
 	fprintf(fp, "NE\t\t");
 	fflush(fp);
@@ -627,12 +621,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return NE;
 
-#line 631 "mylexer.cpp"
+#line 625 "mylexer.cpp"
 		}
 		break;
 	case 35:
 		{
-#line 334 ".\\mylexer.l"
+#line 328 ".\\mylexer.l"
 
 	fprintf(fp, "GT\t\t");
 	fflush(fp);
@@ -642,12 +636,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 646 "mylexer.cpp"
+#line 640 "mylexer.cpp"
 		}
 		break;
 	case 36:
 		{
-#line 343 ".\\mylexer.l"
+#line 337 ".\\mylexer.l"
 
 	fprintf(fp, "GE\t\t");
 	fflush(fp);
@@ -657,12 +651,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return GE;
 
-#line 661 "mylexer.cpp"
+#line 655 "mylexer.cpp"
 		}
 		break;
 	case 37:
 		{
-#line 352 ".\\mylexer.l"
+#line 346 ".\\mylexer.l"
 
 	fprintf(fp, "OR\t\t");
 	fflush(fp);
@@ -672,12 +666,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return OR;
 
-#line 676 "mylexer.cpp"
+#line 670 "mylexer.cpp"
 		}
 		break;
 	case 38:
 		{
-#line 361 ".\\mylexer.l"
+#line 355 ".\\mylexer.l"
 
 	fprintf(fp, "AND\t\t");
 	fflush(fp);
@@ -687,12 +681,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return AND;
 
-#line 691 "mylexer.cpp"
+#line 685 "mylexer.cpp"
 		}
 		break;
 	case 39:
 		{
-#line 371 ".\\mylexer.l"
+#line 365 ".\\mylexer.l"
 
 	fprintf(fp, "LP\t\t");
 	fflush(fp);
@@ -702,12 +696,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 706 "mylexer.cpp"
+#line 700 "mylexer.cpp"
 		}
 		break;
 	case 40:
 		{
-#line 380 ".\\mylexer.l"
+#line 374 ".\\mylexer.l"
 
 	fprintf(fp, "RP\t\t");
 	fflush(fp);
@@ -717,12 +711,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 721 "mylexer.cpp"
+#line 715 "mylexer.cpp"
 		}
 		break;
 	case 41:
 		{
-#line 389 ".\\mylexer.l"
+#line 383 ".\\mylexer.l"
 
 	fprintf(fp, "LBRACE\t\t");
 	fflush(fp);
@@ -732,12 +726,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return LBRACE;
 
-#line 736 "mylexer.cpp"
+#line 730 "mylexer.cpp"
 		}
 		break;
 	case 42:
 		{
-#line 398 ".\\mylexer.l"
+#line 392 ".\\mylexer.l"
 
 	fprintf(fp, "RBRACE\t\t");
 	fflush(fp);
@@ -747,12 +741,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return RBRACE;
 
-#line 751 "mylexer.cpp"
+#line 745 "mylexer.cpp"
 		}
 		break;
 	case 43:
 		{
-#line 407 ".\\mylexer.l"
+#line 401 ".\\mylexer.l"
 
 	fprintf(fp, "LMBRACE\t\t");
 	fflush(fp);
@@ -762,12 +756,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 766 "mylexer.cpp"
+#line 760 "mylexer.cpp"
 		}
 		break;
 	case 44:
 		{
-#line 416 ".\\mylexer.l"
+#line 410 ".\\mylexer.l"
 
 	fprintf(fp, "RMBRACE\t\t");
 	fflush(fp);
@@ -777,12 +771,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 781 "mylexer.cpp"
+#line 775 "mylexer.cpp"
 		}
 		break;
 	case 45:
 		{
-#line 426 ".\\mylexer.l"
+#line 420 ".\\mylexer.l"
 
 	fprintf(fp, "ASSIGN\t\t");
 	fflush(fp);
@@ -792,12 +786,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 796 "mylexer.cpp"
+#line 790 "mylexer.cpp"
 		}
 		break;
 	case 46:
 		{
-#line 435 ".\\mylexer.l"
+#line 429 ".\\mylexer.l"
 
 	fprintf(fp, "SEMICOLON\t\t");
 	fflush(fp);
@@ -807,12 +801,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 811 "mylexer.cpp"
+#line 805 "mylexer.cpp"
 		}
 		break;
 	case 47:
 		{
-#line 444 ".\\mylexer.l"
+#line 438 ".\\mylexer.l"
 
 	fprintf(fp, "LNOT\t\t");
 	fflush(fp);
@@ -822,12 +816,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 826 "mylexer.cpp"
+#line 820 "mylexer.cpp"
 		}
 		break;
 	case 48:
 		{
-#line 453 ".\\mylexer.l"
+#line 447 ".\\mylexer.l"
 
 	fprintf(fp, "ADD\t\t");
 	fflush(fp);
@@ -837,12 +831,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 841 "mylexer.cpp"
+#line 835 "mylexer.cpp"
 		}
 		break;
 	case 49:
 		{
-#line 462 ".\\mylexer.l"
+#line 456 ".\\mylexer.l"
 
 	fprintf(fp, "SUBTRACT\t\t");
 	fflush(fp);
@@ -852,12 +846,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 856 "mylexer.cpp"
+#line 850 "mylexer.cpp"
 		}
 		break;
 	case 50:
 		{
-#line 471 ".\\mylexer.l"
+#line 465 ".\\mylexer.l"
 
 	fprintf(fp, "MULTIPLY\t\t");
 	fflush(fp);
@@ -867,12 +861,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 871 "mylexer.cpp"
+#line 865 "mylexer.cpp"
 		}
 		break;
 	case 51:
 		{
-#line 480 ".\\mylexer.l"
+#line 474 ".\\mylexer.l"
 
 	fprintf(fp, "DIVIDE\t\t");
 	fflush(fp);
@@ -882,12 +876,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 886 "mylexer.cpp"
+#line 880 "mylexer.cpp"
 		}
 		break;
 	case 52:
 		{
-#line 489 ".\\mylexer.l"
+#line 483 ".\\mylexer.l"
 
 	fprintf(fp, "MOD\t\t");
 	fflush(fp);
@@ -897,12 +891,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 901 "mylexer.cpp"
+#line 895 "mylexer.cpp"
 		}
 		break;
 	case 53:
 		{
-#line 498 ".\\mylexer.l"
+#line 492 ".\\mylexer.l"
 
 	fprintf(fp, "XOR\t\t");
 	fflush(fp);
@@ -912,12 +906,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 916 "mylexer.cpp"
+#line 910 "mylexer.cpp"
 		}
 		break;
 	case 54:
 		{
-#line 507 ".\\mylexer.l"
+#line 501 ".\\mylexer.l"
 
 	fprintf(fp, "BITOR\t\t");
 	fflush(fp);
@@ -927,12 +921,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 931 "mylexer.cpp"
+#line 925 "mylexer.cpp"
 		}
 		break;
 	case 55:
 		{
-#line 516 ".\\mylexer.l"
+#line 510 ".\\mylexer.l"
 
 	fprintf(fp, "BITAND\t\t");
 	fflush(fp);
@@ -942,12 +936,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 946 "mylexer.cpp"
+#line 940 "mylexer.cpp"
 		}
 		break;
 	case 56:
 		{
-#line 525 ".\\mylexer.l"
+#line 519 ".\\mylexer.l"
 
 	fprintf(fp, "COMMA\t\t");
 	fflush(fp);
@@ -957,12 +951,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 961 "mylexer.cpp"
+#line 955 "mylexer.cpp"
 		}
 		break;
 	case 57:
 		{
-#line 534 ".\\mylexer.l"
+#line 528 ".\\mylexer.l"
 
 	fprintf(fp, "DOT\t\t");
 	fflush(fp);
@@ -972,12 +966,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 976 "mylexer.cpp"
+#line 970 "mylexer.cpp"
 		}
 		break;
 	case 58:
 		{
-#line 543 ".\\mylexer.l"
+#line 537 ".\\mylexer.l"
 
 	fprintf(fp, "COLON\t\t");
 	fflush(fp);
@@ -987,12 +981,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return yytext[0];
 
-#line 991 "mylexer.cpp"
+#line 985 "mylexer.cpp"
 		}
 		break;
 	case 59:
 		{
-#line 552 ".\\mylexer.l"
+#line 546 ".\\mylexer.l"
 
 	fprintf(fp, "ADDASSIGN\t\t");
 	fflush(fp);
@@ -1002,12 +996,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return ADDASSIGN;
 
-#line 1006 "mylexer.cpp"
+#line 1000 "mylexer.cpp"
 		}
 		break;
 	case 60:
 		{
-#line 561 ".\\mylexer.l"
+#line 555 ".\\mylexer.l"
 
 	fprintf(fp, "ABTRACTASSIGN\t\t");
 	fflush(fp);
@@ -1017,12 +1011,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return ABTRACTASSIGN;
 
-#line 1021 "mylexer.cpp"
+#line 1015 "mylexer.cpp"
 		}
 		break;
 	case 61:
 		{
-#line 570 ".\\mylexer.l"
+#line 564 ".\\mylexer.l"
 
 	fprintf(fp, "DIVIDEASSIGN\t\t");
 	fflush(fp);
@@ -1032,12 +1026,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return DIVIDEASSIGN;
 
-#line 1036 "mylexer.cpp"
+#line 1030 "mylexer.cpp"
 		}
 		break;
 	case 62:
 		{
-#line 579 ".\\mylexer.l"
+#line 573 ".\\mylexer.l"
 
 	fprintf(fp, "MULTIPLYASSIGN\t\t");
 	fflush(fp);
@@ -1047,12 +1041,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return MULTIPLYASSIGN;
 
-#line 1051 "mylexer.cpp"
+#line 1045 "mylexer.cpp"
 		}
 		break;
 	case 63:
 		{
-#line 588 ".\\mylexer.l"
+#line 582 ".\\mylexer.l"
 
 	fprintf(fp, "MODASSIGN\t\t");
 	fflush(fp);
@@ -1062,12 +1056,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return MODASSIGN;
 
-#line 1066 "mylexer.cpp"
+#line 1060 "mylexer.cpp"
 		}
 		break;
 	case 64:
 		{
-#line 597 ".\\mylexer.l"
+#line 591 ".\\mylexer.l"
 
 	fprintf(fp, "AUTODECRE\t\t");
 	fflush(fp);
@@ -1077,12 +1071,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return AUTODECRE;
 
-#line 1081 "mylexer.cpp"
+#line 1075 "mylexer.cpp"
 		}
 		break;
 	case 65:
 		{
-#line 606 ".\\mylexer.l"
+#line 600 ".\\mylexer.l"
 
 	fprintf(fp, "AUTOINCRE\t\t");
 	fflush(fp);
@@ -1092,15 +1086,15 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return AUTOINCRE;
 
-#line 1096 "mylexer.cpp"
+#line 1090 "mylexer.cpp"
 		}
 		break;
-#line 618 ".\\mylexer.l"
+#line 612 ".\\mylexer.l"
 
 	fclose(fp);
 	
 
-#line 1104 "mylexer.cpp"
+#line 1098 "mylexer.cpp"
 	default:
 		yyassert(0);
 		break;
@@ -1721,7 +1715,7 @@ void YYLEXERNAME::yytables()
 	};
 	yybackup = backup;
 }
-#line 624 ".\\mylexer.l"
+#line 618 ".\\mylexer.l"
 
 
 /////////////////////////////////////////////////////////////////////////////

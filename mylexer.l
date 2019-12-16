@@ -48,12 +48,6 @@ error		{digit}+{letter}+({letter}|{digit})*
 %{
 	// extract yylval for use later on in actions
 	YYSTYPE YYFAR& yylval = *(YYSTYPE YYFAR*)yyparserptr->yylvalptr;
-	//time_t tnow;
-	//tnow=time(0);
-	//char s[30];
-	//struct tm *sttm;
-	//sttm=localtime(&tnow);
-	//sprintf(s, "%04u-%02u-%02u-%02u%02u%02u.txt", sttm->tm_year+1900, sttm->tm_mon+1, sttm->tm_mday, sttm->tm_hour, sttm->tm_min, sttm->tm_sec);
 	FILE* fp;
 	fp=fopen("out_lexer.txt", "a");
 	setbuf(fp, NULL);

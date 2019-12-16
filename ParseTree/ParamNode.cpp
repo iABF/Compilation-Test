@@ -8,5 +8,5 @@ ParamNode::ParamNode(TypeNode *t, VarNode *v)
 
 void ParamNode::printText(FILE * file, int depth)
 {
-	fprintf(file, "Function parameter, %s\n", this->var->getVarName().c_str());
+	fprintf(file, "Function Parameter, %s\n", this->var->getVarName().c_str());
 }
