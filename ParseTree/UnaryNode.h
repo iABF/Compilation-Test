@@ -10,8 +10,5 @@ public:
 	UnaryNode(int ope, ExpressionNode *e);
 	void printText(FILE *file, int depth);
 	std::string getOperator(); // get operator
-	ExpressionNode* gen();
-	ExpressionNode* reduce();
-	std::string toString();
 };
 #endif // !UNARYNODE_H

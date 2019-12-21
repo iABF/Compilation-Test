@@ -24,21 +24,4 @@ std::string UnaryNode::getOperator()
 	}
 }
 
-ExpressionNode * UnaryNode::gen()
-{
-	return new UnaryNode(this->operatorType, this->expr->reduce());
-}
-
-ExpressionNode * UnaryNode::reduce()
-{
-	ExpressionNode *ans = gen();
-	TempNode *t = new TempNode(this->type);
-	emit(t->toString() + " = " + ans->toString());
-	return t;
-}
-
-std::string UnaryNode::toString()
-{
-	return this->name + " " + this->expr->toString();
-}
 

@@ -10,7 +10,6 @@ public:
 	void printText(FILE *file, int depth);
 	static ConstNode *True;
 	static ConstNode *False;
-	void jumping(int t, int f);
 };
 
 #endif // !CONSTNODE_H

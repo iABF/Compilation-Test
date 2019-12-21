@@ -7,7 +7,3 @@ TempNode::TempNode(TypeNode * typ): ExpressionNode("t", typ)
 	this->nodeId = NodeId::tempnode;
 }
 
-std::string TempNode::toString()
-{
-	return "t" + int2str(this->number);
-}

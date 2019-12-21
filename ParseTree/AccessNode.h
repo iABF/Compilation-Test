@@ -12,9 +12,5 @@ public:
 	ExpressionNode *index;
 	AccessNode(VarNode *a, ExpressionNode *i, TypeNode *t);
 	void printText(FILE *file, int depth) {}
-	std::string toString();
-	ExpressionNode* gen();
-	ExpressionNode* reduce();
-	void jumping(int t, int f);
 };
 #endif // !ACCESSNODE_H

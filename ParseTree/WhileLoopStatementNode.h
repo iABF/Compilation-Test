@@ -10,6 +10,5 @@ public:
 	StatementNode *block;
 	WhileLoopStatementNode(ExpressionNode *cond, StatementNode *b);
 	void printText(FILE *file, int depth);
-	void gen(int begin, int after);
 };
 #endif // !WHILELOOPSTATEMENTNODE_H

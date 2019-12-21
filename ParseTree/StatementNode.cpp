@@ -30,10 +30,6 @@ TypeNode * AssignNode::check(TypeNode * a, TypeNode * b)
 	return NULL;
 }
 
-void AssignNode::gen(int begin, int after)
-{
-	emit(this->Id->toString() + " = " + this->expr->gen()->toString());
-}
 
 AssignArrayNode::AssignArrayNode(AccessNode * a, ExpressionNode * e) : StatementNode(8)
 {
@@ -51,7 +47,3 @@ TypeNode * AssignArrayNode::check(TypeNode * a, TypeNode * b)
 	return NULL;
 }
 
-void AssignArrayNode::gen(int begin, int after)
-{
-	emit(this->arr->toString() + " [ " + this->index->reduce()->toString() + " ] = " + this->expr->reduce()->toString());
-}

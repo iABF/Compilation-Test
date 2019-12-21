@@ -12,6 +12,5 @@ class ForLoopStatementNode : public StatementNode {
 public:
 	ForLoopStatementNode(ExpressionNode *f, ExpressionNode *s, ExpressionNode *t, StatementNode *b);
 	void printText(FILE *file, int depth);
-	void gen(int begin, int after);
 };
 #endif // !FORLOOPSTATEMENTNODE_H

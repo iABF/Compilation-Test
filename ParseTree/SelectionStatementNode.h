@@ -11,6 +11,5 @@ public:
 	StatementNode *falseBlock; // else, here
 	SelectionStatementNode(ExpressionNode *cond, StatementNode *t, StatementNode *f = NULL);
 	void printText(FILE *file, int depth);
-	void gen(int begin, int after);
 };
 #endif // !SELECTIONSTATEMENT_H

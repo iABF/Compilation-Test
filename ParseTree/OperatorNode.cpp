@@ -25,24 +25,6 @@ std::string OperatorNode::getOperator()
 	}
 }
 
-ExpressionNode * OperatorNode::gen()
-{
-	return new OperatorNode(this->operatorType, this->left->reduce(), this->right->reduce());
-}
-
-ExpressionNode * OperatorNode::reduce()
-{
-	ExpressionNode *ans = gen();
-	TempNode *t = new TempNode(this->type);
-	emit(t->toString() + " = " + ans->toString());
-	return t;
-}
-
-std::string OperatorNode::toString()
-{
-	return this->left->toString() + " " + this->name + " " + this->right->toString();
-}
-
 TypeNode * OperatorNode::maxt(TypeNode * a, TypeNode * b)
 {
 	if (a->btype == BasicType::Int || b->btype == BasicType::Int)return new TypeNode("int");

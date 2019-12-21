@@ -9,6 +9,5 @@ public:
 	int number;
 	TempNode(TypeNode *typ);
 	void printText(FILE *file, int depth) {}
-    std::string toString();
 };
 #endif // !TEMPNODE_H

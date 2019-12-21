@@ -255,10 +255,10 @@ ExpressionNode * InterCodeGenerator::gen(ExpressionNode * node)
 		int a = newlabel(); // after this expression
 		TempNode *temp = new TempNode(node->type);
 		jumping(node, 0, f);
-		emit(temp->toString() + " = true");
+		emit(toString(temp) + " = true");
 		emit("goto L" + int2str(a));
 		emitLabel(f);
-		emit(temp->toString() + " = false");
+		emit(toString(temp) + " = false");
 		emitLabel(a);
 		return temp;
 	}

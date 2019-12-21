@@ -10,7 +10,6 @@ public:
 	StatementNode() {}
 	StatementNode(int typ);
 	void printText(FILE *file, int depth);
-	void gen(int begin, int after) {}
 	int next = 0;
 	static StatementNode *Null;
 };
@@ -22,7 +21,6 @@ public:
 	ExpressionNode *expr;
 	AssignNode(VarNode *i, ExpressionNode *e);
 	TypeNode* check(TypeNode *a, TypeNode *b);
-	void gen(int begin, int after); // to be removed
 };
 
 class AssignArrayNode : public StatementNode {
@@ -32,6 +30,5 @@ public:
 	ExpressionNode *expr;
 	AssignArrayNode(AccessNode *a, ExpressionNode *e);
 	TypeNode* check(TypeNode *a, TypeNode *b);
-	void gen(int begin, int after);
 };
 #endif // !STATEMENTNODE_H
