@@ -1,7 +1,7 @@
 /****************************************************************************
 *                     U N R E G I S T E R E D   C O P Y
 * 
-* You are on day 91 of your 30 day trial period.
+* You are on day 96 of your 30 day trial period.
 * 
 * This file was produced by an UNREGISTERED COPY of Parser Generator. It is
 * for evaluation purposes only. If you continue to use Parser Generator 30
@@ -18,8 +18,8 @@
 * mylexer.cpp
 * C++ source file generated from mylexer.l.
 * 
-* Date: 12/16/19
-* Time: 01:25:31
+* Date: 12/20/19
+* Time: 23:38:41
 * 
 * ALex Version: 2.07
 ****************************************************************************/
@@ -325,37 +325,7 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 		break;
 	case 15:
 		{
-#line 142 ".\\mylexer.l"
-
-	fprintf(fp, "GOTO\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return GOTO;
-
-#line 339 "mylexer.cpp"
-		}
-		break;
-	case 16:
-		{
-#line 151 ".\\mylexer.l"
-
-	fprintf(fp, "GETCHAR\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return GETCHAR;
-
-#line 354 "mylexer.cpp"
-		}
-		break;
-	case 17:
-		{
-#line 161 ".\\mylexer.l"
+#line 144 ".\\mylexer.l"
 
 	fprintf(fp, "INT\t\t");
 	fflush(fp); fwrite(yytext, yyleng, 1, fp);
@@ -364,12 +334,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return INT;
 
-#line 368 "mylexer.cpp"
+#line 338 "mylexer.cpp"
 		}
 		break;
-	case 18:
+	case 16:
 		{
-#line 169 ".\\mylexer.l"
+#line 152 ".\\mylexer.l"
 
 	fprintf(fp, "VOID\t\t");
 	fflush(fp);
@@ -379,12 +349,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return VOID;
 
-#line 383 "mylexer.cpp"
+#line 353 "mylexer.cpp"
 		}
 		break;
-	case 19:
+	case 17:
 		{
-#line 178 ".\\mylexer.l"
+#line 161 ".\\mylexer.l"
 
 	fprintf(fp, "STRUCT\t\t");
 	fflush(fp);
@@ -394,72 +364,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return STRUCT;
 
-#line 398 "mylexer.cpp"
+#line 368 "mylexer.cpp"
 		}
 		break;
-	case 20:
+	case 18:
 		{
-#line 187 ".\\mylexer.l"
-
-	fprintf(fp, "LONGINT\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return LONGINT;
-
-#line 413 "mylexer.cpp"
-		}
-		break;
-	case 21:
-		{
-#line 196 ".\\mylexer.l"
-
-	fprintf(fp, "DOUBLE\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return DOUBLE;
-
-#line 428 "mylexer.cpp"
-		}
-		break;
-	case 22:
-		{
-#line 205 ".\\mylexer.l"
-
-	fprintf(fp, "LONGLONGINT\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return LONGLONGINT;
-
-#line 443 "mylexer.cpp"
-		}
-		break;
-	case 23:
-		{
-#line 214 ".\\mylexer.l"
-
-	fprintf(fp, "FLOAT\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return FLOAT;
-
-#line 458 "mylexer.cpp"
-		}
-		break;
-	case 24:
-		{
-#line 223 ".\\mylexer.l"
+#line 171 ".\\mylexer.l"
 
 	fprintf(fp, "BOOL\t\t");
 	fflush(fp);
@@ -469,42 +379,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return BOOL;
 
-#line 473 "mylexer.cpp"
+#line 383 "mylexer.cpp"
 		}
 		break;
-	case 25:
+	case 19:
 		{
-#line 232 ".\\mylexer.l"
-
-	fprintf(fp, "SHORT\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return SHORT;
-
-#line 488 "mylexer.cpp"
-		}
-		break;
-	case 26:
-		{
-#line 241 ".\\mylexer.l"
-
-	fprintf(fp, "BYTE\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return BYTE;
-
-#line 503 "mylexer.cpp"
-		}
-		break;
-	case 27:
-		{
-#line 252 ".\\mylexer.l"
+#line 181 ".\\mylexer.l"
 
 	fprintf(fp, "SCAN\t\t");
 	fflush(fp);
@@ -514,12 +394,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return SCAN;
 
-#line 518 "mylexer.cpp"
+#line 398 "mylexer.cpp"
 		}
 		break;
-	case 28:
+	case 20:
 		{
-#line 261 ".\\mylexer.l"
+#line 190 ".\\mylexer.l"
 
 	fprintf(fp, "PRINT\t\t");
 	fflush(fp);
@@ -529,12 +409,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return PRINT;
 
-#line 533 "mylexer.cpp"
+#line 413 "mylexer.cpp"
 		}
 		break;
-	case 29:
+	case 21:
 		{
-#line 271 ".\\mylexer.l"
+#line 200 ".\\mylexer.l"
 
 	yylval.symp = symlook(yytext);
 	fprintf(fp, "ID\t\t");
@@ -545,12 +425,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return ID;
 
-#line 549 "mylexer.cpp"
+#line 429 "mylexer.cpp"
 		}
 		break;
-	case 30:
+	case 22:
 		{
-#line 281 ".\\mylexer.l"
+#line 210 ".\\mylexer.l"
 
 	yylval.dval = atof(yytext);
 	fprintf(fp, "NUMBER\t\t");
@@ -561,14 +441,134 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return NUMBER;
 
+#line 445 "mylexer.cpp"
+		}
+		break;
+	case 23:
+		{
+#line 221 ".\\mylexer.l"
+
+	fprintf(fp, "LT\t\t");
+	fflush(fp);
+	fwrite(yytext, yyleng, 1, fp);
+	fflush(fp);
+	fprintf(fp, "\n");
+	fflush(fp);
+	return yytext[0];
+
+#line 460 "mylexer.cpp"
+		}
+		break;
+	case 24:
+		{
+#line 230 ".\\mylexer.l"
+
+	fprintf(fp, "LE\t\t");
+	fflush(fp);
+	fwrite(yytext, yyleng, 1, fp);
+	fflush(fp);
+	fprintf(fp, "\n");
+	fflush(fp);
+	return LE;
+
+#line 475 "mylexer.cpp"
+		}
+		break;
+	case 25:
+		{
+#line 239 ".\\mylexer.l"
+
+	fprintf(fp, "EQ\t\t");
+	fflush(fp);
+	fwrite(yytext, yyleng, 1, fp);
+	fflush(fp);
+	fprintf(fp, "\n");
+	fflush(fp);
+	return EQ;
+
+#line 490 "mylexer.cpp"
+		}
+		break;
+	case 26:
+		{
+#line 248 ".\\mylexer.l"
+
+	fprintf(fp, "NE\t\t");
+	fflush(fp);
+	fwrite(yytext, yyleng, 1, fp);
+	fflush(fp);
+	fprintf(fp, "\n");
+	fflush(fp);
+	return NE;
+
+#line 505 "mylexer.cpp"
+		}
+		break;
+	case 27:
+		{
+#line 257 ".\\mylexer.l"
+
+	fprintf(fp, "GT\t\t");
+	fflush(fp);
+	fwrite(yytext, yyleng, 1, fp);
+	fflush(fp);
+	fprintf(fp, "\n");
+	fflush(fp);
+	return yytext[0];
+
+#line 520 "mylexer.cpp"
+		}
+		break;
+	case 28:
+		{
+#line 266 ".\\mylexer.l"
+
+	fprintf(fp, "GE\t\t");
+	fflush(fp);
+	fwrite(yytext, yyleng, 1, fp);
+	fflush(fp);
+	fprintf(fp, "\n");
+	fflush(fp);
+	return GE;
+
+#line 535 "mylexer.cpp"
+		}
+		break;
+	case 29:
+		{
+#line 275 ".\\mylexer.l"
+
+	fprintf(fp, "OR\t\t");
+	fflush(fp);
+	fwrite(yytext, yyleng, 1, fp);
+	fflush(fp);
+	fprintf(fp, "\n");
+	fflush(fp);
+	return OR;
+
+#line 550 "mylexer.cpp"
+		}
+		break;
+	case 30:
+		{
+#line 284 ".\\mylexer.l"
+
+	fprintf(fp, "AND\t\t");
+	fflush(fp);
+	fwrite(yytext, yyleng, 1, fp);
+	fflush(fp);
+	fprintf(fp, "\n");
+	fflush(fp);
+	return AND;
+
 #line 565 "mylexer.cpp"
 		}
 		break;
 	case 31:
 		{
-#line 292 ".\\mylexer.l"
+#line 294 ".\\mylexer.l"
 
-	fprintf(fp, "LT\t\t");
+	fprintf(fp, "LP\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
@@ -581,54 +581,54 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 		break;
 	case 32:
 		{
-#line 301 ".\\mylexer.l"
+#line 303 ".\\mylexer.l"
 
-	fprintf(fp, "LE\t\t");
+	fprintf(fp, "RP\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
 	fprintf(fp, "\n");
 	fflush(fp);
-	return LE;
+	return yytext[0];
 
 #line 595 "mylexer.cpp"
 		}
 		break;
 	case 33:
 		{
-#line 310 ".\\mylexer.l"
+#line 312 ".\\mylexer.l"
 
-	fprintf(fp, "EQ\t\t");
+	fprintf(fp, "LBRACE\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
 	fprintf(fp, "\n");
 	fflush(fp);
-	return EQ;
+	return LBRACE;
 
 #line 610 "mylexer.cpp"
 		}
 		break;
 	case 34:
 		{
-#line 319 ".\\mylexer.l"
+#line 321 ".\\mylexer.l"
 
-	fprintf(fp, "NE\t\t");
+	fprintf(fp, "RBRACE\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
 	fprintf(fp, "\n");
 	fflush(fp);
-	return NE;
+	return RBRACE;
 
 #line 625 "mylexer.cpp"
 		}
 		break;
 	case 35:
 		{
-#line 328 ".\\mylexer.l"
+#line 330 ".\\mylexer.l"
 
-	fprintf(fp, "GT\t\t");
+	fprintf(fp, "LMBRACE\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
@@ -641,54 +641,54 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 		break;
 	case 36:
 		{
-#line 337 ".\\mylexer.l"
+#line 339 ".\\mylexer.l"
 
-	fprintf(fp, "GE\t\t");
+	fprintf(fp, "RMBRACE\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
 	fprintf(fp, "\n");
 	fflush(fp);
-	return GE;
+	return yytext[0];
 
 #line 655 "mylexer.cpp"
 		}
 		break;
 	case 37:
 		{
-#line 346 ".\\mylexer.l"
+#line 349 ".\\mylexer.l"
 
-	fprintf(fp, "OR\t\t");
+	fprintf(fp, "ASSIGN\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
 	fprintf(fp, "\n");
 	fflush(fp);
-	return OR;
+	return yytext[0];
 
 #line 670 "mylexer.cpp"
 		}
 		break;
 	case 38:
 		{
-#line 355 ".\\mylexer.l"
+#line 358 ".\\mylexer.l"
 
-	fprintf(fp, "AND\t\t");
+	fprintf(fp, "SEMICOLON\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
 	fprintf(fp, "\n");
 	fflush(fp);
-	return AND;
+	return yytext[0];
 
 #line 685 "mylexer.cpp"
 		}
 		break;
 	case 39:
 		{
-#line 365 ".\\mylexer.l"
+#line 367 ".\\mylexer.l"
 
-	fprintf(fp, "LP\t\t");
+	fprintf(fp, "LNOT\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
@@ -701,9 +701,9 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 		break;
 	case 40:
 		{
-#line 374 ".\\mylexer.l"
+#line 376 ".\\mylexer.l"
 
-	fprintf(fp, "RP\t\t");
+	fprintf(fp, "ADD\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
@@ -716,39 +716,39 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 		break;
 	case 41:
 		{
-#line 383 ".\\mylexer.l"
+#line 385 ".\\mylexer.l"
 
-	fprintf(fp, "LBRACE\t\t");
+	fprintf(fp, "SUBTRACT\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
 	fprintf(fp, "\n");
 	fflush(fp);
-	return LBRACE;
+	return yytext[0];
 
 #line 730 "mylexer.cpp"
 		}
 		break;
 	case 42:
 		{
-#line 392 ".\\mylexer.l"
+#line 394 ".\\mylexer.l"
 
-	fprintf(fp, "RBRACE\t\t");
+	fprintf(fp, "MULTIPLY\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
 	fprintf(fp, "\n");
 	fflush(fp);
-	return RBRACE;
+	return yytext[0];
 
 #line 745 "mylexer.cpp"
 		}
 		break;
 	case 43:
 		{
-#line 401 ".\\mylexer.l"
+#line 403 ".\\mylexer.l"
 
-	fprintf(fp, "LMBRACE\t\t");
+	fprintf(fp, "DIVIDE\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
@@ -761,9 +761,9 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 		break;
 	case 44:
 		{
-#line 410 ".\\mylexer.l"
+#line 412 ".\\mylexer.l"
 
-	fprintf(fp, "RMBRACE\t\t");
+	fprintf(fp, "MOD\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
@@ -776,9 +776,9 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 		break;
 	case 45:
 		{
-#line 420 ".\\mylexer.l"
+#line 421 ".\\mylexer.l"
 
-	fprintf(fp, "ASSIGN\t\t");
+	fprintf(fp, "XOR\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
@@ -791,9 +791,9 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 		break;
 	case 46:
 		{
-#line 429 ".\\mylexer.l"
+#line 430 ".\\mylexer.l"
 
-	fprintf(fp, "SEMICOLON\t\t");
+	fprintf(fp, "BITOR\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
@@ -806,9 +806,9 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 		break;
 	case 47:
 		{
-#line 438 ".\\mylexer.l"
+#line 439 ".\\mylexer.l"
 
-	fprintf(fp, "LNOT\t\t");
+	fprintf(fp, "BITAND\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
@@ -821,9 +821,9 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 		break;
 	case 48:
 		{
-#line 447 ".\\mylexer.l"
+#line 448 ".\\mylexer.l"
 
-	fprintf(fp, "ADD\t\t");
+	fprintf(fp, "COMMA\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
@@ -836,9 +836,9 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 		break;
 	case 49:
 		{
-#line 456 ".\\mylexer.l"
+#line 457 ".\\mylexer.l"
 
-	fprintf(fp, "SUBTRACT\t\t");
+	fprintf(fp, "DOT\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
@@ -851,9 +851,9 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 		break;
 	case 50:
 		{
-#line 465 ".\\mylexer.l"
+#line 466 ".\\mylexer.l"
 
-	fprintf(fp, "MULTIPLY\t\t");
+	fprintf(fp, "COLON\t\t");
 	fflush(fp);
 	fwrite(yytext, yyleng, 1, fp);
 	fflush(fp);
@@ -866,127 +866,7 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 		break;
 	case 51:
 		{
-#line 474 ".\\mylexer.l"
-
-	fprintf(fp, "DIVIDE\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return yytext[0];
-
-#line 880 "mylexer.cpp"
-		}
-		break;
-	case 52:
-		{
-#line 483 ".\\mylexer.l"
-
-	fprintf(fp, "MOD\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return yytext[0];
-
-#line 895 "mylexer.cpp"
-		}
-		break;
-	case 53:
-		{
-#line 492 ".\\mylexer.l"
-
-	fprintf(fp, "XOR\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return yytext[0];
-
-#line 910 "mylexer.cpp"
-		}
-		break;
-	case 54:
-		{
-#line 501 ".\\mylexer.l"
-
-	fprintf(fp, "BITOR\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return yytext[0];
-
-#line 925 "mylexer.cpp"
-		}
-		break;
-	case 55:
-		{
-#line 510 ".\\mylexer.l"
-
-	fprintf(fp, "BITAND\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return yytext[0];
-
-#line 940 "mylexer.cpp"
-		}
-		break;
-	case 56:
-		{
-#line 519 ".\\mylexer.l"
-
-	fprintf(fp, "COMMA\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return yytext[0];
-
-#line 955 "mylexer.cpp"
-		}
-		break;
-	case 57:
-		{
-#line 528 ".\\mylexer.l"
-
-	fprintf(fp, "DOT\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return yytext[0];
-
-#line 970 "mylexer.cpp"
-		}
-		break;
-	case 58:
-		{
-#line 537 ".\\mylexer.l"
-
-	fprintf(fp, "COLON\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return yytext[0];
-
-#line 985 "mylexer.cpp"
-		}
-		break;
-	case 59:
-		{
-#line 546 ".\\mylexer.l"
+#line 475 ".\\mylexer.l"
 
 	fprintf(fp, "ADDASSIGN\t\t");
 	fflush(fp);
@@ -996,12 +876,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return ADDASSIGN;
 
-#line 1000 "mylexer.cpp"
+#line 880 "mylexer.cpp"
 		}
 		break;
-	case 60:
+	case 52:
 		{
-#line 555 ".\\mylexer.l"
+#line 484 ".\\mylexer.l"
 
 	fprintf(fp, "ABTRACTASSIGN\t\t");
 	fflush(fp);
@@ -1011,12 +891,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return ABTRACTASSIGN;
 
-#line 1015 "mylexer.cpp"
+#line 895 "mylexer.cpp"
 		}
 		break;
-	case 61:
+	case 53:
 		{
-#line 564 ".\\mylexer.l"
+#line 493 ".\\mylexer.l"
 
 	fprintf(fp, "DIVIDEASSIGN\t\t");
 	fflush(fp);
@@ -1026,12 +906,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return DIVIDEASSIGN;
 
-#line 1030 "mylexer.cpp"
+#line 910 "mylexer.cpp"
 		}
 		break;
-	case 62:
+	case 54:
 		{
-#line 573 ".\\mylexer.l"
+#line 502 ".\\mylexer.l"
 
 	fprintf(fp, "MULTIPLYASSIGN\t\t");
 	fflush(fp);
@@ -1041,12 +921,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return MULTIPLYASSIGN;
 
-#line 1045 "mylexer.cpp"
+#line 925 "mylexer.cpp"
 		}
 		break;
-	case 63:
+	case 55:
 		{
-#line 582 ".\\mylexer.l"
+#line 511 ".\\mylexer.l"
 
 	fprintf(fp, "MODASSIGN\t\t");
 	fflush(fp);
@@ -1056,12 +936,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return MODASSIGN;
 
-#line 1060 "mylexer.cpp"
+#line 940 "mylexer.cpp"
 		}
 		break;
-	case 64:
+	case 56:
 		{
-#line 591 ".\\mylexer.l"
+#line 520 ".\\mylexer.l"
 
 	fprintf(fp, "AUTODECRE\t\t");
 	fflush(fp);
@@ -1071,12 +951,12 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return AUTODECRE;
 
-#line 1075 "mylexer.cpp"
+#line 955 "mylexer.cpp"
 		}
 		break;
-	case 65:
+	case 57:
 		{
-#line 600 ".\\mylexer.l"
+#line 529 ".\\mylexer.l"
 
 	fprintf(fp, "AUTOINCRE\t\t");
 	fflush(fp);
@@ -1086,15 +966,15 @@ fprintf(fp, "ERROR\t\t"); fflush(fp); fwrite(yytext, yyleng, 1, fp); fflush(fp);
 	fflush(fp);
 	return AUTOINCRE;
 
-#line 1090 "mylexer.cpp"
+#line 970 "mylexer.cpp"
 		}
 		break;
-#line 612 ".\\mylexer.l"
+#line 541 ".\\mylexer.l"
 
 	fclose(fp);
 	
 
-#line 1098 "mylexer.cpp"
+#line 978 "mylexer.cpp"
 	default:
 		yyassert(0);
 		break;
@@ -1121,37 +1001,37 @@ void YYLEXERNAME::yytables()
 	};
 	yymatch = match;
 
-	yytransitionmax = 344;
+	yytransitionmax = 273;
 	static const yytransition_t YYNEARFAR YYBASED_CODE transition[] = {
 		{ 0, 0 },
 		{ 3, 1 },
 		{ 3, 1 },
-		{ 0, 65 },
-		{ 57, 17 },
-		{ 81, 37 },
-		{ 74, 32 },
-		{ 68, 28 },
-		{ 91, 91 },
-		{ 58, 17 },
-		{ 82, 37 },
-		{ 76, 33 },
-		{ 153, 141 },
-		{ 116, 91 },
-		{ 64, 21 },
-		{ 154, 141 },
-		{ 75, 32 },
-		{ 69, 28 },
-		{ 72, 31 },
-		{ 77, 33 },
-		{ 84, 38 },
-		{ 73, 31 },
-		{ 83, 37 },
-		{ 59, 17 },
+		{ 0, 60 },
+		{ 54, 17 },
+		{ 70, 34 },
+		{ 64, 29 },
+		{ 65, 30 },
+		{ 40, 4 },
+		{ 55, 17 },
+		{ 18, 18 },
+		{ 18, 18 },
+		{ 18, 18 },
+		{ 18, 18 },
+		{ 18, 18 },
+		{ 18, 18 },
+		{ 18, 18 },
+		{ 18, 18 },
+		{ 18, 18 },
+		{ 18, 18 },
+		{ 68, 32 },
+		{ 69, 33 },
+		{ 71, 34 },
+		{ 56, 17 },
 		{ 3, 1 },
 		{ 4, 1 },
 		{ 5, 1 },
 		{ 6, 1 },
-		{ 0, 51 },
+		{ 0, 48 },
 		{ 7, 1 },
 		{ 8, 1 },
 		{ 9, 1 },
@@ -1178,470 +1058,350 @@ void YYLEXERNAME::yytables()
 		{ 21, 1 },
 		{ 22, 1 },
 		{ 23, 1 },
-		{ 65, 65 },
-		{ 0, 44 },
-		{ 51, 51 },
-		{ 85, 39 },
-		{ 45, 6 },
-		{ 53, 13 },
+		{ 60, 60 },
+		{ 0, 41 },
+		{ 48, 48 },
+		{ 50, 13 },
+		{ 42, 6 },
+		{ 66, 31 },
 		{ 3, 3 },
 		{ 3, 3 },
-		{ 55, 15 },
-		{ 46, 6 },
-		{ 60, 18 },
-		{ 86, 41 },
-		{ 18, 18 },
-		{ 18, 18 },
-		{ 18, 18 },
-		{ 18, 18 },
-		{ 18, 18 },
-		{ 18, 18 },
-		{ 18, 18 },
-		{ 18, 18 },
-		{ 18, 18 },
-		{ 18, 18 },
-		{ 66, 22 },
-		{ 54, 13 },
-		{ 56, 15 },
-		{ 44, 44 },
-		{ 87, 45 },
-		{ 88, 46 },
+		{ 52, 15 },
+		{ 43, 6 },
+		{ 79, 79 },
+		{ 46, 7 },
+		{ 72, 35 },
+		{ 67, 31 },
+		{ 73, 36 },
+		{ 95, 79 },
+		{ 74, 38 },
+		{ 47, 8 },
+		{ 75, 42 },
+		{ 76, 43 },
+		{ 77, 44 },
+		{ 51, 13 },
+		{ 78, 45 },
+		{ 49, 12 },
+		{ 53, 15 },
+		{ 41, 41 },
+		{ 79, 54 },
+		{ 80, 55 },
 		{ 25, 1 },
 		{ 3, 3 },
 		{ 26, 1 },
 		{ 27, 1 },
-		{ 94, 117 },
-		{ 62, 18 },
-		{ 94, 117 },
+		{ 59, 21 },
+		{ 61, 22 },
+		{ 81, 63 },
 		{ 28, 1 },
-		{ 47, 6 },
+		{ 44, 6 },
+		{ 82, 64 },
 		{ 29, 1 },
 		{ 30, 1 },
+		{ 83, 65 },
+		{ 45, 6 },
 		{ 31, 1 },
+		{ 84, 67 },
+		{ 85, 68 },
+		{ 86, 69 },
+		{ 87, 70 },
+		{ 88, 71 },
+		{ 89, 72 },
 		{ 32, 1 },
-		{ 48, 6 },
+		{ 91, 75 },
 		{ 33, 1 },
-		{ 89, 47 },
-		{ 0, 61 },
 		{ 34, 1 },
-		{ 0, 61 },
-		{ 90, 48 },
-		{ 67, 23 },
+		{ 90, 73 },
+		{ 92, 76 },
 		{ 35, 1 },
-		{ 91, 57 },
 		{ 36, 1 },
+		{ 93, 77 },
+		{ 94, 78 },
+		{ 62, 23 },
 		{ 37, 1 },
-		{ 92, 58 },
-		{ 0, 60 },
 		{ 38, 1 },
 		{ 39, 1 },
-		{ 43, 4 },
-		{ 70, 29 },
-		{ 71, 30 },
-		{ 40, 1 },
-		{ 41, 1 },
-		{ 42, 1 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 95, 68 },
-		{ 96, 69 },
-		{ 97, 70 },
-		{ 98, 71 },
-		{ 99, 72 },
-		{ 100, 73 },
-		{ 101, 74 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 102, 75 },
-		{ 103, 77 },
-		{ 104, 78 },
-		{ 105, 79 },
-		{ 61, 62 },
-		{ 106, 80 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 61, 62 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 107, 81 },
-		{ 108, 82 },
-		{ 109, 83 },
-		{ 110, 84 },
-		{ 111, 85 },
-		{ 112, 87 },
-		{ 113, 88 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 114, 89 },
-		{ 115, 90 },
-		{ 49, 7 },
-		{ 50, 8 },
-		{ 24, 160 },
-		{ 119, 95 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 24, 160 },
-		{ 93, 93 },
-		{ 93, 93 },
-		{ 93, 93 },
-		{ 93, 93 },
-		{ 93, 93 },
-		{ 93, 93 },
-		{ 93, 93 },
-		{ 93, 93 },
-		{ 93, 93 },
-		{ 93, 93 },
-		{ 118, 118 },
-		{ 118, 118 },
-		{ 118, 118 },
-		{ 118, 118 },
-		{ 118, 118 },
-		{ 118, 118 },
-		{ 118, 118 },
-		{ 118, 118 },
-		{ 118, 118 },
-		{ 118, 118 },
-		{ 120, 96 },
-		{ 117, 93 },
-		{ 121, 97 },
-		{ 122, 98 },
-		{ 123, 99 },
-		{ 124, 101 },
-		{ 125, 102 },
-		{ 126, 104 },
-		{ 127, 105 },
-		{ 128, 106 },
-		{ 129, 107 },
-		{ 130, 108 },
-		{ 131, 109 },
-		{ 132, 110 },
-		{ 133, 111 },
-		{ 134, 112 },
-		{ 135, 113 },
-		{ 136, 114 },
-		{ 137, 115 },
-		{ 52, 12 },
-		{ 78, 34 },
-		{ 138, 121 },
-		{ 139, 123 },
-		{ 140, 124 },
-		{ 141, 126 },
-		{ 142, 127 },
-		{ 143, 128 },
-		{ 144, 130 },
-		{ 145, 131 },
-		{ 146, 133 },
-		{ 147, 134 },
-		{ 148, 135 },
-		{ 149, 136 },
-		{ 150, 137 },
-		{ 151, 138 },
-		{ 152, 140 },
-		{ 79, 35 },
-		{ 155, 143 },
-		{ 156, 145 },
-		{ 157, 147 },
-		{ 158, 148 },
-		{ 157, 149 },
-		{ 159, 150 },
-		{ 160, 152 },
-		{ 161, 153 },
-		{ 162, 154 },
-		{ 163, 158 },
-		{ 163, 159 },
-		{ 80, 36 },
-		{ 164, 161 },
-		{ 165, 162 },
-		{ 166, 165 },
-		{ 167, 166 },
-		{ 168, 167 },
-		{ 169, 168 },
-		{ 170, 169 }
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 96, 81 },
+		{ 97, 82 },
+		{ 98, 85 },
+		{ 99, 86 },
+		{ 100, 87 },
+		{ 101, 88 },
+		{ 102, 89 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 103, 90 },
+		{ 104, 91 },
+		{ 105, 92 },
+		{ 106, 93 },
+		{ 57, 57 },
+		{ 107, 94 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 57, 57 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 108, 98 },
+		{ 109, 99 },
+		{ 110, 101 },
+		{ 111, 103 },
+		{ 112, 104 },
+		{ 113, 105 },
+		{ 114, 106 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 115, 107 },
+		{ 116, 109 },
+		{ 117, 110 },
+		{ 118, 112 },
+		{ 24, 117 },
+		{ 119, 113 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 24, 117 },
+		{ 118, 114 },
+		{ 120, 115 },
+		{ 63, 28 },
+		{ 121, 119 },
+		{ 121, 120 }
 	};
 	yytransition = transition;
 
 	static const yystate_t YYNEARFAR YYBASED_CODE state[] = {
 		{ 0, 0, 0 },
-		{ 160, -8, 0 },
+		{ 117, -8, 0 },
 		{ 1, 0, 0 },
 		{ 0, 52, 1 },
-		{ 0, 51, 47 },
-		{ 44, 0, 0 },
+		{ 0, -53, 39 },
+		{ 41, 0, 0 },
 		{ 0, -9, 0 },
-		{ 0, 177, 52 },
-		{ 0, 201, 55 },
-		{ 51, 0, 0 },
-		{ 0, 0, 39 },
-		{ 0, 0, 40 },
-		{ 0, 246, 50 },
-		{ 0, 17, 48 },
-		{ 0, 0, 56 },
-		{ 0, 18, 49 },
-		{ 0, 0, 57 },
-		{ 0, -38, 51 },
-		{ 61, 19, 30 },
-		{ 0, 0, 58 },
-		{ 0, 0, 46 },
-		{ 65, -47, 31 },
-		{ 0, 16, 45 },
-		{ 0, 42, 35 },
-		{ 160, 0, 29 },
-		{ 0, 0, 43 },
-		{ 0, 0, 44 },
-		{ 0, 0, 53 },
-		{ 160, -104, 29 },
-		{ 160, 2, 29 },
-		{ 160, 6, 29 },
-		{ 160, -90, 29 },
-		{ 160, -95, 29 },
-		{ 160, -91, 29 },
-		{ 160, 197, 29 },
-		{ 160, 210, 29 },
-		{ 160, 235, 29 },
-		{ 160, -94, 29 },
-		{ 160, -91, 29 },
-		{ 160, -46, 29 },
-		{ 0, 0, 41 },
-		{ 0, -58, 54 },
-		{ 0, 0, 42 },
-		{ 0, 0, 34 },
-		{ -5, 46, 5 },
-		{ 0, 12, 0 },
-		{ 0, 4, 0 },
-		{ 0, -3, 0 },
-		{ 0, -8, 0 },
-		{ 0, 0, 63 },
+		{ 0, 5, 44 },
+		{ 0, 34, 47 },
+		{ 48, 0, 0 },
+		{ 0, 0, 31 },
+		{ 0, 0, 32 },
+		{ 0, 17, 42 },
+		{ 0, 15, 40 },
+		{ 0, 0, 48 },
+		{ 0, 18, 41 },
+		{ 0, 0, 49 },
+		{ 0, -38, 43 },
+		{ 57, -38, 22 },
+		{ 0, 0, 50 },
 		{ 0, 0, 38 },
-		{ -9, 18, 6 },
-		{ 0, 0, 62 },
-		{ 0, 0, 65 },
-		{ 0, 0, 59 },
-		{ 0, 0, 64 },
-		{ 0, 0, 60 },
-		{ -57, 63, 0 },
-		{ -58, 98, 0 },
-		{ 0, 0, 61 },
-		{ 93, 40, 0 },
-		{ 62, 56, 9 },
-		{ 117, 70, 9 },
-		{ 65, 0, 0 },
-		{ 65, 0, 32 },
-		{ -63, -7, 7 },
-		{ 0, 0, 33 },
+		{ 60, 26, 23 },
+		{ 0, 27, 37 },
+		{ 0, 53, 27 },
+		{ 117, 0, 21 },
+		{ 0, 0, 35 },
 		{ 0, 0, 36 },
-		{ 160, 17, 29 },
-		{ 160, 13, 29 },
-		{ 160, 13, 29 },
-		{ 160, 16, 29 },
-		{ 160, 21, 29 },
-		{ 160, 19, 29 },
-		{ 160, 18, 29 },
-		{ 160, 45, 29 },
-		{ 160, 0, 10 },
-		{ 160, 46, 29 },
-		{ 160, 53, 29 },
-		{ 160, 59, 29 },
-		{ 160, 50, 29 },
-		{ 160, 106, 29 },
-		{ 160, 93, 29 },
-		{ 160, 91, 29 },
-		{ 160, 101, 29 },
-		{ 160, 102, 29 },
-		{ 0, 0, 37 },
-		{ 0, 138, 0 },
-		{ 0, 142, 0 },
-		{ 0, 134, 0 },
-		{ 0, 138, 0 },
-		{ -57, -34, 0 },
+		{ 0, 0, 45 },
+		{ 117, 159, 21 },
+		{ 117, -102, 21 },
+		{ 117, -104, 21 },
+		{ 117, -42, 21 },
+		{ 117, -94, 21 },
+		{ 117, -80, 21 },
+		{ 117, -94, 21 },
+		{ 117, -44, 21 },
+		{ 117, -35, 21 },
+		{ 0, 0, 33 },
+		{ 0, -53, 46 },
+		{ 0, 0, 34 },
+		{ 0, 0, 26 },
+		{ -5, 46, 5 },
+		{ 0, 4, 0 },
+		{ 0, -4, 0 },
+		{ 0, -26, 0 },
+		{ 0, -33, 0 },
+		{ 0, 0, 55 },
+		{ 0, 0, 30 },
+		{ -9, 18, 6 },
+		{ 0, 0, 54 },
+		{ 0, 0, 57 },
+		{ 0, 0, 51 },
+		{ 0, 0, 56 },
+		{ 0, 0, 52 },
+		{ -54, 39, 0 },
+		{ -55, 72, 0 },
+		{ 0, 0, 53 },
+		{ 0, 70, 9 },
+		{ 60, 0, 0 },
+		{ 60, 0, 24 },
+		{ -58, -7, 7 },
+		{ 0, 0, 25 },
+		{ 0, 0, 28 },
+		{ 117, -22, 21 },
+		{ 117, -23, 21 },
+		{ 117, -19, 21 },
+		{ 117, 0, 10 },
+		{ 117, -18, 21 },
+		{ 117, -6, 21 },
+		{ 117, -16, 21 },
+		{ 117, 4, 21 },
+		{ 117, -12, 21 },
+		{ 117, -2, 21 },
+		{ 117, 3, 21 },
+		{ 0, 0, 29 },
+		{ 0, 35, 0 },
+		{ 0, 42, 0 },
+		{ 0, 10, 0 },
+		{ 0, 14, 0 },
+		{ -54, 23, 0 },
 		{ 0, 0, 2 },
-		{ 0, 220, 30 },
-		{ 118, 0, 0 },
-		{ 160, 133, 29 },
-		{ 160, 187, 29 },
-		{ 160, 192, 29 },
-		{ 160, 190, 29 },
-		{ 160, 195, 29 },
-		{ 160, 0, 13 },
-		{ 160, 194, 29 },
-		{ 160, 183, 29 },
-		{ 160, 0, 17 },
-		{ 160, 192, 29 },
-		{ 160, 186, 29 },
-		{ 160, 180, 29 },
-		{ 160, 188, 29 },
-		{ 160, 185, 29 },
-		{ 160, 183, 29 },
-		{ 160, 201, 29 },
-		{ 160, 194, 29 },
-		{ 0, 230, 0 },
-		{ 0, 228, 0 },
-		{ 0, 200, 0 },
-		{ 0, 198, 0 },
+		{ 117, 20, 21 },
+		{ 117, 28, 21 },
+		{ 117, 0, 13 },
+		{ 117, 0, 15 },
+		{ 117, 20, 21 },
+		{ 117, 14, 21 },
+		{ 117, 22, 21 },
+		{ 117, 16, 21 },
+		{ 117, 34, 21 },
+		{ 117, 53, 21 },
+		{ 0, 89, 0 },
+		{ 0, 87, 0 },
+		{ 0, 59, 0 },
+		{ 0, 58, 0 },
 		{ 0, 0, 3 },
-		{ 118, 44, 0 },
-		{ 0, 230, 30 },
-		{ 160, 0, 24 },
-		{ 160, 0, 26 },
-		{ 160, 201, 29 },
-		{ 160, 0, 11 },
-		{ 160, 194, 29 },
-		{ 160, 207, 29 },
-		{ 160, 0, 15 },
-		{ 160, 280, 29 },
-		{ 160, 197, 29 },
-		{ 160, 200, 29 },
-		{ 160, 0, 27 },
-		{ 160, 199, 29 },
-		{ 160, 217, 29 },
-		{ 160, 0, 18 },
-		{ 160, 216, 29 },
-		{ 0, 240, 0 },
-		{ 0, 234, 0 },
-		{ 0, 210, 0 },
-		{ 0, 204, 0 },
-		{ 160, 221, 29 },
-		{ 160, 0, 23 },
-		{ 160, 226, 29 },
-		{ 0, -93, 0 },
-		{ 160, 0, 28 },
-		{ 160, 215, 29 },
-		{ 160, 0, 25 },
-		{ 160, 210, 29 },
-		{ 160, 0, 12 },
-		{ 0, 258, 0 },
-		{ 0, 260, 0 },
-		{ 0, 228, 0 },
-		{ 0, 230, 0 },
-		{ 160, 0, 21 },
-		{ 160, 217, 29 },
-		{ 0, 222, 0 },
-		{ 0, 222, 0 },
-		{ 160, 0, 14 },
-		{ 160, 0, 19 },
+		{ 117, 0, 18 },
+		{ 117, 0, 11 },
+		{ 117, 87, 21 },
+		{ 117, 90, 21 },
+		{ 117, 0, 19 },
+		{ 117, 106, 21 },
+		{ 117, 0, 16 },
+		{ 117, 105, 21 },
+		{ 0, 129, 0 },
+		{ 0, 123, 0 },
+		{ 0, 99, 0 },
+		{ 0, 119, 0 },
+		{ 117, 0, 20 },
+		{ 117, 127, 21 },
+		{ 117, 122, 21 },
+		{ 117, 0, 12 },
+		{ 0, 170, 0 },
+		{ 0, 173, 0 },
+		{ 0, 167, 0 },
+		{ 0, 169, 0 },
+		{ 117, 0, 14 },
+		{ 0, 145, 17 },
 		{ 0, 0, 4 },
-		{ 0, 265, 0 },
-		{ 0, 234, 0 },
-		{ 0, 145, 16 },
-		{ 0, 221, 0 },
-		{ 0, 228, 0 },
-		{ 0, 0, 8 },
-		{ 0, 0, 20 },
-		{ 0, 236, 0 },
-		{ 0, 308, 0 },
-		{ 0, 236, 0 },
-		{ 0, 232, 0 },
-		{ 0, 227, 0 },
-		{ 0, 0, 22 }
+		{ 0, 202, 0 },
+		{ 0, 171, 0 },
+		{ 0, 0, 8 }
 	};
 	yystate = state;
 
@@ -1703,19 +1463,11 @@ void YYLEXERNAME::yytables()
 		0,
 		0,
 		0,
-		0,
-		0,
-		0,
-		0,
-		0,
-		0,
-		0,
-		0,
 		0
 	};
 	yybackup = backup;
 }
-#line 618 ".\\mylexer.l"
+#line 547 ".\\mylexer.l"
 
 
 /////////////////////////////////////////////////////////////////////////////

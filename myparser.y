@@ -8,6 +8,7 @@ Date: 2019��9��16��
 #include "mylexer.h"
 #include "symtable.h"
 #include "./ParseTree/ParseTree.h"
+#include "InterCodeGenerator.h"
 struct symtable symtable[MAXSYM];
 class ParseTreeNode;
 %}
@@ -27,9 +28,9 @@ class ParseTreeNode;
 %right '^'
 %nonassoc UMINUS POINT AUTODECRE AUTOINCRE ADDRESS
 %nonassoc BRACKET
-%token IF THEN ELSE RELOP VOID '(' ')' LBRACE RBRACE '[' ']' '!' INT DEFINE STRING INCLUDE WHILE FOR RETURN GOTO GETCHAR STRUCT LONGINT DOUBLE LONGLONGINT FLOAT BOOL SHORT BYTE SCAN PRINT
+%token IF THEN ELSE RELOP VOID '(' ')' LBRACE RBRACE '[' ']' '!' INT DEFINE STRING INCLUDE WHILE FOR RETURN STRUCT BOOL SCAN PRINT
 %union {
-	double dval;
+	int dval;
 	struct symtable *symp;
 	class ParseTreeNode *node;
 	class RootNode *rootnode;
@@ -43,6 +44,7 @@ class ParseTreeNode;
 	class ForLoopStatementNode *forloopstatementnode;
 	class OperatorNode *operatornode;
 	class SelectionStatementNode *selectionstatementnode;
+	class ExpressionNode *expressionnode;
 }
 %token <symp> ID
 %token <dval> NUMBER
@@ -60,14 +62,14 @@ class ParseTreeNode;
 %type <statementnode> statement // For all statements [StatementNode]
 %type <statementnode> io_statement // Scan/print statement [StatementNode]
 %type <whileloopstatementnode> while_loop_statement // While statement [WhileLoopStatementNode]
-%type <forloopstatementnode> for_front // Front of for-loop statement [ForLoopStatementNode]
 %type <forloopstatementnode> for_loop_statement // For-loop statement [ForLoopStatementNode]
 %type <statementnode> var_definition // <type (ID/assignment_expression)+ ;>, to be fixed [StatementNode]
 %type <varnode> var_declaration_list // [VarNode]
 %type <varnode> var_declaration // [VarNode]
 %type <operatornode> assignment_expression // <ID = expression>, whose value is right-hand expression [OperatorNode]
-%type <node> expression // Expression that has a value [OperatorNode] / [VarNode]
+%type <expressionnode> expression // Expression that has a value [OperatorNode] / [VarNode]
 %type <selectionstatementnode> selection_statement // Selection statement [SelectionStatementNode]
+%type <expressionnode> expression_id_dec
 // parser name
 %name myparser
 // attribute type
@@ -78,13 +80,20 @@ class ParseTreeNode;
 }
 // place any declarations here
 %{
-	RootNode *root = NULL;
+	void call();
+	StatementNode *StatementNode::Null = new StatementNode();
+	ConstNode *ConstNode::True = new ConstNode("true", new TypeNode("bool"));
+	ConstNode *ConstNode::False = new ConstNode("false", new TypeNode("bool"));
+	int TempNode::tempCount = 0;
+	RootNode *root = new RootNode();
+	int offset = 0; // total offset in memory
+	int labelCount = 0; // count of labels
+	InterCodeGenerator *generator = new InterCodeGenerator(root);
 %}
 %%
 /////////////////////////////////////////////////////////////////////////////
 // rules section
 prog: top_level_definition_list {
-		root = new RootNode();
 		root->addChildNode($1);
 		$$ = root;
 	};
@@ -94,106 +103,76 @@ top_level_definition_list: top_level_definition top_level_definition_list {
 	} | {
 		$$ = NULL;
 	};
-top_level_definition: type top_level_declarator_list ';' {
-		// assert $2 is a VarNode
-		VarNode *cur = (VarNode*)$2;
-		cur->setType($1);
-		while(cur->getNextPeerNode() != NULL) {
-			cur = (VarNode*)cur->getNextPeerNode();
-			cur->setType($1);
-		}
-		TopLevelDefinitionNode *curr = new TopLevelDefinitionNode();
-		curr->addChildNode($1);
+top_level_definition:
+	type top_level_declarator_list ';' {
+		$$ = new TopLevelDefinitionNode();
+		$$->addChildNode($1);
 		$1->addPeerNode($2);
-		$$ = curr;
-		$$->print();
+		//$$->print();
 	} | type function_declarator code_block {
-		// assert $2 is a FunctionNode
-		$2->setReturnType($1);
-		$2->setBody($3);
-		TopLevelDefinitionNode *curr = new TopLevelDefinitionNode();
-		curr->addChildNode($1);
+		$$ = new TopLevelDefinitionNode();
+		$$->addChildNode($1);
 		$1->addPeerNode($2);
-		$$ = curr;
+		$2->addPeerNode($3);
+		root->addChildNode($$);
+		InterCodeGenerator *generator = new InterCodeGenerator(root);
+		generator->generate();
 		$$->print();
 	} | type ';'
 	;
-top_level_declarator_list: var_declarator {
-		$$ = $1; // anyway, $1 is a VarNode
-	} | var_declarator ',' top_level_declarator_list {
+top_level_declarator_list: var_declarator {$$ = $1;}
+	| var_declarator ',' top_level_declarator_list {
 		$$ = $1;
-		$1->addPeerNode($3);
+		$$->addPeerNode($3);
 	};
 var_declarator: ID {
 		VarNode *cur = new VarNode(string($1->name));
+		cur->nodeType = 2;
 		$$ = cur;
-		/* Add checking symtable for value and type. */
-	} | ID '[' NUMBER ']' {
-		VarNode *cur = new VarNode(string($1->name));
+	} | var_declarator '[' NUMBER ']' {
+		$$ = $1;
 		ArrayNode *curtyp = new ArrayNode($3);
-		cur->setType(curtyp);
-		$$ = cur;
+		$$->setType(curtyp);
+		$$->nodeType = 3;
 	};
-function_declarator: ID '(' param_list ')' {
-		FunctionNode *cur = new FunctionNode(string($1->name));
-		// assert $3 is a ParamNode
-		cur->setParam($3);
-		$$ = cur;
-	} | ID '(' ')' {
-		FunctionNode *cur = new FunctionNode(string($1->name));
-		$$ = cur;
+function_declarator: ID '(' ')' {
+		$$ = new FunctionNode(string($1->name));
+	} | ID '(' param_list ')' {
+		$$ = new FunctionNode(string($1->name));
+		$$->setParam($3);
 	};
-param_list: param {
-		$$ = $1; // assert $1 is a ParamNode
-	} | param ',' param_list {
+param_list: param {$$ = $1;}
+	| param ',' param_list {
 		$$ = $1;
 		$1->addPeerNode($3);
 	};
 param: type var_declarator {
 		// assert $1 is a TypeNode, $2 is a VarNode
-		ParamNode *cur = new ParamNode($1, $2);
-		$$ = cur;
+		$$ = new ParamNode($1, $2);
 	};
-type: DOUBLE {
-		TypeNode *cur = new TypeNode("double");
-		$$ = cur;
-	} | FLOAT {
-		TypeNode *cur = new TypeNode("float");
-		$$ = cur;
-	} | BOOL {
-		TypeNode *cur = new TypeNode("bool");
-		$$ = cur;
-	} | LONGINT {
-		TypeNode *cur = new TypeNode("long int");
-		$$ = cur;
-	} | LONGLONGINT {
-		TypeNode *cur = new TypeNode("long long int");
-		$$ = cur;
-	} | BYTE {
-		TypeNode *cur = new TypeNode("byte");
-		$$ = cur;
-	} | STRUCT					
-	| INT {
-		TypeNode *cur = new TypeNode("int");
-		$$ = cur;
+type: BOOL {
+		$$ = new TypeNode("bool");
+	} | INT {
+		$$ = new TypeNode("int");
 	} | VOID {
-		TypeNode *cur = new TypeNode("void");
-		$$ = cur;
+		$$ = new TypeNode("void");
 	};
 code_block: LBRACE statement_list RBRACE {
-		CompoundStatementNode *cur = new CompoundStatementNode();
-		cur->addChildNode($2);
-		$$ = cur;
+		$$ = new CompoundStatementNode();
+		$$->addChildNode($2);
 	};
 statement_list: statement {$$ = $1;}
 	| statement_list statement {
 		$1->addPeerNode($2);
 		$$ = $1;
 	};
-statement: expression ';' {
-		StatementNode *cur = new StatementNode(1);
-		cur->addChildNode($1);
-		$$ = cur;
+statement: assignment_expression ';' {
+		ExpressionNode* lvalue = $1->left;
+		if(lvalue->nodeId == NodeId::varnode)$$ = new AssignNode((VarNode*)lvalue, $1->right);
+		else if(lvalue->nodeId == NodeId::accessnode) {
+			$$ = new AssignArrayNode((AccessNode*)lvalue, $1->right);
+		}
+		else yyerror("wrong left value! UniqueID=162");
 	} | while_loop_statement {
 		$$ = $1;
 	} | for_loop_statement {
@@ -203,6 +182,8 @@ statement: expression ';' {
 	} | var_definition {
 		$$ = $1;
 	} | io_statement ';' {
+		$$ = $1;
+	} | code_block {
 		$$ = $1;
 	};
 io_statement: SCAN '(' expression ')' {
@@ -215,87 +196,43 @@ io_statement: SCAN '(' expression ')' {
 		$$ = cur;
 	};
 
-while_loop_statement: WHILE '(' expression ')' code_block {
-		WhileLoopStatementNode *cur = new WhileLoopStatementNode($3, $5);
-		$$ = cur;
-	} | WHILE '(' expression ')' statement {
-		WhileLoopStatementNode *cur = new WhileLoopStatementNode($3, $5);
-		$$ = cur;
+while_loop_statement: WHILE '(' expression ')' statement {
+		$$ = new WhileLoopStatementNode($3, $5);
 	};
-for_loop_statement: for_front code_block {
-		$1->setBlock($2);
-		$$ = $1;
-	} | for_front statement {
-		$1->setBlock($2);
-		$$ = $1;
+for_loop_statement: FOR '(' expression ';' expression ';' expression ')' statement {
+		$$ = new ForLoopStatementNode($3, $5, $7, $9);
+	} | FOR '(' type assignment_expression ';' expression ';' expression ')' statement {
+		$$ = new ForLoopStatementNode($4, $6, $8, $10);
+	} | FOR '(' expression ';' expression ';' ')' statement {
+		$$ = new ForLoopStatementNode($3, $5, NULL, $8);
+	} | FOR '(' type assignment_expression ';' expression ';' ')' statement {
+		$$ = new ForLoopStatementNode($4, $6, NULL, $9);
+	} | FOR '(' expression ';' ';' expression ')' statement {
+		$$ = new ForLoopStatementNode($3, NULL, $6, $8);
+	} | FOR '(' type assignment_expression ';' ';' expression ')' statement {
+		$$ = new ForLoopStatementNode($4, NULL, $7, $9);
+	} | FOR '(' ';' expression ';' expression ')' statement {
+		$$ = new ForLoopStatementNode(NULL, $4, $6, $8);
+	} | FOR '(' expression ';' ';' ')' statement {
+		$$ = new ForLoopStatementNode($3, NULL, NULL, $7);
+	} | FOR '(' type assignment_expression ';' ';' ')' statement {
+		$$ = new ForLoopStatementNode($4, NULL, NULL, $8);
+	} | FOR '(' ';' expression ';' ')' statement {
+		$$ = new ForLoopStatementNode(NULL, $4, NULL, $7);
+	} | FOR '(' ';' ';' expression ')' statement {
+		$$ = new ForLoopStatementNode(NULL, NULL, $5, $7);
+	} | FOR '(' ';' ';' ')' statement {
+		$$ = new ForLoopStatementNode(NULL, NULL, NULL, $6);
 	};
-for_front: FOR '(' expression ';' expression ';' expression ')' {
-		ForLoopStatementNode *cur = new ForLoopStatementNode($3, $5, $7);
-		$$ = cur;
-	} | FOR '(' type assignment_expression ';' expression ';' expression ')' {
-		ForLoopStatementNode *cur = new ForLoopStatementNode($4, $6, $8);
-		$$ = cur;
-	} | FOR '(' expression ';' expression ';' ')' {
-		ForLoopStatementNode *cur = new ForLoopStatementNode($3, $5, NULL);
-		$$ = cur;
-	} | FOR '(' type assignment_expression ';' expression ';' ')' {
-		ForLoopStatementNode *cur = new ForLoopStatementNode($4, $6, NULL);
-		$$ = cur;
-	} | FOR '(' expression ';' ';' expression ')' {
-		ForLoopStatementNode *cur = new ForLoopStatementNode($3, NULL, $6);
-		$$ = cur;
-	} | FOR '(' type assignment_expression ';' ';' expression ')' {
-		ForLoopStatementNode *cur = new ForLoopStatementNode($4, NULL, $7);
-		$$ = cur;
-	} | FOR '(' ';' expression ';' expression ')' {
-		ForLoopStatementNode *cur = new ForLoopStatementNode(NULL, $4, $6);
-		$$ = cur;
-	} | FOR '(' expression ';' ';' ')' {
-		ForLoopStatementNode *cur = new ForLoopStatementNode($3, NULL, NULL);
-		$$ = cur;
-	} | FOR '(' type assignment_expression ';' ';' ')' {
-		ForLoopStatementNode *cur = new ForLoopStatementNode($4, NULL, NULL);
-		$$ = cur;
-	} | FOR '(' ';' expression ';' ')' {
-		ForLoopStatementNode *cur = new ForLoopStatementNode(NULL, $4, NULL);
-		$$ = cur;
-	} | FOR '(' ';' ';' expression ')' {
-		ForLoopStatementNode *cur = new ForLoopStatementNode(NULL, NULL, $5);
-		$$ = cur;
-	} | FOR '(' ';' ';' ')' {
-		ForLoopStatementNode *cur = new ForLoopStatementNode(NULL, NULL, NULL);
-		$$ = cur;
-	};
-selection_statement: IF '(' expression ')' code_block {
-		SelectionStatementNode *cur = new SelectionStatementNode($3, $5);
-		$$ = cur;
-	} | IF '(' expression ')' statement {
-		SelectionStatementNode *cur = new SelectionStatementNode($3, $5);
-		$$ = cur;
-	} | IF '(' expression ')' code_block ELSE code_block {
-		SelectionStatementNode *cur = new SelectionStatementNode($3, $5, $7);
-		$$ = cur;
-	} | IF '(' expression ')' code_block ELSE statement {
-		SelectionStatementNode *cur = new SelectionStatementNode($3, $5, $7);
-		$$ = cur;
-	} | IF '(' expression ')' statement ELSE code_block {
-		SelectionStatementNode *cur = new SelectionStatementNode($3, $5, $7);
-		$$ = cur;
+selection_statement: IF '(' expression ')' statement {
+		$$ = new SelectionStatementNode($3, $5);
 	} | IF '(' expression ')' statement ELSE statement {
-		SelectionStatementNode *cur = new SelectionStatementNode($3, $5, $7);
-		$$ = cur;
+		$$ = new SelectionStatementNode($3, $5, $7);
 	};
 var_definition: type var_declaration_list ';' {
-		StatementNode *cu = new StatementNode(5);
-		cu->addChildNode($2);
-		$$ = cu;
-		// assert $2 is a VarNode
-		VarNode *cur = $2;
-		cur->setType($1);
-		while(cur->getNextPeerNode() != NULL) {
-			cur = (VarNode*)cur->getNextPeerNode();
-			cur->setType($1);
-		}
+		$$ = new StatementNode(5);
+		$$->addChildNode($1);
+		$1->addPeerNode($2);
 	};
 var_declaration_list: var_declaration {
 		// assert $1 is a VarNode
@@ -311,115 +248,42 @@ var_declaration: var_declarator {
 	} | var_declarator '=' expression {
 		// assert $1 is a VarNode, and $$ is a VarNode
 		$$ = $1;
-		$$->setValue($3->getValue());
+		$$->addChildNode($3);
 	};
 assignment_expression: expression '=' expression {
-		// special for ForLoopStatement
-		// assert $1 is a VarNode or an OperatorNode, instead of a ConstNode
-		OperatorNode *cur = new OperatorNode($3->getValue(), 1);
-		$1->setValue($3->getValue());
-		cur->addChildNode($1);
-		$1->addPeerNode($3);
-		$$ = cur;
+		$$ = new OperatorNode(1, $1, $3);
 	};
-expression: assignment_expression {
-		$$ = $1;
-	} | expression '+' expression {
-		ParseTreeNode *cur = new OperatorNode($1->getValue() + $3->getValue(), 2);
-		cur->addChildNode($1);
-		$1->addPeerNode($3);
-		$$ = cur;
-	} | expression '-' expression {
-		ParseTreeNode *cur = new OperatorNode($1->getValue() - $3->getValue(), 3);
-		cur->addChildNode($1);
-		$1->addPeerNode($3);
-		$$ = cur;
-	} | expression '*' expression {
-		ParseTreeNode *cur = new OperatorNode($1->getValue() * $3->getValue(), 4);
-		cur->addChildNode($1);
-		$1->addPeerNode($3);
-		$$ = cur;
-	} | expression '/' expression {
-		ParseTreeNode *cur;
-		if($3->getValue() != 0.0)cur = new OperatorNode($1->getValue() / $3->getValue(), 5);
-		else {
-			yyerror("Divide by zero.\n");
-			cur = new OperatorNode(0, 0);
-		}
-		cur->addChildNode($1);
-		$1->addPeerNode($3);
-		$$ = cur;
-	} | expression '%' expression {
-		ParseTreeNode *cur;
-		if($3->getValue() != 0.0)cur = new OperatorNode((int)$1->getValue() % (int)$3->getValue(), 6);
-		else {
-			yyerror("Mod by zero.\n");
-			cur = new OperatorNode(0, 0);
-		}
-		cur->addChildNode($1);
-		$1->addPeerNode($3);
-		$$ = cur;
-	} | expression '<' expression {
-		ParseTreeNode *cur = new OperatorNode($1->getValue() < $3->getValue(), 7);
-		cur->addChildNode($1);
-		$1->addPeerNode($3);
-		$$ = cur;
-	} | expression '>' expression {
-		ParseTreeNode *cur = new OperatorNode($1->getValue() > $3->getValue(), 8);
-		cur->addChildNode($1);
-		$1->addPeerNode($3);
-		$$ = cur;
-	} | expression EQ expression {
-		ParseTreeNode *cur = new OperatorNode($1->getValue() == $3->getValue(), 9);
-		cur->addChildNode($1);
-		$1->addPeerNode($3);
-		$$ = cur;
-	} | expression LE expression {
-		ParseTreeNode *cur = new OperatorNode($1->getValue() <= $3->getValue(), 10);
-		cur->addChildNode($1);
-		$1->addPeerNode($3);
-		$$ = cur;
-	} | expression GE expression {
-		ParseTreeNode *cur = new OperatorNode($1->getValue() >= $3->getValue(), 11);
-		cur->addChildNode($1);
-		$1->addPeerNode($3);
-		$$ = cur;
-	} | expression NE expression {
-		ParseTreeNode *cur = new OperatorNode($1->getValue() != $3->getValue(), 12);
-		cur->addChildNode($1);
-		$1->addPeerNode($3);
-		$$ = cur;
-	} | expression AND expression {
-		ParseTreeNode *cur = new OperatorNode($1->getValue() && $3->getValue(), 13);
-		cur->addChildNode($1);
-		$1->addPeerNode($3);
-		$$ = cur;
-	} | expression OR expression {
-		ParseTreeNode *cur = new OperatorNode($1->getValue() || $3->getValue(), 14);
-		cur->addChildNode($1);
-		$1->addPeerNode($3);
-		$$ = cur;
-	} | expression '^' expression {
-		ParseTreeNode *cur = new OperatorNode(pow($1->getValue(), $3->getValue()), 15);
-		cur->addChildNode($1);
-		$1->addPeerNode($3);
-		$$ = cur;
-	} | '-' expression %prec UMINUS {
-		ParseTreeNode *cur = new OperatorNode(-$2->getValue(), 16);
-		cur->addChildNode($2);
-		$$ = cur;
-	} | '(' expression ')' {
-		$$ = $2;
-	} | ID '(' ')' {
+expression: assignment_expression {$$ = $1;}
+	| expression '+' expression {$$ = new OperatorNode(2, $1, $3);}
+	| expression '-' expression {$$ = new OperatorNode(3, $1, $3);}
+	| expression '*' expression {$$ = new OperatorNode(4, $1, $3);}
+	| expression '/' expression {$$ = new OperatorNode(5, $1, $3);}
+	| expression '%' expression {$$ = new OperatorNode(6, $1, $3);}
+	| expression '<' expression {$$ = new RelNode("<", $1, $3);}
+	| expression '>' expression {$$ = new RelNode(">", $1, $3);}
+	| expression EQ expression {$$ = new RelNode("==", $1, $3);}
+	| expression LE expression {$$ = new RelNode("<=", $1, $3);}
+	| expression GE expression {$$ = new RelNode(">=", $1, $3);}
+	| expression NE expression {$$ = new RelNode("!=", $1, $3);}
+	| expression AND expression {$$ = new AndNode($1, $3);}
+	| expression OR expression {$$ = new OrNode($1, $3);}
+	| expression '^' expression {$$ = new OperatorNode(15, $1, $3);}
+	| '-' expression %prec UMINUS {$$ = new UnaryNode(16, $2);}
+	| '(' expression ')' {$$ = $2;}
+	| ID '(' ')' {
 		// *****************************************************************************************************
 	} | ID '(' argument_list ')' {
 		// *****************************************************************************************************
 	} | NUMBER {
-		ParseTreeNode *cur = new ConstNode($1);
-		$$ = cur;
-	} | var_declarator {
+		$$ = new ConstNode($1);
+	} | expression_id_dec {
 		// assert $1 is a VarNode
 		$$ = $1;
+	};
+expression_id_dec: ID {
+		$$ = new VarNode(string($1->name));
+	} | expression_id_dec '[' expression ']' {
+		
 	};
 argument_list: expression
 	| expression ',' argument_list
@@ -429,6 +293,11 @@ argument_list: expression
 
 /////////////////////////////////////////////////////////////////////////////
 // programs section
+
+void call() {
+	printf("before");
+	generator->generate();
+}
 
 int main(void)
 {

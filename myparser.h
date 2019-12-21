@@ -1,7 +1,7 @@
 /****************************************************************************
 *                     U N R E G I S T E R E D   C O P Y
 * 
-* You are on day 91 of your 30 day trial period.
+* You are on day 97 of your 30 day trial period.
 * 
 * This file was produced by an UNREGISTERED COPY of Parser Generator. It is
 * for evaluation purposes only. If you continue to use Parser Generator 30
@@ -18,8 +18,8 @@
 * myparser.h
 * C++ header file generated from myparser.y.
 * 
-* Date: 12/16/19
-* Time: 14:10:46
+* Date: 12/21/19
+* Time: 20:39:30
 * 
 * AYACC Version: 2.07
 ****************************************************************************/
@@ -61,23 +61,15 @@
 #define WHILE 286
 #define FOR 287
 #define RETURN 288
-#define GOTO 289
-#define GETCHAR 290
-#define STRUCT 291
-#define LONGINT 292
-#define DOUBLE 293
-#define LONGLONGINT 294
-#define FLOAT 295
-#define BOOL 296
-#define SHORT 297
-#define BYTE 298
-#define SCAN 299
-#define PRINT 300
+#define STRUCT 289
+#define BOOL 290
+#define SCAN 291
+#define PRINT 292
 #ifndef YYSTYPE
 union tagYYSTYPE {
-#line 31 ".\\myparser.y"
+#line 32 ".\\myparser.y"
 
-	double dval;
+	int dval;
 	struct symtable *symp;
 	class ParseTreeNode *node;
 	class RootNode *rootnode;
@@ -91,15 +83,16 @@ union tagYYSTYPE {
 	class ForLoopStatementNode *forloopstatementnode;
 	class OperatorNode *operatornode;
 	class SelectionStatementNode *selectionstatementnode;
+	class ExpressionNode *expressionnode;
 
-#line 96 "myparser.h"
+#line 89 "myparser.h"
 };
 
 #define YYSTYPE union tagYYSTYPE
 #endif
 
-#define ID 301
-#define NUMBER 302
+#define ID 293
+#define NUMBER 294
 /////////////////////////////////////////////////////////////////////////////
 // myparser
 
@@ -138,11 +131,11 @@ public:
 #define YYPARSERNAME myparser
 #endif
 
-#line 74 ".\\myparser.y"
+#line 76 ".\\myparser.y"
 
 #ifndef YYSTYPE
 #define YYSTYPE int
 #endif
 
-#line 148 "myparser.h"
+#line 141 "myparser.h"
 #endif

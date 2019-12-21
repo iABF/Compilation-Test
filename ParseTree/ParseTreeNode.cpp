@@ -12,6 +12,8 @@ ParseTreeNode::ParseTreeNode()
 {
 	this->child = NULL;
 	this->peer = NULL;
+	this->nodeType = -1;
+	this->nodeId = NodeId::Default;
 }
 
 

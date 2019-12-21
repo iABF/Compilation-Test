@@ -1,22 +1,23 @@
 #include "ConstNode.h"
 
-ConstNode::ConstNode(double val)
+
+
+ConstNode::ConstNode(int val): ExpressionNode(int2str(val), new TypeNode("int"))
 {
-	this->value = val;
+	this->nodeType = 4;
+	this->nodeId = NodeId::constnode;
 }
 
-ConstNode::ConstNode(double val, std::string typ)
-{
-	this->value = val;
-	this->type = typ;
-}
 
 void ConstNode::printText(FILE * file, int depth)
 {
-	fprintf(file, "Const Declaration, %g\n", value);
+	fprintf(file, "Const Declaration, %s\n", this->name);
 }
 
-double ConstNode::getValue()
+void ConstNode::jumping(int t, int f)
 {
-	return this->value;
+	if (this == True && t)emit("goto L" + int2str(t));
+	else if (this == False && f)emit("goto L" + int2str(f));
 }
+
+

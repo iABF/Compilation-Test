@@ -1,5 +1,6 @@
 #include "ArrayNode.h"
 #include <sstream>
+#include <assert.h>
 
 std::string ArrayNode::getArrayName()
 {
@@ -16,12 +17,21 @@ ArrayNode::ArrayNode(int len) :TypeNode(std::string(), Tag::Array)
 {
 	this->length = len;
 	this->basicType = NULL;
+	this->nodeId = NodeId::arraynode;
+	this->hasOriginType = false;
 }
 
 void ArrayNode::setType(TypeNode * typ)
 {
-	this->basicType = typ;
-	this->width = length * typ->width;
+	if (this->basicType == NULL)this->basicType = typ;
+	else {
+		assert(this->basicType->tag == Tag::Array);
+		((ArrayNode*)this->basicType)->setType(typ);
+	}
+	if (this->basicType->width) {
+		this->width = length * this->basicType->width;
+		this->hasOriginType = true;
+	}
 }
 
 void ArrayNode::printText(FILE * file, int depth)

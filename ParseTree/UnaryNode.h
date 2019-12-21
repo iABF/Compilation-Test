@@ -1,19 +1,17 @@
-#ifndef OPERATORNODE_H
-#define OPERATORNODE_H
+#ifndef UNARYNODE_H
+#define UNARYNODE_H
 #include "ParseTreeNode.h"
 #include "ExpressionNode.h"
 #include "TempNode.h"
-class OperatorNode : public ExpressionNode {
+class UnaryNode : public ExpressionNode {
 public:
 	int operatorType; // type index of operator
-	ExpressionNode *left;
-	ExpressionNode *right;
-	OperatorNode(int ope, ExpressionNode *l, ExpressionNode *r);
+	ExpressionNode *expr;
+	UnaryNode(int ope, ExpressionNode *e);
 	void printText(FILE *file, int depth);
 	std::string getOperator(); // get operator
 	ExpressionNode* gen();
 	ExpressionNode* reduce();
 	std::string toString();
-	TypeNode* maxt(TypeNode *a, TypeNode *b);
 };
-#endif // !OPERATORNODE_H
+#endif // !UNARYNODE_H

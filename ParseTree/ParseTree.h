@@ -17,4 +17,9 @@
 #include "CompoundStatementNode.h"
 #include "ArrayNode.h"
 #include "TopLevelDefinitionNode.h"
+#include "InterTools.h"
+#include "ExpressionNode.h"
+#include "TempNode.h"
+#include "UnaryNode.h"
+#include "LogicalNode.h"
 #endif // !PARSETREE

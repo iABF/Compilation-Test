@@ -5,11 +5,11 @@
 #include "TypeNode.h"
 #include "CompoundStatementNode.h"
 class FunctionNode : public ParseTreeNode {
+public:
+	std::string name;
 	TypeNode *returnType;
 	ParamNode *paramList;
 	CompoundStatementNode *functionBody;
-	std::string name;
-public:
 	FunctionNode(std::string nam);
 	void printText(FILE *file, int depth);
 	inline void setReturnType(TypeNode *typ) { returnType = typ; }

@@ -4,9 +4,9 @@
 #include "TypeNode.h"
 #include "VarNode.h"
 class ParamNode : public ParseTreeNode {
-	VarNode *var; // variable of the param
-	TypeNode *type; // type of the param, to be changed to (ParseTreeNode*)
 public:
+	VarNode *var; // variable of the param
+	TypeNode *type; // type of the param
 	ParamNode(TypeNode *t, VarNode *v);
 	void printText(FILE *file, int depth);
 };

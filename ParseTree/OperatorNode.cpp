@@ -25,10 +25,41 @@ std::string OperatorNode::getOperator()
 	}
 }
 
-OperatorNode::OperatorNode(double val, int ope)
+ExpressionNode * OperatorNode::gen()
 {
-	this->value = val;
+	return new OperatorNode(this->operatorType, this->left->reduce(), this->right->reduce());
+}
+
+ExpressionNode * OperatorNode::reduce()
+{
+	ExpressionNode *ans = gen();
+	TempNode *t = new TempNode(this->type);
+	emit(t->toString() + " = " + ans->toString());
+	return t;
+}
+
+std::string OperatorNode::toString()
+{
+	return this->left->toString() + " " + this->name + " " + this->right->toString();
+}
+
+TypeNode * OperatorNode::maxt(TypeNode * a, TypeNode * b)
+{
+	if (a->btype == BasicType::Int || b->btype == BasicType::Int)return new TypeNode("int");
+	if (a->btype == BasicType::Bool || b->btype == BasicType::Bool)return new TypeNode("bool");
+	return NULL;
+}
+
+OperatorNode::OperatorNode(int ope, ExpressionNode *l, ExpressionNode *r): ExpressionNode(int2str(ope), NULL)
+{
+	this->left = l;
+	this->right = r;
 	this->operatorType = ope;
+	if (l->nodeId == NodeId::varnode || r->nodeId == NodeId::varnode)this->type = new TypeNode("int");
+	else this->type = maxt(l->type, r->type);
+	this->name = this->getOperator();
+	this->nodeType = 1;
+	this->nodeId = NodeId::operatornode;
 }
 
 void OperatorNode::printText(FILE * file, int depth)
@@ -36,7 +67,3 @@ void OperatorNode::printText(FILE * file, int depth)
 	fprintf(file, "Expression, op: %s\n", getOperator().c_str());
 }
 
-double OperatorNode::getValue()
-{
-	return this->value;
-}

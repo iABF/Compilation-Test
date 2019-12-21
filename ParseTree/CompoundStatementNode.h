@@ -1,9 +1,10 @@
 #ifndef COMPOUNDSTATEMENTNODE_H
 #define COMPOUNDSTATEMENTNODE_H
 #include "ParseTreeNode.h"
-class CompoundStatementNode : public ParseTreeNode {
+#include "StatementNode.h"
+class CompoundStatementNode : public StatementNode {
 public:
-	CompoundStatementNode() : ParseTreeNode() {};
+	CompoundStatementNode() : StatementNode(7) {};
 	void printText(FILE *file, int depth);
 };
 #endif // !COMPOUNDSTATEMENTNODE_H

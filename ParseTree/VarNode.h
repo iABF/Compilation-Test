@@ -3,18 +3,18 @@
 #include "ParseTreeNode.h"
 #include "TypeNode.h"
 #include "ArrayNode.h"
-class VarNode : public ParseTreeNode {
-	double value;
-	TypeNode *type;
-	std::string name;
+#include "ExpressionNode.h"
+
+class VarNode : public ExpressionNode {
 public:
-	VarNode(std::string nam, double val);
+	int offset;
 	VarNode(std::string nam);
-	void setValue(double val); // to be fixed
 	void printText(FILE *file, int depth);
 	void setType(TypeNode *type); // set type of this node
 	std::string getVarName();
-	inline double getValue() { return this->value; }
 	inline TypeNode* getType() { return this->type; }
+	inline void setOffset(int off) { this->offset = off; }
 };
+
+
 #endif // !VARNODE_H

@@ -6,6 +6,7 @@ class ArrayNode : public TypeNode {
 public:
 	TypeNode *basicType;
 	int length;
+	bool hasOriginType;
 	ArrayNode(int len);
 	void setType(TypeNode *typ);
 	void printText(FILE *file, int depth);

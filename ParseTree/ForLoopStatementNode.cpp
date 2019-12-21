@@ -1,16 +1,13 @@
 #include "ForLoopStatementNode.h"
 
-ForLoopStatementNode::ForLoopStatementNode(ParseTreeNode * f, ParseTreeNode * s, ParseTreeNode * t) :StatementNode(3)
+ForLoopStatementNode::ForLoopStatementNode(ExpressionNode *f, ExpressionNode *s, ExpressionNode *t, StatementNode *b) :StatementNode(3)
 {
 	this->first = f;
 	this->second = s;
 	this->third = t;
-}
-
-void ForLoopStatementNode::setBlock(ParseTreeNode * b)
-{
 	this->block = b;
 }
+
 
 void ForLoopStatementNode::printText(FILE * file, int depth)
 {

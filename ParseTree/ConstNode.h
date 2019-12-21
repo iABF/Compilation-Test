@@ -1,13 +1,16 @@
 #ifndef CONSTNODE_H
 #define CONSTNODE_H
 #include "ParseTreeNode.h"
-class ConstNode : public ParseTreeNode {
-	double value;
-	std::string type;
+#include "ExpressionNode.h"
+#include "InterTools.h"
+class ConstNode : public ExpressionNode {
 public:
-	ConstNode(double val);
-	ConstNode(double val, std::string typ);
+	inline ConstNode(std::string nam, TypeNode *typ) : ExpressionNode(nam, typ) { this->nodeId = NodeId::constnode; }
+	ConstNode(int val);
 	void printText(FILE *file, int depth);
-	double getValue();
+	static ConstNode *True;
+	static ConstNode *False;
+	void jumping(int t, int f);
 };
+
 #endif // !CONSTNODE_H

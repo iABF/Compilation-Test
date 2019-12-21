@@ -2,14 +2,16 @@
 #define FORLOOPSTATEMENTNODE_H
 #include "ParseTreeNode.h"
 #include "StatementNode.h"
+#include "ExpressionNode.h"
+#include <assert.h>
 class ForLoopStatementNode : public StatementNode {
-	ParseTreeNode *first;
-	ParseTreeNode *second;
-	ParseTreeNode *third;
-	ParseTreeNode *block;
+	ExpressionNode *first;
+	ExpressionNode *second;
+	ExpressionNode *third;
+	StatementNode *block;
 public:
-	ForLoopStatementNode(ParseTreeNode *f, ParseTreeNode *s, ParseTreeNode *t);
-	void setBlock(ParseTreeNode *b);
+	ForLoopStatementNode(ExpressionNode *f, ExpressionNode *s, ExpressionNode *t, StatementNode *b);
 	void printText(FILE *file, int depth);
+	void gen(int begin, int after);
 };
 #endif // !FORLOOPSTATEMENTNODE_H

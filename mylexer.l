@@ -28,7 +28,7 @@ ws			{delim}+
 letter		[A-Za-z_]
 digit		[0-9]
 id			{letter}({letter}|{digit})*
-number		{digit}+(\.{digit}+)?(E[+-]?{digit}+)?
+number		{digit}+
 sglcmmt		\/\/(.)*\n
 mtlcmmt		\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/
 def			(#define)|(#DEFINE)
@@ -139,24 +139,7 @@ return		{
 	fflush(fp);
 	return RETURN;
 }
-goto		{
-	fprintf(fp, "GOTO\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return GOTO;
-}
-getchar		{
-	fprintf(fp, "GETCHAR\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return GETCHAR;
-}
+
 
 int			{
 	fprintf(fp, "INT\t\t");
@@ -184,42 +167,7 @@ struct		{
 	fflush(fp);
 	return STRUCT;
 }
-{li}		{
-	fprintf(fp, "LONGINT\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return LONGINT;
-}
-double		{
-	fprintf(fp, "DOUBLE\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return DOUBLE;
-}
-{lli}		{
-	fprintf(fp, "LONGLONGINT\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return LONGLONGINT;
-}
-float		{
-	fprintf(fp, "FLOAT\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return FLOAT;
-}
+
 bool		{
 	fprintf(fp, "BOOL\t\t");
 	fflush(fp);
@@ -229,25 +177,6 @@ bool		{
 	fflush(fp);
 	return BOOL;
 }
-short		{
-	fprintf(fp, "SHORT\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return SHORT;
-}
-byte		{
-	fprintf(fp, "BYTE\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return BYTE;
-}
-
 
 scan		{
 	fprintf(fp, "SCAN\t\t");
