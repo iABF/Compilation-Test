@@ -4,6 +4,7 @@
 #include "VarNode.h"
 #include "AccessNode.h"
 #include <assert.h>
+#include <string>
 class StatementNode : public ParseTreeNode {
 public:
 	int statementType; // type of the statement (if-else, while,...)
@@ -30,5 +31,15 @@ public:
 	ExpressionNode *expr;
 	AssignArrayNode(AccessNode *a, ExpressionNode *e);
 	TypeNode* check(TypeNode *a, TypeNode *b);
+};
+
+class FunctionStatement : public StatementNode {
+public:
+	std::string name;
+	ExpressionNode *callParamList;
+	inline FunctionStatement(std::string nam, ExpressionNode *par) : StatementNode(9) {
+		this->name = nam;
+		this->callParamList = par;
+	}
 };
 #endif // !STATEMENTNODE_H

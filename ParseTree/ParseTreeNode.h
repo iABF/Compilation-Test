@@ -22,6 +22,7 @@ enum NodeId {
 	unarynode,
 	constnode,
 	statementnode,
+	functioncallnode,
 };
 class ParseTreeNode {
 	ParseTreeNode *peer; // allows a peer-chain

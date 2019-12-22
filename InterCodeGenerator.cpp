@@ -119,6 +119,7 @@ void InterCodeGenerator::generateStatement(StatementNode * node, int beg, int af
 	else if (node->statementType == 4)generateSelectionStatement((SelectionStatementNode*)node, beg, aft);
 	else if (node->statementType == 5)generateVarDefinition(node);
 	else if (node->statementType == 7)generateCodeBlock((CompoundStatementNode*)node, beg, aft);
+	else if (node->statementType == 9)generateFunctionCallStatement((FunctionStatement*)node);
 }
 
 void InterCodeGenerator::generateAssign(AssignNode * node)
@@ -276,6 +277,39 @@ void InterCodeGenerator::generateVarDefinition(StatementNode * node)
 			assert(cur->type->tag == Tag::Basic);
 			emit(toString(cur) + " = " + toString(gen((ExpressionNode*)cur->getChildNode())));
 		}
+	}
+}
+
+void InterCodeGenerator::generateFunctionCallStatement(FunctionStatement * node)
+{
+	assert(this->functionTable.find(node->name) != this->functionTable.end());
+	FunctionNode* cur = this->functionTable[node->name];
+	if (node->callParamList == NULL) {
+		emit("CALL " + node->name);
+	}
+	else {
+		ParseTreeNode *testc = cur->paramList;
+		int testcnt = 1;
+		while (testc->getNextPeerNode() != NULL) {
+			testc = testc->getNextPeerNode();
+			testcnt++;
+		}
+		std::stack<ExpressionNode*>argstack;
+		int argCount = 0;
+		argstack.push(reduce(node->callParamList));
+		argCount++;
+		ExpressionNode *nw = node->callParamList;
+		while (nw->getNextPeerNode() != NULL) {
+			nw = (ExpressionNode*)nw->getNextPeerNode();
+			argstack.push(reduce(nw));
+			argCount++;
+		}
+		assert(testcnt == argCount);
+		while (!argstack.empty()) {
+			emit("var " + toString(argstack.top()));
+			argstack.pop();
+		}
+		emit("CALL " + node->name);
 	}
 }
 

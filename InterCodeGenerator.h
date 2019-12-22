@@ -2,10 +2,11 @@
 #define INTERCODEGENERATOR_H
 #include "ParseTree/ParseTree.h"
 #include "symtable.h"
+#include <stack>
 class InterCodeGenerator {
 	RootNode *root;
 	Env *rootEnv; // Root Environment
-	std::unordered_map<std::string, FunctionNode*>functionTable;
+	
 	void generateTopLevelDefinition(TopLevelDefinitionNode *node);
 	void generateParameter(ParamNode *node);
 	void generateCodeBlock(CompoundStatementNode *node, int beg, int aft);
@@ -16,6 +17,7 @@ class InterCodeGenerator {
 	void generateForLoopStatement(ForLoopStatementNode *node, int beg, int aft);
 	void generateSelectionStatement(SelectionStatementNode *node, int beg, int aft);
 	void generateVarDefinition(StatementNode *node); // [Enhanced edition] of TopLevelDefinition::var
+	void generateFunctionCallStatement(FunctionStatement *node);
 
 	ExpressionNode* gen(ExpressionNode* node);
 	ExpressionNode* reduce(ExpressionNode* node);
@@ -30,5 +32,6 @@ public:
 	InterCodeGenerator(RootNode *r);
 	void generate();
 	std::vector<Env*>envStack;
+	std::unordered_map<std::string, FunctionNode*>functionTable;
 };
 #endif // !INTERCODEGENERATOR_H

@@ -1,9 +1,9 @@
 #include "FunctionCallNode.h"
 
-FunctionCallNode::FunctionCallNode(std::string nam, ParseTreeNode * par)
+FunctionCallNode::FunctionCallNode(std::string nam, ExpressionNode *par) : ExpressionNode(nam, NULL)
 {
-	name = nam;
 	callParamList = par;
+	this->nodeId = NodeId::functioncallnode;
 }
 
 void FunctionCallNode::printText(FILE * file, int depth)

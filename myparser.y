@@ -70,6 +70,7 @@ class ParseTreeNode;
 %type <expressionnode> expression // Expression that has a value [OperatorNode] / [VarNode]
 %type <selectionstatementnode> selection_statement // Selection statement [SelectionStatementNode]
 %type <expressionnode> expression_id_dec
+%type <expressionnode> argument_list
 // parser name
 %name myparser
 // attribute type
@@ -87,6 +88,8 @@ class ParseTreeNode;
 	RootNode *root = new RootNode();
 	int offset = 0; // total offset in memory
 	int labelCount = 0; // count of labels
+	InterCodeGenerator *generator = new InterCodeGenerator(root);
+	int funccount = 1;
 %}
 %%
 /////////////////////////////////////////////////////////////////////////////
@@ -100,14 +103,17 @@ top_level_definition_list: top_level_definition_list top_level_definition{
 		{
 			$1->addPeerNode($2);
 			$$ = $1;
-			root->addChildNode($$);
-			InterCodeGenerator *generator = new InterCodeGenerator(root);
-			generator->generate();
+			generator = new InterCodeGenerator(root);
+			if(++funccount == 2)generator->generate();
+			generator->functionTable.clear();
+			generator->envStack.clear();
 		} else {
 			$$ = $2;
 			root->addChildNode($$);
-			InterCodeGenerator *generator = new InterCodeGenerator(root);
-			generator->generate();
+			generator = new InterCodeGenerator(root);
+			//generator->generate();
+			generator->functionTable.clear();
+			generator->envStack.clear();
 		}
 	} | {
 		$$ = NULL;
@@ -189,6 +195,8 @@ statement: assignment_expression ';' {
 		$$ = $1;
 	} | code_block {
 		$$ = $1;
+	} | ID '(' ')' ';' {$$ = new FunctionStatement(string($1->name), NULL);}
+	| ID '(' argument_list ')' ';' {$$ = new FunctionStatement(string($1->name), $3);
 	};
 io_statement: SCAN '(' expression ')' {
 		StatementNode *cur = new StatementNode(6);
@@ -274,16 +282,10 @@ expression: assignment_expression {$$ = $1;}
 	| expression '^' expression {$$ = new OperatorNode(15, $1, $3);}
 	| '-' expression %prec UMINUS {$$ = new UnaryNode(16, $2);}
 	| '(' expression ')' {$$ = $2;}
-	| ID '(' ')' {
-		// *****************************************************************************************************
-	} | ID '(' argument_list ')' {
-		// *****************************************************************************************************
-	} | NUMBER {
-		$$ = new ConstNode($1);
-	} | expression_id_dec {
-		// assert $1 is a VarNode
-		$$ = $1;
-	};
+	| ID '(' ')' {$$ = new FunctionCallNode(string($1->name), NULL);}
+	| ID '(' argument_list ')' {$$ = new FunctionCallNode(string($1->name), $3);}
+	| NUMBER {$$ = new ConstNode($1);} 
+	| expression_id_dec {$$ = $1;};
 expression_id_dec: ID {
 		$$ = new VarNode(string($1->name));
 	} | expression_id_dec '[' expression ']' {
@@ -293,8 +295,8 @@ expression_id_dec: ID {
 			((AccessNode*)$$)->index->addPeerNode($3);
 		}
 	};
-argument_list: expression
-	| expression ',' argument_list
+argument_list: expression {$$ = $1;}
+	| expression ',' argument_list {$$ = $1; $1->addPeerNode($3);}
 	;
 
 %%
