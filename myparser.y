@@ -99,7 +99,7 @@ prog: top_level_definition_list {
 		root->addChildNode($1);
 		$$ = root;
 	};
-top_level_definition_list: top_level_definition_list top_level_definition{
+top_level_definition_list: top_level_definition_list top_level_definition {
 		if($1 != NULL)
 		{
 			$1->addPeerNode($2);
@@ -280,7 +280,10 @@ expression: assignment_expression {$$ = $1;}
 	| expression NE expression {$$ = new RelNode("!=", $1, $3);}
 	| expression AND expression {$$ = new AndNode($1, $3);}
 	| expression OR expression {$$ = new OrNode($1, $3);}
-	| expression '^' expression {$$ = new OperatorNode(15, $1, $3);}
+	| expression '^' NUMBER {
+		$$ = $1;
+		for(int i = 1; i < $3; i++)$$ = new OperatorNode(4, $1, $$);
+	}
 	| '-' expression %prec UMINUS {$$ = new UnaryNode(16, $2);}
 	| '(' expression ')' {$$ = $2;}
 	| ID '(' ')' {$$ = new FunctionCallNode(string($1->name), NULL);}
@@ -291,10 +294,7 @@ expression_id_dec: ID {
 		$$ = new VarNode(string($1->name));
 	} | expression_id_dec '[' expression ']' {
 		if ($1->nodeId == NodeId::varnode)$$ = new AccessNode((VarNode*)$1, $3, NULL);
-		else {
-			$$ = $1;
-			((AccessNode*)$$)->index->addPeerNode($3);
-		}
+		else {$$ = $1; ((AccessNode*)$$)->index->addPeerNode($3);}
 	};
 argument_list: expression {$$ = $1;}
 	| expression ',' argument_list {$$ = $1; $1->addPeerNode($3);}
