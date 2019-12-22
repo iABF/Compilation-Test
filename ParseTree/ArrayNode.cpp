@@ -13,6 +13,13 @@ std::string ArrayNode::getArrayName()
 	return fathername + "[" + le + "]";
 }
 
+TypeNode * ArrayNode::getOriginType()
+{
+	assert(hasOriginType);
+	if (basicType->tag != Tag::Array)return basicType;
+	return ((ArrayNode*)basicType)->getOriginType();
+}
+
 ArrayNode::ArrayNode(int len) :TypeNode(std::string(), Tag::Array)
 {
 	this->length = len;

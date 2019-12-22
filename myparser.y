@@ -169,9 +169,7 @@ statement_list: statement {$$ = $1;}
 statement: assignment_expression ';' {
 		ExpressionNode* lvalue = $1->left;
 		if(lvalue->nodeId == NodeId::varnode)$$ = new AssignNode((VarNode*)lvalue, $1->right);
-		else if(lvalue->nodeId == NodeId::accessnode) {
-			$$ = new AssignArrayNode((AccessNode*)lvalue, $1->right);
-		}
+		else if(lvalue->nodeId == NodeId::accessnode)$$ = new AssignArrayNode((AccessNode*)lvalue, $1->right);
 		else yyerror("wrong left value! UniqueID=162");
 	} | while_loop_statement {
 		$$ = $1;
@@ -283,7 +281,11 @@ expression: assignment_expression {$$ = $1;}
 expression_id_dec: ID {
 		$$ = new VarNode(string($1->name));
 	} | expression_id_dec '[' expression ']' {
-		
+		if ($1->nodeId == NodeId::varnode)$$ = new AccessNode((VarNode*)$1, $3, NULL);
+		else {
+			$$ = $1;
+			((AccessNode*)$$)->index->addPeerNode($3);
+		}
 	};
 argument_list: expression
 	| expression ',' argument_list

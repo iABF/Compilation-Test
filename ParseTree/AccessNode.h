@@ -10,6 +10,7 @@ class AccessNode : public ExpressionNode {
 public:
 	VarNode *arr;
 	ExpressionNode *index;
+	bool isrefreshed;
 	AccessNode(VarNode *a, ExpressionNode *i, TypeNode *t);
 	void printText(FILE *file, int depth) {}
 };

@@ -5,4 +5,5 @@ AccessNode::AccessNode(VarNode * a, ExpressionNode * i, TypeNode * t) : Expressi
 	this->arr = a;
 	this->index = i;
 	this->nodeId = NodeId::accessnode;
+	this->isrefreshed = false;
 }

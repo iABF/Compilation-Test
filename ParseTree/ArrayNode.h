@@ -11,5 +11,6 @@ public:
 	void setType(TypeNode *typ);
 	void printText(FILE *file, int depth);
 	std::string getArrayName();
+	TypeNode* getOriginType();
 };
 #endif // !ARRAYNODE_H

@@ -124,12 +124,16 @@ void InterCodeGenerator::generateStatement(StatementNode * node, int beg, int af
 void InterCodeGenerator::generateAssign(AssignNode * node, int beg, int aft)
 {
 	node->Id = (VarNode*)gen(node->Id);
-	assert(node->check(node->Id->type, node->expr->type));
 	emit(toString(node->Id) + " = " + toString(gen(node->expr)));
+	assert(node->check(node->Id->type, node->expr->type));
 }
 
 void InterCodeGenerator::generateAssignArray(AssignArrayNode * node, int beg, int aft)
 {
+	AccessNode *cur = (AccessNode*)gen(new AccessNode(node->arr, node->index, NULL));
+	node->arr = cur->arr;
+	node->index = cur->index;
+	assert(((AssignArrayNode*)node)->check(cur->type, ((AssignArrayNode*)node)->expr->type) != NULL);
 	emit(toString(((AssignArrayNode*)node)->arr) + " [ " + toString(reduce(((AssignArrayNode*)node)->index)) + " ] = " + toString(reduce(((AssignArrayNode*)node)->expr)));
 }
 
@@ -246,8 +250,8 @@ ExpressionNode * InterCodeGenerator::gen(ExpressionNode * node)
 		return this->envStack.back()->findDeepSymbol(node->name);
 	}
 	else if (node->nodeId == NodeId::accessnode) {
-		assert(this->envStack.back()->findDeepSymbol(((AccessNode*)node)->arr->name) != NULL);
-		return new AccessNode(((AccessNode*)node)->arr, reduce(((AccessNode*)node)->index), ((AccessNode*)node)->type);
+		AccessNode *cur = (AccessNode*)refreshID(node);
+		return new AccessNode(cur->arr, reduce(cur->index), cur->type);
 	}
 	else if (node->nodeId >= NodeId::logicalnode && node->nodeId <= NodeId::relnode) {
 		refresh((LogicalNode*)node);
@@ -406,6 +410,33 @@ ExpressionNode * InterCodeGenerator::refreshID(ExpressionNode * node)
 	if (node->nodeId == NodeId::varnode) {
 		assert(this->envStack.back()->findDeepSymbol(node->name) != NULL);
 		return this->envStack.back()->findDeepSymbol(node->name);
+	}
+	else if (node->nodeId == NodeId::accessnode) {
+		assert(this->envStack.back()->findDeepSymbol(((AccessNode*)node)->arr->name) != NULL);
+		AccessNode *tmp = (AccessNode*)node;
+		tmp->arr = this->envStack.back()->findDeepSymbol(tmp->arr->name);
+		if (tmp->isrefreshed)return tmp;
+		assert(tmp->arr->type->tag == Tag::Array);
+		ArrayNode *aty = (ArrayNode*)tmp->arr->type;
+		tmp->type = aty->getOriginType();
+		ExpressionNode *tmpcur = tmp->index;
+		ExpressionNode *base = NULL;
+		ExpressionNode *mul = NULL;
+		if(tmpcur->getNextPeerNode() != NULL)mul = new OperatorNode(4, tmpcur, new ConstNode(aty->length));
+		else mul = tmpcur;
+		base = mul;
+		while (tmpcur->getNextPeerNode() != NULL) {
+			assert(aty->basicType->tag == Tag::Array);
+			tmpcur = (ExpressionNode*)tmpcur->getNextPeerNode();
+			aty = (ArrayNode*)aty->basicType;
+			if (tmpcur->getNextPeerNode() != NULL)mul = new OperatorNode(4, tmpcur, new ConstNode(aty->length));
+			else mul = tmpcur;
+			base = new OperatorNode(2, base, mul);
+		}
+		assert(aty->basicType->tag != Tag::Array);
+		tmp->index = base;
+		tmp->isrefreshed = true;
+		return tmp;
 	}
 	else return node;
 }

@@ -36,7 +36,6 @@ AssignArrayNode::AssignArrayNode(AccessNode * a, ExpressionNode * e) : Statement
 	this->arr = a->arr;
 	this->index = a->index;
 	this->expr = e;
-	assert(check(a->type, e->type) != NULL);
 }
 
 TypeNode * AssignArrayNode::check(TypeNode * a, TypeNode * b)
