@@ -112,23 +112,23 @@ void InterCodeGenerator::generateCodeBlock(CompoundStatementNode * node, int beg
 
 void InterCodeGenerator::generateStatement(StatementNode * node, int beg, int aft)
 {
-	if (node->statementType == 1)generateAssign((AssignNode*)node, beg, aft);
-	else if (node->statementType == 8)generateAssignArray((AssignArrayNode*)node, beg, aft);
+	if (node->statementType == 1)generateAssign((AssignNode*)node);
+	else if (node->statementType == 8)generateAssignArray((AssignArrayNode*)node);
 	else if (node->statementType == 2)generateWhileLoopStatement((WhileLoopStatementNode*)node, beg, aft);
-	//else if (node->statementType == 3)generateForLoopStatement((ForLoopStatementNode*)node, beg, aft);
+	else if (node->statementType == 3)generateForLoopStatement((ForLoopStatementNode*)node, beg, aft);
 	else if (node->statementType == 4)generateSelectionStatement((SelectionStatementNode*)node, beg, aft);
-	else if (node->statementType == 5)generateVarDefinition(node, beg, aft);
+	else if (node->statementType == 5)generateVarDefinition(node);
 	else if (node->statementType == 7)generateCodeBlock((CompoundStatementNode*)node, beg, aft);
 }
 
-void InterCodeGenerator::generateAssign(AssignNode * node, int beg, int aft)
+void InterCodeGenerator::generateAssign(AssignNode * node)
 {
 	node->Id = (VarNode*)gen(node->Id);
 	emit(toString(node->Id) + " = " + toString(gen(node->expr)));
-	assert(node->check(node->Id->type, node->expr->type));
+	assert(node->check(node->Id->type, gen(node->expr)->type));
 }
 
-void InterCodeGenerator::generateAssignArray(AssignArrayNode * node, int beg, int aft)
+void InterCodeGenerator::generateAssignArray(AssignArrayNode * node)
 {
 	AccessNode *cur = (AccessNode*)gen(new AccessNode(node->arr, node->index, NULL));
 	node->arr = cur->arr;
@@ -149,6 +149,50 @@ void InterCodeGenerator::generateWhileLoopStatement(WhileLoopStatementNode * nod
 	emitLabel(label);
 	generateStatement(node->block, label, beg);
 	emit("goto L" + int2str(beg));
+	this->envStack.pop_back();
+}
+
+void InterCodeGenerator::generateForLoopStatement(ForLoopStatementNode * node, int beg, int aft)
+{
+	Env *forEnv = new Env(this->envStack.back());
+	this->envStack.push_back(forEnv);
+	int loopbegin;
+	if (node->first == NULL)loopbegin = beg;
+	else {
+		loopbegin = newlabel();
+		if (node->first->nodeId == NodeId::statementnode) {
+			generateVarDefinition((StatementNode*)node->first);
+		}
+		else if (node->first->nodeId == NodeId::operatornode && ((OperatorNode*)node)->operatorType == 1) {
+			// this is an assignment-expression
+			OperatorNode *cur = (OperatorNode*)node;
+			ExpressionNode *lvalue = cur->left;
+			assert(lvalue->nodeId == NodeId::varnode);
+			generateAssign(new AssignNode((VarNode*)lvalue, cur->right));
+		}
+		emitLabel(loopbegin);
+	}
+	int inloop, loopend;
+	if (node->second != NULL) {
+		assert(node->second->nodeId >= NodeId::logicalnode && node->second->nodeId <= NodeId::relnode);
+		refresh((LogicalNode*)node->second);
+		jumping(node->second, 0, aft);
+		inloop = newlabel();
+	}
+	else inloop = loopbegin;
+	if (node->third == NULL)loopend = loopbegin;
+	else loopend = newlabel();
+	if (inloop != loopbegin)emitLabel(inloop);
+	generateStatement(node->block, inloop, loopend);
+	if (loopend != loopbegin)emitLabel(loopend);
+	if (node->third != NULL && node->third->nodeId == NodeId::operatornode && ((OperatorNode*)node)->operatorType == 1) {
+		// this is an assignment-expression
+		OperatorNode *cur = (OperatorNode*)node;
+		ExpressionNode *lvalue = cur->left;
+		assert(lvalue->nodeId == NodeId::varnode);
+		generateAssign(new AssignNode((VarNode*)lvalue, cur->right));
+	}
+	emit("goto L" + int2str(loopbegin));
 	this->envStack.pop_back();
 }
 
@@ -177,7 +221,7 @@ void InterCodeGenerator::generateSelectionStatement(SelectionStatementNode * nod
 	this->envStack.pop_back();
 }
 
-void InterCodeGenerator::generateVarDefinition(StatementNode * node, int beg, int aft)
+void InterCodeGenerator::generateVarDefinition(StatementNode * node)
 {
 	assert(node->statementType == 5);
 	TypeNode *type = (TypeNode*)node->getChildNode();
@@ -396,10 +440,14 @@ void InterCodeGenerator::refresh(LogicalNode * node)
 {
 	assert(node->nodeId >= NodeId::logicalnode && node->nodeId <= NodeId::relnode);
 	if (node->nodeId == NodeId::relnode) {
+		if (node->left->nodeId >= NodeId::logicalnode && node->left->nodeId <= NodeId::relnode)refresh((LogicalNode*)node->left);
+		if (node->right->nodeId >= NodeId::logicalnode && node->right->nodeId <= NodeId::relnode)refresh((LogicalNode*)node->right);
 		node->type = ((RelNode*)node)->check(((LogicalNode*)refreshID(node->left))->type, ((LogicalNode*)refreshID(node->right))->type);
 		assert(node->type != NULL);
 	}
 	else {
+		if (node->left->nodeId >= NodeId::logicalnode && node->left->nodeId <= NodeId::relnode)refresh((LogicalNode*)node->left);
+		if (node->right->nodeId >= NodeId::logicalnode && node->right->nodeId <= NodeId::relnode)refresh((LogicalNode*)node->right);
 		node->type = node->check(((LogicalNode*)refreshID(node->left))->type, ((LogicalNode*)refreshID(node->right))->type);
 		assert(node->type != NULL);
 	}
@@ -450,6 +498,7 @@ InterCodeGenerator::InterCodeGenerator(RootNode * r)
 
 void InterCodeGenerator::generate()
 {
+	clearfile();
 	// now begin with RootNode!
 	TopLevelDefinitionNode *cur = (TopLevelDefinitionNode*)this->root->getChildNode();
 	generateTopLevelDefinition(cur);

@@ -3,6 +3,7 @@
 StatementNode::StatementNode(int typ)
 {
 	statementType = typ;
+	this->nodeId = NodeId::statementnode;
 }
 
 void StatementNode::printText(FILE * file, int depth)

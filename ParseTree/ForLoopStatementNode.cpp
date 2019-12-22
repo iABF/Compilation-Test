@@ -1,6 +1,6 @@
 #include "ForLoopStatementNode.h"
 
-ForLoopStatementNode::ForLoopStatementNode(ExpressionNode *f, ExpressionNode *s, ExpressionNode *t, StatementNode *b) :StatementNode(3)
+ForLoopStatementNode::ForLoopStatementNode(ParseTreeNode *f, ExpressionNode *s, ExpressionNode *t, StatementNode *b) :StatementNode(3)
 {
 	this->first = f;
 	this->second = s;

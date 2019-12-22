@@ -80,7 +80,6 @@ class ParseTreeNode;
 }
 // place any declarations here
 %{
-	void call();
 	StatementNode *StatementNode::Null = new StatementNode();
 	ConstNode *ConstNode::True = new ConstNode("true", new TypeNode("bool"));
 	ConstNode *ConstNode::False = new ConstNode("false", new TypeNode("bool"));
@@ -88,7 +87,6 @@ class ParseTreeNode;
 	RootNode *root = new RootNode();
 	int offset = 0; // total offset in memory
 	int labelCount = 0; // count of labels
-	InterCodeGenerator *generator = new InterCodeGenerator(root);
 %}
 %%
 /////////////////////////////////////////////////////////////////////////////
@@ -97,9 +95,20 @@ prog: top_level_definition_list {
 		root->addChildNode($1);
 		$$ = root;
 	};
-top_level_definition_list: top_level_definition top_level_definition_list {
-		if($2 != NULL)$1->addPeerNode($2);
-		$$ = $1;
+top_level_definition_list: top_level_definition_list top_level_definition{
+		if($1 != NULL)
+		{
+			$1->addPeerNode($2);
+			$$ = $1;
+			root->addChildNode($$);
+			InterCodeGenerator *generator = new InterCodeGenerator(root);
+			generator->generate();
+		} else {
+			$$ = $2;
+			root->addChildNode($$);
+			InterCodeGenerator *generator = new InterCodeGenerator(root);
+			generator->generate();
+		}
 	} | {
 		$$ = NULL;
 	};
@@ -114,10 +123,7 @@ top_level_definition:
 		$$->addChildNode($1);
 		$1->addPeerNode($2);
 		$2->addPeerNode($3);
-		root->addChildNode($$);
-		InterCodeGenerator *generator = new InterCodeGenerator(root);
-		generator->generate();
-		$$->print();
+		//$$->print();
 	} | type ';'
 	;
 top_level_declarator_list: var_declarator {$$ = $1;}
@@ -199,22 +205,22 @@ while_loop_statement: WHILE '(' expression ')' statement {
 	};
 for_loop_statement: FOR '(' expression ';' expression ';' expression ')' statement {
 		$$ = new ForLoopStatementNode($3, $5, $7, $9);
-	} | FOR '(' type assignment_expression ';' expression ';' expression ')' statement {
-		$$ = new ForLoopStatementNode($4, $6, $8, $10);
+	} | FOR '(' var_definition expression ';' expression ')' statement {
+		$$ = new ForLoopStatementNode($3, $4, $6, $8);
 	} | FOR '(' expression ';' expression ';' ')' statement {
 		$$ = new ForLoopStatementNode($3, $5, NULL, $8);
-	} | FOR '(' type assignment_expression ';' expression ';' ')' statement {
-		$$ = new ForLoopStatementNode($4, $6, NULL, $9);
+	} | FOR '(' var_definition expression ';' ')' statement {
+		$$ = new ForLoopStatementNode($3, $4, NULL, $7);
 	} | FOR '(' expression ';' ';' expression ')' statement {
 		$$ = new ForLoopStatementNode($3, NULL, $6, $8);
-	} | FOR '(' type assignment_expression ';' ';' expression ')' statement {
-		$$ = new ForLoopStatementNode($4, NULL, $7, $9);
+	} | FOR '(' var_definition ';' expression ')' statement {
+		$$ = new ForLoopStatementNode($3, NULL, $5, $7);
 	} | FOR '(' ';' expression ';' expression ')' statement {
 		$$ = new ForLoopStatementNode(NULL, $4, $6, $8);
 	} | FOR '(' expression ';' ';' ')' statement {
 		$$ = new ForLoopStatementNode($3, NULL, NULL, $7);
-	} | FOR '(' type assignment_expression ';' ';' ')' statement {
-		$$ = new ForLoopStatementNode($4, NULL, NULL, $8);
+	} | FOR '(' var_definition ';' ')' statement {
+		$$ = new ForLoopStatementNode($3, NULL, NULL, $6);
 	} | FOR '(' ';' expression ';' ')' statement {
 		$$ = new ForLoopStatementNode(NULL, $4, NULL, $7);
 	} | FOR '(' ';' ';' expression ')' statement {
@@ -296,10 +302,6 @@ argument_list: expression
 /////////////////////////////////////////////////////////////////////////////
 // programs section
 
-void call() {
-	printf("before");
-	generator->generate();
-}
 
 int main(void)
 {

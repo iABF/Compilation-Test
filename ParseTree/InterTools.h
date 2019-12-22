@@ -6,4 +6,5 @@ void emitLabel(int i);
 void emit(std::string s);
 std::string int2str(int a);
 int newlabel();
+void clearfile();
 #endif

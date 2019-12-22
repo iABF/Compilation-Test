@@ -24,3 +24,10 @@ int newlabel()
 	extern int labelCount;
 	return ++labelCount;
 }
+
+void clearfile()
+{
+	FILE *file = fopen("out_intermediate_code.txt", "w");
+	fwrite(std::string().c_str(), strlen(std::string().c_str()), 1, file);
+	fclose(file);
+}

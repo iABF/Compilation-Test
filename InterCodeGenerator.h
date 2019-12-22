@@ -10,12 +10,12 @@ class InterCodeGenerator {
 	void generateParameter(ParamNode *node);
 	void generateCodeBlock(CompoundStatementNode *node, int beg, int aft);
 	void generateStatement(StatementNode *node, int beg, int aft);
-	void generateAssign(AssignNode *node, int beg, int aft);
-	void generateAssignArray(AssignArrayNode *node, int beg, int aft);
+	void generateAssign(AssignNode *node);
+	void generateAssignArray(AssignArrayNode *node);
 	void generateWhileLoopStatement(WhileLoopStatementNode *node, int beg, int aft);
-	//void generateForLoopStatement(ForLoopStatementNode *node, int beg, int aft);
+	void generateForLoopStatement(ForLoopStatementNode *node, int beg, int aft);
 	void generateSelectionStatement(SelectionStatementNode *node, int beg, int aft);
-	void generateVarDefinition(StatementNode *node, int beg, int aft); // [Enhanced edition] of TopLevelDefinition::var
+	void generateVarDefinition(StatementNode *node); // [Enhanced edition] of TopLevelDefinition::var
 
 	ExpressionNode* gen(ExpressionNode* node);
 	ExpressionNode* reduce(ExpressionNode* node);

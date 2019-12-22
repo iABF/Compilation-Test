@@ -5,12 +5,12 @@
 #include "ExpressionNode.h"
 #include <assert.h>
 class ForLoopStatementNode : public StatementNode {
-	ExpressionNode *first;
-	ExpressionNode *second;
+public:
+	ParseTreeNode *first;
+	ExpressionNode *second; // this is a logicalndoe
 	ExpressionNode *third;
 	StatementNode *block;
-public:
-	ForLoopStatementNode(ExpressionNode *f, ExpressionNode *s, ExpressionNode *t, StatementNode *b);
+	ForLoopStatementNode(ParseTreeNode *f, ExpressionNode *s, ExpressionNode *t, StatementNode *b);
 	void printText(FILE *file, int depth);
 };
 #endif // !FORLOOPSTATEMENTNODE_H
