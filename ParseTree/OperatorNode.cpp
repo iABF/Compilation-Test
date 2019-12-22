@@ -38,7 +38,7 @@ OperatorNode::OperatorNode(int ope, ExpressionNode *l, ExpressionNode *r): Expre
 	this->right = r;
 	this->operatorType = ope;
 	if (l->nodeId == NodeId::varnode || r->nodeId == NodeId::varnode)this->type = new TypeNode("int");
-	if (l->nodeId == NodeId::accessnode || r->nodeId == NodeId::accessnode)this->type = new TypeNode("int");
+	else if (l->nodeId == NodeId::accessnode || r->nodeId == NodeId::accessnode)this->type = new TypeNode("int");
 	else this->type = maxt(l->type, r->type);
 	this->name = this->getOperator();
 	this->nodeType = 1;
