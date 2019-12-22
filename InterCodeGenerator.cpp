@@ -460,7 +460,7 @@ std::string InterCodeGenerator::toString(ExpressionNode * node)
 {
 	if (node->nodeId == NodeId::varnode) {
 		assert(this->envStack.back()->findDeepSymbol(node->name) != NULL);
-		return this->envStack.back()->findDeepSymbol(node->name)->name;
+		return "var" + int2str(this->envStack.back()->findDeepSymbol(node->name)->varNumber);
 	}
 	else if (node->nodeId == NodeId::expressionnode || node->nodeId == NodeId::constnode) {
 		return node->name;

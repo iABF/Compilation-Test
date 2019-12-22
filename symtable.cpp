@@ -33,5 +33,7 @@ void Env::insert(std::string s, VarNode * var, int offset)
 {
 	// assert this->table[s] does not exist
 	this->table[s] = var;
+	extern int variCount;
+	var->varNumber = variCount++;
 	var->setOffset(offset);
 }

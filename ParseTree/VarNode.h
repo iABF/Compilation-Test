@@ -8,6 +8,7 @@
 class VarNode : public ExpressionNode {
 public:
 	int offset;
+	int varNumber;
 	VarNode(std::string nam);
 	void printText(FILE *file, int depth);
 	void setType(TypeNode *type); // set type of this node

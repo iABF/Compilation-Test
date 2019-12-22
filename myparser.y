@@ -88,6 +88,7 @@ class ParseTreeNode;
 	RootNode *root = new RootNode();
 	int offset = 0; // total offset in memory
 	int labelCount = 0; // count of labels
+	int variCount = 0; // count of variables
 	InterCodeGenerator *generator = new InterCodeGenerator(root);
 	int funccount = 1;
 %}

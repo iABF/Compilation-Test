@@ -18,8 +18,8 @@
 # myparser.v
 # YACC verbose file generated from myparser.y.
 # 
-# Date: 12/22/19
-# Time: 22:48:29
+# Date: 12/23/19
+# Time: 01:51:18
 # 
 # AYACC Version: 2.07
 #############################################################################
@@ -199,8 +199,8 @@ state 7
 	ID  shift 9
 
 	top_level_declarator_list  goto 10
-	var_declarator  goto 11
-	function_declarator  goto 12
+	function_declarator  goto 11
+	var_declarator  goto 12
 
 
 state 8
@@ -225,21 +225,21 @@ state 10
 
 
 state 11
+	top_level_definition : type function_declarator . code_block
+
+	LBRACE  shift 15
+
+	code_block  goto 16
+
+
+state 12
 	top_level_declarator_list : var_declarator .  (7)
 	top_level_declarator_list : var_declarator . ',' top_level_declarator_list
 	var_declarator : var_declarator . '[' NUMBER ']'
 
-	','  shift 15
-	'['  shift 16
+	','  shift 17
+	'['  shift 18
 	.  reduce 7
-
-
-state 12
-	top_level_definition : type function_declarator . code_block
-
-	LBRACE  shift 17
-
-	code_block  goto 18
 
 
 state 13
@@ -251,9 +251,9 @@ state 13
 	INT  shift 4
 	BOOL  shift 5
 
-	param  goto 20
+	param_list  goto 20
 	type  goto 21
-	param_list  goto 22
+	param  goto 22
 
 
 state 14
@@ -263,55 +263,55 @@ state 14
 
 
 state 15
-	top_level_declarator_list : var_declarator ',' . top_level_declarator_list
+	code_block : LBRACE . statement_list RBRACE
 
-	ID  shift 23
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
+	VOID  shift 3
+	LBRACE  shift 15
+	INT  shift 4
+	WHILE  shift 26
+	FOR  shift 27
+	BOOL  shift 5
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
 
-	top_level_declarator_list  goto 24
-	var_declarator  goto 11
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	statement_list  goto 35
+	selection_statement  goto 36
+	io_statement  goto 37
+	while_loop_statement  goto 38
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
+	statement  goto 43
 
 
 state 16
-	var_declarator : var_declarator '[' . NUMBER ']'
-
-	NUMBER  shift 25
-
-
-state 17
-	code_block : LBRACE . statement_list RBRACE
-
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
-	VOID  shift 3
-	LBRACE  shift 17
-	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
-	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
-
-	type  goto 35
-	code_block  goto 36
-	io_statement  goto 37
-	while_loop_statement  goto 38
-	statement_list  goto 39
-	var_definition  goto 40
-	statement  goto 41
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
-
-
-state 18
 	top_level_definition : type function_declarator code_block .  (5)
 
 	.  reduce 5
+
+
+state 17
+	top_level_declarator_list : var_declarator ',' . top_level_declarator_list
+
+	ID  shift 44
+
+	top_level_declarator_list  goto 45
+	var_declarator  goto 12
+
+
+state 18
+	var_declarator : var_declarator '[' . NUMBER ']'
+
+	NUMBER  shift 46
 
 
 state 19
@@ -321,150 +321,178 @@ state 19
 
 
 state 20
-	param_list : param .  (13)
-	param_list : param . ',' param_list
+	function_declarator : ID '(' param_list . ')'
 
-	','  shift 47
-	.  reduce 13
+	')'  shift 47
 
 
 state 21
 	param : type . var_declarator
 
-	ID  shift 23
+	ID  shift 44
 
 	var_declarator  goto 48
 
 
 state 22
-	function_declarator : ID '(' param_list . ')'
+	param_list : param .  (13)
+	param_list : param . ',' param_list
 
-	')'  shift 49
+	','  shift 49
+	.  reduce 13
 
 
 state 23
-	var_declarator : ID .  (9)
+	expression : '(' . expression ')'
 
-	.  reduce 9
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
+
+	assignment_expression  goto 51
+	expression  goto 52
+	expression_id_dec  goto 42
 
 
 state 24
-	top_level_declarator_list : var_declarator ',' top_level_declarator_list .  (8)
+	expression : '-' . expression
 
-	.  reduce 8
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
+
+	assignment_expression  goto 51
+	expression  goto 53
+	expression_id_dec  goto 42
 
 
 state 25
-	var_declarator : var_declarator '[' NUMBER . ']'
+	selection_statement : IF . '(' expression ')' statement
+	selection_statement : IF . '(' expression ')' statement ELSE statement
 
-	']'  shift 50
+	'('  shift 54
 
 
 state 26
-	expression : '(' . expression ')'
-
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
-
-	assignment_expression  goto 52
-	expression  goto 53
-	expression_id_dec  goto 46
-
-
-state 27
-	expression : '-' . expression
-
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
-
-	assignment_expression  goto 52
-	expression  goto 54
-	expression_id_dec  goto 46
-
-
-state 28
-	selection_statement : IF . '(' expression ')' statement
-	selection_statement : IF . '(' expression ')' statement ELSE statement
+	while_loop_statement : WHILE . '(' expression ')' statement
 
 	'('  shift 55
 
 
-state 29
-	while_loop_statement : WHILE . '(' expression ')' statement
+state 27
+	for_loop_statement : FOR . '(' ';' ';' expression ')' statement
+	for_loop_statement : FOR . '(' ';' expression ';' expression ')' statement
+	for_loop_statement : FOR . '(' expression ';' expression ';' expression ')' statement
+	for_loop_statement : FOR . '(' var_definition ';' expression ')' statement
+	for_loop_statement : FOR . '(' ';' expression ';' ')' statement
+	for_loop_statement : FOR . '(' expression ';' ';' expression ')' statement
+	for_loop_statement : FOR . '(' expression ';' expression ';' ')' statement
+	for_loop_statement : FOR . '(' var_definition expression ';' expression ')' statement
+	for_loop_statement : FOR . '(' expression ';' ';' ')' statement
+	for_loop_statement : FOR . '(' var_definition ';' ')' statement
+	for_loop_statement : FOR . '(' var_definition expression ';' ')' statement
+	for_loop_statement : FOR . '(' ';' ';' ')' statement
 
 	'('  shift 56
 
 
-state 30
-	for_loop_statement : FOR . '(' expression ';' expression ';' ')' statement
-	for_loop_statement : FOR . '(' expression ';' expression ';' expression ')' statement
-	for_loop_statement : FOR . '(' expression ';' ';' expression ')' statement
-	for_loop_statement : FOR . '(' ';' expression ';' expression ')' statement
-	for_loop_statement : FOR . '(' ';' expression ';' ')' statement
-	for_loop_statement : FOR . '(' var_definition expression ';' ')' statement
-	for_loop_statement : FOR . '(' ';' ';' ')' statement
-	for_loop_statement : FOR . '(' var_definition expression ';' expression ')' statement
-	for_loop_statement : FOR . '(' ';' ';' expression ')' statement
-	for_loop_statement : FOR . '(' var_definition ';' expression ')' statement
-	for_loop_statement : FOR . '(' var_definition ';' ')' statement
-	for_loop_statement : FOR . '(' expression ';' ';' ')' statement
+state 28
+	io_statement : SCAN . '(' expression ')'
 
 	'('  shift 57
 
 
-state 31
-	io_statement : SCAN . '(' expression ')'
+state 29
+	io_statement : PRINT . '(' expression ')'
 
 	'('  shift 58
 
 
-state 32
-	io_statement : PRINT . '(' expression ')'
-
-	'('  shift 59
-
-
-state 33
+state 30
 	statement : ID . '(' ')' ';'
 	statement : ID . '(' argument_list ')' ';'
-	expression : ID . '(' argument_list ')'
 	expression_id_dec : ID .  (75)
+	expression : ID . '(' argument_list ')'
 	expression : ID . '(' ')'
 
-	'('  shift 60
+	'('  shift 59
 	.  reduce 75
 
 
-state 34
+state 31
 	expression : NUMBER .  (73)
 
 	.  reduce 73
 
 
-state 35
+state 32
+	statement : assignment_expression . ';'
+	expression : assignment_expression .  (54)
+
+	';'  shift 60
+	.  reduce 54
+
+
+state 33
 	var_definition : type . var_declaration_list ';'
 
-	ID  shift 23
+	ID  shift 44
 
 	var_declarator  goto 61
-	var_declaration  goto 62
-	var_declaration_list  goto 63
+	var_declaration_list  goto 62
+	var_declaration  goto 63
+
+
+state 34
+	statement : for_loop_statement .  (24)
+
+	.  reduce 24
+
+
+state 35
+	statement_list : statement_list . statement
+	code_block : LBRACE statement_list . RBRACE
+
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
+	VOID  shift 3
+	LBRACE  shift 15
+	RBRACE  shift 64
+	INT  shift 4
+	WHILE  shift 26
+	FOR  shift 27
+	BOOL  shift 5
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
+
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	selection_statement  goto 36
+	io_statement  goto 37
+	while_loop_statement  goto 38
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
+	statement  goto 65
 
 
 state 36
-	statement : code_block .  (28)
+	statement : selection_statement .  (25)
 
-	.  reduce 28
+	.  reduce 25
 
 
 state 37
 	statement : io_statement . ';'
 
-	';'  shift 64
+	';'  shift 66
 
 
 state 38
@@ -474,316 +502,288 @@ state 38
 
 
 state 39
-	code_block : LBRACE statement_list . RBRACE
-	statement_list : statement_list . statement
-
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
-	VOID  shift 3
-	LBRACE  shift 17
-	RBRACE  shift 65
-	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
-	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
-
-	type  goto 35
-	code_block  goto 36
-	io_statement  goto 37
-	while_loop_statement  goto 38
-	var_definition  goto 40
-	statement  goto 66
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
-
-
-state 40
 	statement : var_definition .  (26)
 
 	.  reduce 26
 
 
+state 40
+	statement : code_block .  (28)
+
+	.  reduce 28
+
+
 state 41
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . EQ expression
+	expression : expression . LE expression
+	expression : expression . GE expression
+	expression : expression . NE expression
+	expression : expression . AND expression
+	expression : expression . OR expression
+	expression : expression . '^' expression
+
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
+
+
+state 42
+	expression_id_dec : expression_id_dec . '[' expression ']'
+	expression : expression_id_dec .  (74)
+
+	'['  shift 82
+	.  reduce 74
+
+
+state 43
 	statement_list : statement .  (20)
 
 	.  reduce 20
 
 
-state 42
-	statement : for_loop_statement .  (24)
-
-	.  reduce 24
-
-
-state 43
-	statement : assignment_expression . ';'
-	expression : assignment_expression .  (54)
-
-	';'  shift 67
-	.  reduce 54
-
-
 state 44
-	expression : expression . '<' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '>' expression
-	expression : expression . GE expression
-	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . OR expression
-	expression : expression . '^' expression
-	expression : expression . AND expression
+	var_declarator : ID .  (9)
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	.  reduce 9
 
 
 state 45
-	statement : selection_statement .  (25)
+	top_level_declarator_list : var_declarator ',' top_level_declarator_list .  (8)
 
-	.  reduce 25
+	.  reduce 8
 
 
 state 46
-	expression_id_dec : expression_id_dec . '[' expression ']'
-	expression : expression_id_dec .  (74)
+	var_declarator : var_declarator '[' NUMBER . ']'
 
-	'['  shift 83
-	.  reduce 74
+	']'  shift 83
 
 
 state 47
-	param_list : param ',' . param_list
+	function_declarator : ID '(' param_list ')' .  (12)
 
-	VOID  shift 3
-	INT  shift 4
-	BOOL  shift 5
-
-	param  goto 20
-	type  goto 21
-	param_list  goto 84
+	.  reduce 12
 
 
 state 48
 	var_declarator : var_declarator . '[' NUMBER ']'
 	param : type var_declarator .  (15)
 
-	'['  shift 16
+	'['  shift 18
 	.  reduce 15
 
 
 state 49
-	function_declarator : ID '(' param_list ')' .  (12)
+	param_list : param ',' . param_list
 
-	.  reduce 12
+	VOID  shift 3
+	INT  shift 4
+	BOOL  shift 5
+
+	param_list  goto 84
+	type  goto 21
+	param  goto 22
 
 
 state 50
-	var_declarator : var_declarator '[' NUMBER ']' .  (10)
-
-	.  reduce 10
-
-
-state 51
-	expression : ID . '(' argument_list ')'
 	expression_id_dec : ID .  (75)
+	expression : ID . '(' argument_list ')'
 	expression : ID . '(' ')'
 
 	'('  shift 85
 	.  reduce 75
 
 
-state 52
+state 51
 	expression : assignment_expression .  (54)
 
 	.  reduce 54
 
 
-state 53
+state 52
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 	expression : '(' expression . ')'
 
-	'%'  shift 68
+	'%'  shift 67
 	')'  shift 86
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 
 
-54: shift-reduce conflict (shift 74, reduce 69) on '='
-state 54
+53: shift-reduce conflict (shift 73, reduce 69) on '='
+state 53
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 	expression : '-' expression .  (69)
 
-	'='  shift 74
+	'='  shift 73
 	.  reduce 69
 
 
-state 55
+state 54
 	selection_statement : IF '(' . expression ')' statement
 	selection_statement : IF '(' . expression ')' statement ELSE statement
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
+	assignment_expression  goto 51
 	expression  goto 87
-	expression_id_dec  goto 46
+	expression_id_dec  goto 42
+
+
+state 55
+	while_loop_statement : WHILE '(' . expression ')' statement
+
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
+
+	assignment_expression  goto 51
+	expression  goto 88
+	expression_id_dec  goto 42
 
 
 state 56
-	while_loop_statement : WHILE '(' . expression ')' statement
-
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
-
-	assignment_expression  goto 52
-	expression  goto 88
-	expression_id_dec  goto 46
-
-
-state 57
-	for_loop_statement : FOR '(' . expression ';' expression ';' ')' statement
-	for_loop_statement : FOR '(' . expression ';' expression ';' expression ')' statement
-	for_loop_statement : FOR '(' . expression ';' ';' expression ')' statement
+	for_loop_statement : FOR '(' . ';' ';' expression ')' statement
 	for_loop_statement : FOR '(' . ';' expression ';' expression ')' statement
+	for_loop_statement : FOR '(' . expression ';' expression ';' expression ')' statement
+	for_loop_statement : FOR '(' . var_definition ';' expression ')' statement
 	for_loop_statement : FOR '(' . ';' expression ';' ')' statement
+	for_loop_statement : FOR '(' . expression ';' ';' expression ')' statement
+	for_loop_statement : FOR '(' . expression ';' expression ';' ')' statement
+	for_loop_statement : FOR '(' . var_definition expression ';' expression ')' statement
+	for_loop_statement : FOR '(' . expression ';' ';' ')' statement
+	for_loop_statement : FOR '(' . var_definition ';' ')' statement
 	for_loop_statement : FOR '(' . var_definition expression ';' ')' statement
 	for_loop_statement : FOR '(' . ';' ';' ')' statement
-	for_loop_statement : FOR '(' . var_definition expression ';' expression ')' statement
-	for_loop_statement : FOR '(' . ';' ';' expression ')' statement
-	for_loop_statement : FOR '(' . var_definition ';' expression ')' statement
-	for_loop_statement : FOR '(' . var_definition ';' ')' statement
-	for_loop_statement : FOR '(' . expression ';' ';' ')' statement
 
-	'('  shift 26
-	'-'  shift 27
+	'('  shift 23
+	'-'  shift 24
 	';'  shift 89
 	VOID  shift 3
 	INT  shift 4
 	BOOL  shift 5
-	ID  shift 51
-	NUMBER  shift 34
+	ID  shift 50
+	NUMBER  shift 31
 
-	type  goto 35
+	assignment_expression  goto 51
+	type  goto 33
 	var_definition  goto 90
-	assignment_expression  goto 52
 	expression  goto 91
-	expression_id_dec  goto 46
+	expression_id_dec  goto 42
+
+
+state 57
+	io_statement : SCAN '(' . expression ')'
+
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
+
+	assignment_expression  goto 51
+	expression  goto 92
+	expression_id_dec  goto 42
 
 
 state 58
-	io_statement : SCAN '(' . expression ')'
+	io_statement : PRINT '(' . expression ')'
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
-	expression  goto 92
-	expression_id_dec  goto 46
+	assignment_expression  goto 51
+	expression  goto 93
+	expression_id_dec  goto 42
 
 
 state 59
-	io_statement : PRINT '(' . expression ')'
-
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
-
-	assignment_expression  goto 52
-	expression  goto 93
-	expression_id_dec  goto 46
-
-
-state 60
 	statement : ID '(' . ')' ';'
 	statement : ID '(' . argument_list ')' ';'
 	expression : ID '(' . argument_list ')'
 	expression : ID '(' . ')'
 
-	'('  shift 26
+	'('  shift 23
 	')'  shift 94
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
+	assignment_expression  goto 51
 	expression  goto 95
-	expression_id_dec  goto 46
+	expression_id_dec  goto 42
 	argument_list  goto 96
+
+
+state 60
+	statement : assignment_expression ';' .  (22)
+
+	.  reduce 22
 
 
 state 61
@@ -792,254 +792,254 @@ state 61
 	var_declaration : var_declarator . '=' expression
 
 	'='  shift 97
-	'['  shift 16
+	'['  shift 18
 	.  reduce 51
 
 
 state 62
-	var_declaration_list : var_declaration . ',' var_declaration_list
-	var_declaration_list : var_declaration .  (49)
+	var_definition : type var_declaration_list . ';'
 
-	','  shift 98
-	.  reduce 49
+	';'  shift 98
 
 
 state 63
-	var_definition : type var_declaration_list . ';'
+	var_declaration_list : var_declaration .  (49)
+	var_declaration_list : var_declaration . ',' var_declaration_list
 
-	';'  shift 99
+	','  shift 99
+	.  reduce 49
 
 
 state 64
-	statement : io_statement ';' .  (27)
-
-	.  reduce 27
-
-
-state 65
 	code_block : LBRACE statement_list RBRACE .  (19)
 
 	.  reduce 19
 
 
-state 66
+state 65
 	statement_list : statement_list statement .  (21)
 
 	.  reduce 21
 
 
-state 67
-	statement : assignment_expression ';' .  (22)
+state 66
+	statement : io_statement ';' .  (27)
 
-	.  reduce 22
+	.  reduce 27
+
+
+state 67
+	expression : expression '%' . expression
+
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
+
+	assignment_expression  goto 51
+	expression  goto 100
+	expression_id_dec  goto 42
 
 
 state 68
-	expression : expression '%' . expression
+	expression : expression '*' . expression
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
-	expression  goto 100
-	expression_id_dec  goto 46
+	assignment_expression  goto 51
+	expression  goto 101
+	expression_id_dec  goto 42
 
 
 state 69
-	expression : expression '*' . expression
+	expression : expression '+' . expression
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
-	expression  goto 101
-	expression_id_dec  goto 46
+	assignment_expression  goto 51
+	expression  goto 102
+	expression_id_dec  goto 42
 
 
 state 70
-	expression : expression '+' . expression
+	expression : expression '-' . expression
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
-	expression  goto 102
-	expression_id_dec  goto 46
+	assignment_expression  goto 51
+	expression  goto 103
+	expression_id_dec  goto 42
 
 
 state 71
-	expression : expression '-' . expression
+	expression : expression '/' . expression
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
-	expression  goto 103
-	expression_id_dec  goto 46
+	assignment_expression  goto 51
+	expression  goto 104
+	expression_id_dec  goto 42
 
 
 state 72
-	expression : expression '/' . expression
+	expression : expression '<' . expression
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
-	expression  goto 104
-	expression_id_dec  goto 46
+	assignment_expression  goto 51
+	expression  goto 105
+	expression_id_dec  goto 42
 
 
 state 73
-	expression : expression '<' . expression
+	assignment_expression : expression '=' . expression
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
-	expression  goto 105
-	expression_id_dec  goto 46
+	assignment_expression  goto 51
+	expression  goto 106
+	expression_id_dec  goto 42
 
 
 state 74
-	assignment_expression : expression '=' . expression
+	expression : expression '>' . expression
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
-	expression  goto 106
-	expression_id_dec  goto 46
+	assignment_expression  goto 51
+	expression  goto 107
+	expression_id_dec  goto 42
 
 
 state 75
-	expression : expression '>' . expression
+	expression : expression '^' . expression
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
-	expression  goto 107
-	expression_id_dec  goto 46
+	assignment_expression  goto 51
+	expression  goto 108
+	expression_id_dec  goto 42
 
 
 state 76
-	expression : expression '^' . expression
+	expression : expression OR . expression
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
-	expression  goto 108
-	expression_id_dec  goto 46
+	assignment_expression  goto 51
+	expression  goto 109
+	expression_id_dec  goto 42
 
 
 state 77
-	expression : expression OR . expression
+	expression : expression AND . expression
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
-	expression  goto 109
-	expression_id_dec  goto 46
+	assignment_expression  goto 51
+	expression  goto 110
+	expression_id_dec  goto 42
 
 
 state 78
-	expression : expression AND . expression
+	expression : expression EQ . expression
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
-	expression  goto 110
-	expression_id_dec  goto 46
+	assignment_expression  goto 51
+	expression  goto 111
+	expression_id_dec  goto 42
 
 
 state 79
-	expression : expression EQ . expression
+	expression : expression NE . expression
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
-	expression  goto 111
-	expression_id_dec  goto 46
+	assignment_expression  goto 51
+	expression  goto 112
+	expression_id_dec  goto 42
 
 
 state 80
-	expression : expression NE . expression
+	expression : expression LE . expression
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
-	expression  goto 112
-	expression_id_dec  goto 46
+	assignment_expression  goto 51
+	expression  goto 113
+	expression_id_dec  goto 42
 
 
 state 81
-	expression : expression LE . expression
+	expression : expression GE . expression
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
-	expression  goto 113
-	expression_id_dec  goto 46
+	assignment_expression  goto 51
+	expression  goto 114
+	expression_id_dec  goto 42
 
 
 state 82
-	expression : expression GE . expression
+	expression_id_dec : expression_id_dec '[' . expression ']'
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
-	expression  goto 114
-	expression_id_dec  goto 46
+	assignment_expression  goto 51
+	expression  goto 115
+	expression_id_dec  goto 42
 
 
 state 83
-	expression_id_dec : expression_id_dec '[' . expression ']'
+	var_declarator : var_declarator '[' NUMBER ']' .  (10)
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
-
-	assignment_expression  goto 52
-	expression  goto 115
-	expression_id_dec  goto 46
+	.  reduce 10
 
 
 state 84
@@ -1052,15 +1052,15 @@ state 85
 	expression : ID '(' . argument_list ')'
 	expression : ID '(' . ')'
 
-	'('  shift 26
+	'('  shift 23
 	')'  shift 116
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
+	assignment_expression  goto 51
 	expression  goto 95
-	expression_id_dec  goto 46
+	expression_id_dec  goto 42
 	argument_list  goto 117
 
 
@@ -1071,221 +1071,221 @@ state 86
 
 
 state 87
-	expression : expression . '<' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
 	selection_statement : IF '(' expression . ')' statement
-	expression : expression . '>' expression
-	expression : expression . GE expression
-	expression : expression . NE expression
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
 	expression : expression . '/' expression
 	selection_statement : IF '(' expression . ')' statement ELSE statement
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
 	expression : expression . '%' expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . EQ expression
+	expression : expression . LE expression
+	expression : expression . GE expression
+	expression : expression . NE expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
+	'%'  shift 67
 	')'  shift 118
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 
 
 state 88
 	while_loop_statement : WHILE '(' expression . ')' statement
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
+	'%'  shift 67
 	')'  shift 119
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 
 
 state 89
+	for_loop_statement : FOR '(' ';' . ';' expression ')' statement
 	for_loop_statement : FOR '(' ';' . expression ';' expression ')' statement
 	for_loop_statement : FOR '(' ';' . expression ';' ')' statement
 	for_loop_statement : FOR '(' ';' . ';' ')' statement
-	for_loop_statement : FOR '(' ';' . ';' expression ')' statement
 
-	'('  shift 26
-	'-'  shift 27
+	'('  shift 23
+	'-'  shift 24
 	';'  shift 120
-	ID  shift 51
-	NUMBER  shift 34
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
+	assignment_expression  goto 51
 	expression  goto 121
-	expression_id_dec  goto 46
+	expression_id_dec  goto 42
 
 
 state 90
-	for_loop_statement : FOR '(' var_definition . expression ';' ')' statement
-	for_loop_statement : FOR '(' var_definition . expression ';' expression ')' statement
 	for_loop_statement : FOR '(' var_definition . ';' expression ')' statement
+	for_loop_statement : FOR '(' var_definition . expression ';' expression ')' statement
 	for_loop_statement : FOR '(' var_definition . ';' ')' statement
+	for_loop_statement : FOR '(' var_definition . expression ';' ')' statement
 
-	'('  shift 26
-	'-'  shift 27
+	'('  shift 23
+	'-'  shift 24
 	';'  shift 122
-	ID  shift 51
-	NUMBER  shift 34
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
+	assignment_expression  goto 51
 	expression  goto 123
-	expression_id_dec  goto 46
+	expression_id_dec  goto 42
 
 
 state 91
-	expression : expression . '<' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	for_loop_statement : FOR '(' expression . ';' expression ';' ')' statement
-	expression : expression . '>' expression
-	expression : expression . GE expression
-	expression : expression . NE expression
-	expression : expression . '/' expression
 	for_loop_statement : FOR '(' expression . ';' expression ';' expression ')' statement
 	for_loop_statement : FOR '(' expression . ';' ';' expression ')' statement
+	for_loop_statement : FOR '(' expression . ';' expression ';' ')' statement
 	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
 	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . '-' expression
 	for_loop_statement : FOR '(' expression . ';' ';' ')' statement
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . EQ expression
+	expression : expression . LE expression
+	expression : expression . GE expression
+	expression : expression . NE expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
 	';'  shift 124
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 
 
 state 92
 	io_statement : SCAN '(' expression . ')'
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
+	'%'  shift 67
 	')'  shift 125
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 
 
 state 93
 	io_statement : PRINT '(' expression . ')'
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
+	'%'  shift 67
 	')'  shift 126
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 
 
 state 94
@@ -1297,40 +1297,40 @@ state 94
 
 
 state 95
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 	argument_list : expression .  (77)
 	argument_list : expression . ',' argument_list
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
 	','  shift 128
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 	.  reduce 77
 
 
@@ -1344,520 +1344,520 @@ state 96
 state 97
 	var_declaration : var_declarator '=' . expression
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
+	assignment_expression  goto 51
 	expression  goto 130
-	expression_id_dec  goto 46
+	expression_id_dec  goto 42
 
 
 state 98
-	var_declaration_list : var_declaration ',' . var_declaration_list
-
-	ID  shift 23
-
-	var_declarator  goto 61
-	var_declaration  goto 62
-	var_declaration_list  goto 131
-
-
-state 99
 	var_definition : type var_declaration_list ';' .  (48)
 
 	.  reduce 48
 
 
-100: shift-reduce conflict (shift 74, reduce 59) on '='
+state 99
+	var_declaration_list : var_declaration ',' . var_declaration_list
+
+	ID  shift 44
+
+	var_declarator  goto 61
+	var_declaration_list  goto 131
+	var_declaration  goto 63
+
+
+100: shift-reduce conflict (shift 73, reduce 59) on '='
 state 100
-	expression : expression . '<' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '>' expression
-	expression : expression . GE expression
-	expression : expression . NE expression
-	expression : expression . '/' expression
 	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
 	expression : expression . '+' expression
+	expression : expression . '-' expression
 	expression : expression . '*' expression
+	expression : expression . '/' expression
 	expression : expression '%' expression .  (59)
 	expression : expression . '%' expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . EQ expression
+	expression : expression . LE expression
+	expression : expression . GE expression
+	expression : expression . NE expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'='  shift 74
-	'^'  shift 76
+	'='  shift 73
+	'^'  shift 75
 	.  reduce 59
 
 
-101: shift-reduce conflict (shift 74, reduce 57) on '='
+101: shift-reduce conflict (shift 73, reduce 57) on '='
 state 101
-	expression : expression . '<' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '>' expression
-	expression : expression . GE expression
-	expression : expression . NE expression
-	expression : expression . '/' expression
 	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
 	expression : expression . '+' expression
+	expression : expression . '-' expression
 	expression : expression '*' expression .  (57)
 	expression : expression . '*' expression
+	expression : expression . '/' expression
 	expression : expression . '%' expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . EQ expression
+	expression : expression . LE expression
+	expression : expression . GE expression
+	expression : expression . NE expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'='  shift 74
-	'^'  shift 76
+	'='  shift 73
+	'^'  shift 75
 	.  reduce 57
 
 
-102: shift-reduce conflict (shift 74, reduce 55) on '='
+102: shift-reduce conflict (shift 73, reduce 55) on '='
 state 102
-	expression : expression . '<' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '>' expression
-	expression : expression . GE expression
-	expression : expression . NE expression
-	expression : expression . '/' expression
 	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
 	expression : expression '+' expression .  (55)
 	expression : expression . '+' expression
+	expression : expression . '-' expression
 	expression : expression . '*' expression
+	expression : expression . '/' expression
 	expression : expression . '%' expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . EQ expression
+	expression : expression . LE expression
+	expression : expression . GE expression
+	expression : expression . NE expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
-	'*'  shift 69
-	'/'  shift 72
-	'='  shift 74
-	'^'  shift 76
+	'%'  shift 67
+	'*'  shift 68
+	'/'  shift 71
+	'='  shift 73
+	'^'  shift 75
 	.  reduce 55
 
 
-103: shift-reduce conflict (shift 74, reduce 56) on '='
+103: shift-reduce conflict (shift 73, reduce 56) on '='
 state 103
-	expression : expression . '<' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '>' expression
-	expression : expression . GE expression
-	expression : expression . NE expression
-	expression : expression . '/' expression
 	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
 	expression : expression '-' expression .  (56)
 	expression : expression . '-' expression
-	expression : expression . '+' expression
 	expression : expression . '*' expression
+	expression : expression . '/' expression
 	expression : expression . '%' expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . EQ expression
+	expression : expression . LE expression
+	expression : expression . GE expression
+	expression : expression . NE expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
-	'*'  shift 69
-	'/'  shift 72
-	'='  shift 74
-	'^'  shift 76
+	'%'  shift 67
+	'*'  shift 68
+	'/'  shift 71
+	'='  shift 73
+	'^'  shift 75
 	.  reduce 56
 
 
-104: shift-reduce conflict (shift 74, reduce 58) on '='
+104: shift-reduce conflict (shift 73, reduce 58) on '='
 state 104
-	expression : expression . '<' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '>' expression
-	expression : expression . GE expression
-	expression : expression . NE expression
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
 	expression : expression '/' expression .  (58)
 	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
 	expression : expression . '%' expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . EQ expression
+	expression : expression . LE expression
+	expression : expression . GE expression
+	expression : expression . NE expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'='  shift 74
-	'^'  shift 76
+	'='  shift 73
+	'^'  shift 75
 	.  reduce 58
 
 
-105: shift-reduce conflict (shift 74, reduce 60) on '='
+105: shift-reduce conflict (shift 73, reduce 60) on '='
 state 105
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression '<' expression .  (60)
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'='  shift 74
-	'^'  shift 76
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'='  shift 73
+	'^'  shift 75
 	.  reduce 60
 
 
-106: shift-reduce conflict (shift 68, reduce 53) on '%'
-106: shift-reduce conflict (shift 69, reduce 53) on '*'
-106: shift-reduce conflict (shift 70, reduce 53) on '+'
-106: shift-reduce conflict (shift 71, reduce 53) on '-'
-106: shift-reduce conflict (shift 72, reduce 53) on '/'
-106: shift-reduce conflict (shift 73, reduce 53) on '<'
-106: shift-reduce conflict (shift 74, reduce 53) on '='
-106: shift-reduce conflict (shift 75, reduce 53) on '>'
-106: shift-reduce conflict (shift 76, reduce 53) on '^'
-106: shift-reduce conflict (shift 77, reduce 53) on OR
-106: shift-reduce conflict (shift 78, reduce 53) on AND
-106: shift-reduce conflict (shift 79, reduce 53) on EQ
-106: shift-reduce conflict (shift 80, reduce 53) on NE
-106: shift-reduce conflict (shift 81, reduce 53) on LE
-106: shift-reduce conflict (shift 82, reduce 53) on GE
+106: shift-reduce conflict (shift 67, reduce 53) on '%'
+106: shift-reduce conflict (shift 68, reduce 53) on '*'
+106: shift-reduce conflict (shift 69, reduce 53) on '+'
+106: shift-reduce conflict (shift 70, reduce 53) on '-'
+106: shift-reduce conflict (shift 71, reduce 53) on '/'
+106: shift-reduce conflict (shift 72, reduce 53) on '<'
+106: shift-reduce conflict (shift 73, reduce 53) on '='
+106: shift-reduce conflict (shift 74, reduce 53) on '>'
+106: shift-reduce conflict (shift 75, reduce 53) on '^'
+106: shift-reduce conflict (shift 76, reduce 53) on OR
+106: shift-reduce conflict (shift 77, reduce 53) on AND
+106: shift-reduce conflict (shift 78, reduce 53) on EQ
+106: shift-reduce conflict (shift 79, reduce 53) on NE
+106: shift-reduce conflict (shift 80, reduce 53) on LE
+106: shift-reduce conflict (shift 81, reduce 53) on GE
 state 106
-	expression : expression . '<' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '>' expression
-	expression : expression . GE expression
-	expression : expression . NE expression
-	expression : expression . '/' expression
 	assignment_expression : expression '=' expression .  (53)
 	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
 	expression : expression . '+' expression
+	expression : expression . '-' expression
 	expression : expression . '*' expression
+	expression : expression . '/' expression
 	expression : expression . '%' expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . EQ expression
+	expression : expression . LE expression
+	expression : expression . GE expression
+	expression : expression . NE expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 	.  reduce 53
 
 
-107: shift-reduce conflict (shift 74, reduce 61) on '='
+107: shift-reduce conflict (shift 73, reduce 61) on '='
 state 107
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
 	expression : expression '>' expression .  (61)
 	expression : expression . '>' expression
+	expression : expression . EQ expression
+	expression : expression . LE expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'='  shift 74
-	'^'  shift 76
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'='  shift 73
+	'^'  shift 75
 	.  reduce 61
 
 
-108: shift-reduce conflict (shift 74, reduce 68) on '='
+108: shift-reduce conflict (shift 73, reduce 68) on '='
 state 108
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression '^' expression .  (68)
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'='  shift 74
-	'^'  shift 76
+	'='  shift 73
+	'^'  shift 75
 	.  reduce 68
 
 
-109: shift-reduce conflict (shift 74, reduce 67) on '='
+109: shift-reduce conflict (shift 73, reduce 67) on '='
 state 109
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression OR expression .  (67)
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 	.  reduce 67
 
 
-110: shift-reduce conflict (shift 74, reduce 66) on '='
+110: shift-reduce conflict (shift 73, reduce 66) on '='
 state 110
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
-	expression : expression . OR expression
-	expression : expression . '^' expression
 	expression : expression AND expression .  (66)
 	expression : expression . AND expression
+	expression : expression . OR expression
+	expression : expression . '^' expression
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 	.  reduce 66
 
 
-111: shift-reduce conflict (shift 74, reduce 62) on '='
+111: shift-reduce conflict (shift 73, reduce 62) on '='
 state 111
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression EQ expression .  (62)
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	LE  shift 81
-	GE  shift 82
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	LE  shift 80
+	GE  shift 81
 	.  reduce 62
 
 
-112: shift-reduce conflict (shift 74, reduce 65) on '='
+112: shift-reduce conflict (shift 73, reduce 65) on '='
 state 112
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression NE expression .  (65)
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	LE  shift 81
-	GE  shift 82
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	LE  shift 80
+	GE  shift 81
 	.  reduce 65
 
 
-113: shift-reduce conflict (shift 74, reduce 63) on '='
+113: shift-reduce conflict (shift 73, reduce 63) on '='
 state 113
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression LE expression .  (63)
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'='  shift 74
-	'^'  shift 76
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'='  shift 73
+	'^'  shift 75
 	.  reduce 63
 
 
-114: shift-reduce conflict (shift 74, reduce 64) on '='
+114: shift-reduce conflict (shift 73, reduce 64) on '='
 state 114
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression GE expression .  (64)
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'='  shift 74
-	'^'  shift 76
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'='  shift 73
+	'^'  shift 75
 	.  reduce 64
 
 
 state 115
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 	expression_id_dec : expression_id_dec '[' expression . ']'
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
 	']'  shift 132
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 
 
 state 116
@@ -1876,182 +1876,182 @@ state 118
 	selection_statement : IF '(' expression ')' . statement
 	selection_statement : IF '(' expression ')' . statement ELSE statement
 
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
 	VOID  shift 3
-	LBRACE  shift 17
+	LBRACE  shift 15
 	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
+	WHILE  shift 26
+	FOR  shift 27
 	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
 
-	type  goto 35
-	code_block  goto 36
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	selection_statement  goto 36
 	io_statement  goto 37
 	while_loop_statement  goto 38
-	var_definition  goto 40
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
 	statement  goto 134
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
 
 
 state 119
 	while_loop_statement : WHILE '(' expression ')' . statement
 
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
 	VOID  shift 3
-	LBRACE  shift 17
+	LBRACE  shift 15
 	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
+	WHILE  shift 26
+	FOR  shift 27
 	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
 
-	type  goto 35
-	code_block  goto 36
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	selection_statement  goto 36
 	io_statement  goto 37
 	while_loop_statement  goto 38
-	var_definition  goto 40
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
 	statement  goto 135
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
 
 
 state 120
-	for_loop_statement : FOR '(' ';' ';' . ')' statement
 	for_loop_statement : FOR '(' ';' ';' . expression ')' statement
+	for_loop_statement : FOR '(' ';' ';' . ')' statement
 
-	'('  shift 26
+	'('  shift 23
 	')'  shift 136
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
+	assignment_expression  goto 51
 	expression  goto 137
-	expression_id_dec  goto 46
+	expression_id_dec  goto 42
 
 
 state 121
+	for_loop_statement : FOR '(' ';' expression . ';' expression ')' statement
+	for_loop_statement : FOR '(' ';' expression . ';' ')' statement
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	for_loop_statement : FOR '(' ';' expression . ';' expression ')' statement
-	assignment_expression : expression . '=' expression
-	for_loop_statement : FOR '(' ';' expression . ';' ')' statement
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
 	';'  shift 138
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 
 
 state 122
 	for_loop_statement : FOR '(' var_definition ';' . expression ')' statement
 	for_loop_statement : FOR '(' var_definition ';' . ')' statement
 
-	'('  shift 26
+	'('  shift 23
 	')'  shift 139
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
+	assignment_expression  goto 51
 	expression  goto 140
-	expression_id_dec  goto 46
+	expression_id_dec  goto 42
 
 
 state 123
+	for_loop_statement : FOR '(' var_definition expression . ';' expression ')' statement
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	for_loop_statement : FOR '(' var_definition expression . ';' ')' statement
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	for_loop_statement : FOR '(' var_definition expression . ';' ')' statement
-	expression : expression . '-' expression
-	for_loop_statement : FOR '(' var_definition expression . ';' expression ')' statement
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
 	';'  shift 141
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 
 
 state 124
-	for_loop_statement : FOR '(' expression ';' . expression ';' ')' statement
 	for_loop_statement : FOR '(' expression ';' . expression ';' expression ')' statement
 	for_loop_statement : FOR '(' expression ';' . ';' expression ')' statement
+	for_loop_statement : FOR '(' expression ';' . expression ';' ')' statement
 	for_loop_statement : FOR '(' expression ';' . ';' ')' statement
 
-	'('  shift 26
-	'-'  shift 27
+	'('  shift 23
+	'-'  shift 24
 	';'  shift 142
-	ID  shift 51
-	NUMBER  shift 34
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
+	assignment_expression  goto 51
 	expression  goto 143
-	expression_id_dec  goto 46
+	expression_id_dec  goto 42
 
 
 state 125
@@ -2075,14 +2075,14 @@ state 127
 state 128
 	argument_list : expression ',' . argument_list
 
-	'('  shift 26
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'('  shift 23
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
+	assignment_expression  goto 51
 	expression  goto 95
-	expression_id_dec  goto 46
+	expression_id_dec  goto 42
 	argument_list  goto 144
 
 
@@ -2095,38 +2095,38 @@ state 129
 
 
 state 130
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
+	var_declaration : var_declarator '=' expression .  (52)
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	var_declaration : var_declarator '=' expression .  (52)
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 	.  reduce 52
 
 
@@ -2166,215 +2166,215 @@ state 135
 state 136
 	for_loop_statement : FOR '(' ';' ';' ')' . statement
 
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
 	VOID  shift 3
-	LBRACE  shift 17
+	LBRACE  shift 15
 	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
+	WHILE  shift 26
+	FOR  shift 27
 	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
 
-	type  goto 35
-	code_block  goto 36
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	selection_statement  goto 36
 	io_statement  goto 37
 	while_loop_statement  goto 38
-	var_definition  goto 40
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
 	statement  goto 147
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
 
 
 state 137
+	for_loop_statement : FOR '(' ';' ';' expression . ')' statement
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	for_loop_statement : FOR '(' ';' ';' expression . ')' statement
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
+	'%'  shift 67
 	')'  shift 148
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 
 
 state 138
 	for_loop_statement : FOR '(' ';' expression ';' . expression ')' statement
 	for_loop_statement : FOR '(' ';' expression ';' . ')' statement
 
-	'('  shift 26
+	'('  shift 23
 	')'  shift 149
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
+	assignment_expression  goto 51
 	expression  goto 150
-	expression_id_dec  goto 46
+	expression_id_dec  goto 42
 
 
 state 139
 	for_loop_statement : FOR '(' var_definition ';' ')' . statement
 
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
 	VOID  shift 3
-	LBRACE  shift 17
+	LBRACE  shift 15
 	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
+	WHILE  shift 26
+	FOR  shift 27
 	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
 
-	type  goto 35
-	code_block  goto 36
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	selection_statement  goto 36
 	io_statement  goto 37
 	while_loop_statement  goto 38
-	var_definition  goto 40
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
 	statement  goto 151
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
 
 
 state 140
+	for_loop_statement : FOR '(' var_definition ';' expression . ')' statement
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	for_loop_statement : FOR '(' var_definition ';' expression . ')' statement
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
+	'%'  shift 67
 	')'  shift 152
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 
 
 state 141
-	for_loop_statement : FOR '(' var_definition expression ';' . ')' statement
 	for_loop_statement : FOR '(' var_definition expression ';' . expression ')' statement
+	for_loop_statement : FOR '(' var_definition expression ';' . ')' statement
 
-	'('  shift 26
+	'('  shift 23
 	')'  shift 153
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
+	assignment_expression  goto 51
 	expression  goto 154
-	expression_id_dec  goto 46
+	expression_id_dec  goto 42
 
 
 state 142
 	for_loop_statement : FOR '(' expression ';' ';' . expression ')' statement
 	for_loop_statement : FOR '(' expression ';' ';' . ')' statement
 
-	'('  shift 26
+	'('  shift 23
 	')'  shift 155
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
+	assignment_expression  goto 51
 	expression  goto 156
-	expression_id_dec  goto 46
+	expression_id_dec  goto 42
 
 
 state 143
+	for_loop_statement : FOR '(' expression ';' expression . ';' expression ')' statement
+	for_loop_statement : FOR '(' expression ';' expression . ';' ')' statement
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	for_loop_statement : FOR '(' expression ';' expression . ';' ')' statement
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	for_loop_statement : FOR '(' expression ';' expression . ';' expression ')' statement
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
+	'%'  shift 67
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
 	';'  shift 157
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 
 
 state 144
@@ -2392,31 +2392,31 @@ state 145
 state 146
 	selection_statement : IF '(' expression ')' statement ELSE . statement
 
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
 	VOID  shift 3
-	LBRACE  shift 17
+	LBRACE  shift 15
 	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
+	WHILE  shift 26
+	FOR  shift 27
 	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
 
-	type  goto 35
-	code_block  goto 36
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	selection_statement  goto 36
 	io_statement  goto 37
 	while_loop_statement  goto 38
-	var_definition  goto 40
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
 	statement  goto 158
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
 
 
 state 147
@@ -2428,97 +2428,97 @@ state 147
 state 148
 	for_loop_statement : FOR '(' ';' ';' expression ')' . statement
 
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
 	VOID  shift 3
-	LBRACE  shift 17
+	LBRACE  shift 15
 	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
+	WHILE  shift 26
+	FOR  shift 27
 	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
 
-	type  goto 35
-	code_block  goto 36
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	selection_statement  goto 36
 	io_statement  goto 37
 	while_loop_statement  goto 38
-	var_definition  goto 40
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
 	statement  goto 159
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
 
 
 state 149
 	for_loop_statement : FOR '(' ';' expression ';' ')' . statement
 
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
 	VOID  shift 3
-	LBRACE  shift 17
+	LBRACE  shift 15
 	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
+	WHILE  shift 26
+	FOR  shift 27
 	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
 
-	type  goto 35
-	code_block  goto 36
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	selection_statement  goto 36
 	io_statement  goto 37
 	while_loop_statement  goto 38
-	var_definition  goto 40
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
 	statement  goto 160
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
 
 
 state 150
-	expression : expression . '<' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '>' expression
-	expression : expression . GE expression
-	expression : expression . NE expression
-	expression : expression . '/' expression
 	for_loop_statement : FOR '(' ';' expression ';' expression . ')' statement
 	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
 	expression : expression . '+' expression
+	expression : expression . '-' expression
 	expression : expression . '*' expression
+	expression : expression . '/' expression
 	expression : expression . '%' expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . EQ expression
+	expression : expression . LE expression
+	expression : expression . GE expression
+	expression : expression . NE expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
+	'%'  shift 67
 	')'  shift 161
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 
 
 state 151
@@ -2530,178 +2530,178 @@ state 151
 state 152
 	for_loop_statement : FOR '(' var_definition ';' expression ')' . statement
 
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
 	VOID  shift 3
-	LBRACE  shift 17
+	LBRACE  shift 15
 	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
+	WHILE  shift 26
+	FOR  shift 27
 	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
 
-	type  goto 35
-	code_block  goto 36
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	selection_statement  goto 36
 	io_statement  goto 37
 	while_loop_statement  goto 38
-	var_definition  goto 40
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
 	statement  goto 162
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
 
 
 state 153
 	for_loop_statement : FOR '(' var_definition expression ';' ')' . statement
 
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
 	VOID  shift 3
-	LBRACE  shift 17
+	LBRACE  shift 15
 	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
+	WHILE  shift 26
+	FOR  shift 27
 	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
 
-	type  goto 35
-	code_block  goto 36
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	selection_statement  goto 36
 	io_statement  goto 37
 	while_loop_statement  goto 38
-	var_definition  goto 40
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
 	statement  goto 163
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
 
 
 state 154
+	for_loop_statement : FOR '(' var_definition expression ';' expression . ')' statement
+	assignment_expression : expression . '=' expression
+	expression : expression . '+' expression
+	expression : expression . '-' expression
+	expression : expression . '*' expression
+	expression : expression . '/' expression
+	expression : expression . '%' expression
 	expression : expression . '<' expression
+	expression : expression . '>' expression
 	expression : expression . EQ expression
 	expression : expression . LE expression
-	expression : expression . '>' expression
 	expression : expression . GE expression
 	expression : expression . NE expression
-	expression : expression . '/' expression
-	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
-	for_loop_statement : FOR '(' var_definition expression ';' expression . ')' statement
-	expression : expression . '+' expression
-	expression : expression . '*' expression
-	expression : expression . '%' expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
+	'%'  shift 67
 	')'  shift 164
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 
 
 state 155
 	for_loop_statement : FOR '(' expression ';' ';' ')' . statement
 
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
 	VOID  shift 3
-	LBRACE  shift 17
+	LBRACE  shift 15
 	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
+	WHILE  shift 26
+	FOR  shift 27
 	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
 
-	type  goto 35
-	code_block  goto 36
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	selection_statement  goto 36
 	io_statement  goto 37
 	while_loop_statement  goto 38
-	var_definition  goto 40
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
 	statement  goto 165
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
 
 
 state 156
-	expression : expression . '<' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '>' expression
-	expression : expression . GE expression
-	expression : expression . NE expression
-	expression : expression . '/' expression
 	for_loop_statement : FOR '(' expression ';' ';' expression . ')' statement
 	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
 	expression : expression . '+' expression
+	expression : expression . '-' expression
 	expression : expression . '*' expression
+	expression : expression . '/' expression
 	expression : expression . '%' expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . EQ expression
+	expression : expression . LE expression
+	expression : expression . GE expression
+	expression : expression . NE expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
+	'%'  shift 67
 	')'  shift 166
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 
 
 state 157
-	for_loop_statement : FOR '(' expression ';' expression ';' . ')' statement
 	for_loop_statement : FOR '(' expression ';' expression ';' . expression ')' statement
+	for_loop_statement : FOR '(' expression ';' expression ';' . ')' statement
 
-	'('  shift 26
+	'('  shift 23
 	')'  shift 167
-	'-'  shift 27
-	ID  shift 51
-	NUMBER  shift 34
+	'-'  shift 24
+	ID  shift 50
+	NUMBER  shift 31
 
-	assignment_expression  goto 52
+	assignment_expression  goto 51
 	expression  goto 168
-	expression_id_dec  goto 46
+	expression_id_dec  goto 42
 
 
 state 158
@@ -2725,31 +2725,31 @@ state 160
 state 161
 	for_loop_statement : FOR '(' ';' expression ';' expression ')' . statement
 
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
 	VOID  shift 3
-	LBRACE  shift 17
+	LBRACE  shift 15
 	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
+	WHILE  shift 26
+	FOR  shift 27
 	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
 
-	type  goto 35
-	code_block  goto 36
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	selection_statement  goto 36
 	io_statement  goto 37
 	while_loop_statement  goto 38
-	var_definition  goto 40
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
 	statement  goto 169
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
 
 
 state 162
@@ -2767,31 +2767,31 @@ state 163
 state 164
 	for_loop_statement : FOR '(' var_definition expression ';' expression ')' . statement
 
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
 	VOID  shift 3
-	LBRACE  shift 17
+	LBRACE  shift 15
 	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
+	WHILE  shift 26
+	FOR  shift 27
 	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
 
-	type  goto 35
-	code_block  goto 36
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	selection_statement  goto 36
 	io_statement  goto 37
 	while_loop_statement  goto 38
-	var_definition  goto 40
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
 	statement  goto 170
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
 
 
 state 165
@@ -2803,97 +2803,97 @@ state 165
 state 166
 	for_loop_statement : FOR '(' expression ';' ';' expression ')' . statement
 
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
 	VOID  shift 3
-	LBRACE  shift 17
+	LBRACE  shift 15
 	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
+	WHILE  shift 26
+	FOR  shift 27
 	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
 
-	type  goto 35
-	code_block  goto 36
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	selection_statement  goto 36
 	io_statement  goto 37
 	while_loop_statement  goto 38
-	var_definition  goto 40
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
 	statement  goto 171
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
 
 
 state 167
 	for_loop_statement : FOR '(' expression ';' expression ';' ')' . statement
 
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
 	VOID  shift 3
-	LBRACE  shift 17
+	LBRACE  shift 15
 	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
+	WHILE  shift 26
+	FOR  shift 27
 	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
 
-	type  goto 35
-	code_block  goto 36
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	selection_statement  goto 36
 	io_statement  goto 37
 	while_loop_statement  goto 38
-	var_definition  goto 40
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
 	statement  goto 172
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
 
 
 state 168
-	expression : expression . '<' expression
-	expression : expression . EQ expression
-	expression : expression . LE expression
-	expression : expression . '>' expression
-	expression : expression . GE expression
-	expression : expression . NE expression
-	expression : expression . '/' expression
 	for_loop_statement : FOR '(' expression ';' expression ';' expression . ')' statement
 	assignment_expression : expression . '=' expression
-	expression : expression . '-' expression
 	expression : expression . '+' expression
+	expression : expression . '-' expression
 	expression : expression . '*' expression
+	expression : expression . '/' expression
 	expression : expression . '%' expression
+	expression : expression . '<' expression
+	expression : expression . '>' expression
+	expression : expression . EQ expression
+	expression : expression . LE expression
+	expression : expression . GE expression
+	expression : expression . NE expression
+	expression : expression . AND expression
 	expression : expression . OR expression
 	expression : expression . '^' expression
-	expression : expression . AND expression
 
-	'%'  shift 68
+	'%'  shift 67
 	')'  shift 173
-	'*'  shift 69
-	'+'  shift 70
-	'-'  shift 71
-	'/'  shift 72
-	'<'  shift 73
-	'='  shift 74
-	'>'  shift 75
-	'^'  shift 76
-	OR  shift 77
-	AND  shift 78
-	EQ  shift 79
-	NE  shift 80
-	LE  shift 81
-	GE  shift 82
+	'*'  shift 68
+	'+'  shift 69
+	'-'  shift 70
+	'/'  shift 71
+	'<'  shift 72
+	'='  shift 73
+	'>'  shift 74
+	'^'  shift 75
+	OR  shift 76
+	AND  shift 77
+	EQ  shift 78
+	NE  shift 79
+	LE  shift 80
+	GE  shift 81
 
 
 state 169
@@ -2923,31 +2923,31 @@ state 172
 state 173
 	for_loop_statement : FOR '(' expression ';' expression ';' expression ')' . statement
 
-	'('  shift 26
-	'-'  shift 27
-	IF  shift 28
+	'('  shift 23
+	'-'  shift 24
+	IF  shift 25
 	VOID  shift 3
-	LBRACE  shift 17
+	LBRACE  shift 15
 	INT  shift 4
-	WHILE  shift 29
-	FOR  shift 30
+	WHILE  shift 26
+	FOR  shift 27
 	BOOL  shift 5
-	SCAN  shift 31
-	PRINT  shift 32
-	ID  shift 33
-	NUMBER  shift 34
+	SCAN  shift 28
+	PRINT  shift 29
+	ID  shift 30
+	NUMBER  shift 31
 
-	type  goto 35
-	code_block  goto 36
+	assignment_expression  goto 32
+	type  goto 33
+	for_loop_statement  goto 34
+	selection_statement  goto 36
 	io_statement  goto 37
 	while_loop_statement  goto 38
-	var_definition  goto 40
+	var_definition  goto 39
+	code_block  goto 40
+	expression  goto 41
+	expression_id_dec  goto 42
 	statement  goto 174
-	for_loop_statement  goto 42
-	assignment_expression  goto 43
-	expression  goto 44
-	selection_statement  goto 45
-	expression_id_dec  goto 46
 
 
 state 174
@@ -2960,7 +2960,7 @@ state 174
 # Summary
 ##############################################################################
 
-State 54 contains 1 shift-reduce conflict(s)
+State 53 contains 1 shift-reduce conflict(s)
 State 100 contains 1 shift-reduce conflict(s)
 State 101 contains 1 shift-reduce conflict(s)
 State 102 contains 1 shift-reduce conflict(s)
