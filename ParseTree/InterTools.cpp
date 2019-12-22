@@ -3,14 +3,14 @@
 void emitLabel(int i)
 {
 	FILE *file = fopen("out_intermediate_code.txt", "a");
-	fprintf(file, "L%d:", i);
+	fprintf(file, "L%d:\n", i);
 	fclose(file);
 }
 
 void emit(std::string s)
 {
 	FILE *file = fopen("out_intermediate_code.txt", "a");
-	fprintf(file, "\t\t%s\n", s.c_str());
+	fprintf(file, "%s\n", s.c_str());
 	fclose(file);
 }
 
