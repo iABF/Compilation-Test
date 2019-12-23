@@ -104,7 +104,7 @@ void InterCodeGenerator::generateParameter(ParamNode * node)
 	this->envStack.back()->insert(node->var->name, node->var, offset);
 	offset += node->type->width;
 	/* generate code for parameter */
-	emit("PARAM " + node->var->name);
+	emit("PARAM " + toString(node->var));
 }
 
 void InterCodeGenerator::generateCodeBlock(CompoundStatementNode * node, int beg, int aft)
@@ -508,7 +508,7 @@ std::string InterCodeGenerator::toString(ExpressionNode * node)
 		return node->name + " " + toString(((NotNode*)node)->right);
 	}
 	else if (node->nodeId == NodeId::tempnode) {
-		return "t" + int2str(((TempNode*)node)->number);
+		return "temp" + int2str(((TempNode*)node)->number);
 	}
 	else if (node->nodeId == NodeId::unarynode) {
 		return node->name + " " + toString(((UnaryNode*)node)->expr);

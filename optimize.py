@@ -20,7 +20,7 @@ for line in lines:
         midLines.append(line)
 tempMap = dict()
 for line in midLines:
-    pattern = re.compile(r't(\d+)')
+    pattern = re.compile(r'temp(\d+)')
     res = pattern.findall(line)
     ifCall = re.search('CALL', line)
     for tmp in res:
@@ -38,7 +38,7 @@ for item in tempMap.items():
         deleteList.add(item[0])
 finalLines = []
 for line in midLines:
-    pattern = re.compile(r't(\d)+')
+    pattern = re.compile(r'temp(\d)+')
     res = pattern.findall(line)
     if not set(res) & deleteList:
         finalLines.append(line)

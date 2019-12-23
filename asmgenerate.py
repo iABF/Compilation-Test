@@ -22,7 +22,7 @@ def get_register(string):
         for key in table:  # 已经分配寄存器的变量key
             keys.append(key)
         for key in keys:  # 当遇到未分配寄存器的变量时，清空之前所有分配的临时变量的映射关系！！！
-            if 't' in key and key not in variables:  #
+            if 'temp' in key and key not in variables:  #
                 reg_ok[table[key]] = 1
                 del table[key]
         for reg in regs:  # 对于所有寄存器
@@ -112,6 +112,7 @@ _prompt: .asciiz "Enter an integer:"
 _ret: .asciiz "\\n"
 .globl main
 .text
+jal main
 read:
     li $v0,4
     la $a0,_prompt
@@ -134,7 +135,7 @@ print:
     f.close()
 
 
-def asm_generator():
+def generator():
     for reg in regs:
         reg_ok[reg] = 1  # 初始化，所有寄存器都可用
     file = open(path)
@@ -172,7 +173,8 @@ def asm_generator():
         if obj_line == '':
             continue
         Obj.append(obj_line)
+    print(Obj)
     write_to_txt(Obj)
 
 
-asm_generator()
+generator()
