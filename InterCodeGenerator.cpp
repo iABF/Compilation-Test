@@ -1,5 +1,19 @@
 #include "InterCodeGenerator.h"
 
+void InterCodeGenerator::initializeFunction()
+{
+	FunctionNode *prfunc = new FunctionNode("print");
+	prfunc->returnType = new TypeNode("void");
+	VarNode *prva = new VarNode("arg");
+	prva->type = new TypeNode("int");
+	prfunc->paramList = new ParamNode(new TypeNode("int"), prva);
+	functionTable["print"] = prfunc;
+	FunctionNode *refunc = new FunctionNode("read");
+	refunc->returnType = new TypeNode("int");
+	refunc->paramList = NULL;
+	functionTable["read"] = refunc;
+}
+
 void InterCodeGenerator::generateTopLevelDefinition(TopLevelDefinitionNode * node)
 {
 	TypeNode *type = (TypeNode*)node->getChildNode();
@@ -608,6 +622,7 @@ InterCodeGenerator::InterCodeGenerator(RootNode * r)
 void InterCodeGenerator::generate()
 {
 	clearfile();
+	initializeFunction();
 	// now begin with RootNode!
 	TopLevelDefinitionNode *cur = (TopLevelDefinitionNode*)this->root->getChildNode();
 	generateTopLevelDefinition(cur);

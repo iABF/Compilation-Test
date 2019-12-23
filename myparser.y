@@ -28,7 +28,7 @@ class ParseTreeNode;
 %right '^'
 %nonassoc UMINUS POINT AUTODECRE AUTOINCRE ADDRESS
 %nonassoc BRACKET
-%token IF THEN ELSE RELOP VOID '(' ')' LBRACE RBRACE '[' ']' '!' INT DEFINE STRING INCLUDE WHILE FOR RETURN STRUCT BOOL SCAN PRINT
+%token IF THEN ELSE RELOP VOID '(' ')' LBRACE RBRACE '[' ']' '!' INT DEFINE STRING INCLUDE WHILE FOR RETURN STRUCT BOOL
 %union {
 	int dval;
 	struct symtable *symp;
@@ -192,22 +192,12 @@ statement: assignment_expression ';' {
 		$$ = $1;
 	} | var_definition {
 		$$ = $1;
-	} | io_statement ';' {
-		$$ = $1;
 	} | code_block {
 		$$ = $1;
 	} | ID '(' ')' ';' {$$ = new FunctionStatement(string($1->name), NULL);}
 	| ID '(' argument_list ')' ';' {$$ = new FunctionStatement(string($1->name), $3);
 	};
-io_statement: SCAN '(' expression ')' {
-		StatementNode *cur = new StatementNode(6);
-		cur->addChildNode($3);
-		$$ = cur;
-	} | PRINT '(' expression ')' {
-		StatementNode *cur = new StatementNode(6);
-		cur->addChildNode($3);
-		$$ = cur;
-	};
+
 
 while_loop_statement: WHILE '(' expression ')' statement {
 		$$ = new WhileLoopStatementNode($3, $5);

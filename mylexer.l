@@ -178,24 +178,6 @@ bool		{
 	return BOOL;
 }
 
-scan		{
-	fprintf(fp, "SCAN\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return SCAN;
-}
-print		{
-	fprintf(fp, "PRINT\t\t");
-	fflush(fp);
-	fwrite(yytext, yyleng, 1, fp);
-	fflush(fp);
-	fprintf(fp, "\n");
-	fflush(fp);
-	return PRINT;
-}
 
 {id}		{
 	yylval.symp = symlook(yytext);

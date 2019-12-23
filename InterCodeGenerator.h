@@ -6,7 +6,7 @@
 class InterCodeGenerator {
 	RootNode *root;
 	Env *rootEnv; // Root Environment
-	
+	void initializeFunction();
 	void generateTopLevelDefinition(TopLevelDefinitionNode *node);
 	void generateParameter(ParamNode *node);
 	void generateCodeBlock(CompoundStatementNode *node, int beg, int aft);
@@ -18,16 +18,13 @@ class InterCodeGenerator {
 	void generateSelectionStatement(SelectionStatementNode *node, int beg, int aft);
 	void generateVarDefinition(StatementNode *node); // [Enhanced edition] of TopLevelDefinition::var
 	void generateFunctionCallStatement(FunctionStatement *node);
-
 	ExpressionNode* gen(ExpressionNode* node);
 	ExpressionNode* reduce(ExpressionNode* node);
 	std::string toString(ExpressionNode* node);
 	void jumping(ExpressionNode* node, int t, int f);
 	void emitjumps(std::string boolean, int t, int f);
-
 	void refresh(LogicalNode* node);
 	ExpressionNode* refreshID(ExpressionNode* node);
-	
 public:
 	InterCodeGenerator(RootNode *r);
 	void generate();

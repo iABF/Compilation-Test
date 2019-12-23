@@ -19,7 +19,7 @@
 * C++ header file generated from myparser.y.
 * 
 * Date: 12/23/19
-* Time: 02:22:18
+* Time: 11:11:50
 * 
 * AYACC Version: 2.07
 ****************************************************************************/
@@ -63,8 +63,6 @@
 #define RETURN 288
 #define STRUCT 289
 #define BOOL 290
-#define SCAN 291
-#define PRINT 292
 #ifndef YYSTYPE
 union tagYYSTYPE {
 #line 32 ".\\myparser.y"
@@ -85,14 +83,14 @@ union tagYYSTYPE {
 	class SelectionStatementNode *selectionstatementnode;
 	class ExpressionNode *expressionnode;
 
-#line 89 "myparser.h"
+#line 87 "myparser.h"
 };
 
 #define YYSTYPE union tagYYSTYPE
 #endif
 
-#define ID 293
-#define NUMBER 294
+#define ID 291
+#define NUMBER 292
 /////////////////////////////////////////////////////////////////////////////
 // myparser
 
@@ -137,5 +135,5 @@ public:
 #define YYSTYPE int
 #endif
 
-#line 141 "myparser.h"
+#line 139 "myparser.h"
 #endif
