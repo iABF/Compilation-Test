@@ -18,6 +18,7 @@ class InterCodeGenerator {
 	void generateSelectionStatement(SelectionStatementNode *node, int beg, int aft);
 	void generateVarDefinition(StatementNode *node); // [Enhanced edition] of TopLevelDefinition::var
 	void generateFunctionCallStatement(FunctionStatement *node);
+	void generateReturnStatement(ReturnStatement *node);
 	ExpressionNode* gen(ExpressionNode* node);
 	ExpressionNode* reduce(ExpressionNode* node);
 	std::string toString(ExpressionNode* node);

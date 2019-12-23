@@ -42,4 +42,12 @@ public:
 		this->callParamList = par;
 	}
 };
+
+class ReturnStatement : public StatementNode {
+public:
+	ExpressionNode *expr;
+	inline ReturnStatement(ExpressionNode *e) :StatementNode(10) {
+		this->expr = e;
+	}
+};
 #endif // !STATEMENTNODE_H

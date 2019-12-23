@@ -5,11 +5,17 @@
 Env::Env()
 {
 	father = NULL;
+	this->isfunc = false;
+	this->returnType = NULL;
 }
 
 Env::Env(Env * f)
 {
 	father = f;
+	this->isfunc = false;
+	this->returnType = NULL;
+	if (f->isfunc)this->isfunc = true;
+	if (f->returnType != NULL)this->returnType = f->returnType;
 }
 
 VarNode * Env::findSymbol(std::string s)

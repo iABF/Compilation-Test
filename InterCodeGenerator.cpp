@@ -65,6 +65,8 @@ void InterCodeGenerator::generateTopLevelDefinition(TopLevelDefinitionNode * nod
 		cur->setReturnType(type);
 		cur->setBody(body);
 		Env *functionEnv = new Env(this->envStack.back());
+		functionEnv->isfunc = true;
+		functionEnv->returnType = type;
 		this->envStack.push_back(functionEnv); // enter new environment
 		//insert function
 		assert(this->functionTable.find(cur->name) == this->functionTable.end());
@@ -134,6 +136,7 @@ void InterCodeGenerator::generateStatement(StatementNode * node, int beg, int af
 	else if (node->statementType == 5)generateVarDefinition(node);
 	else if (node->statementType == 7)generateCodeBlock((CompoundStatementNode*)node, beg, aft);
 	else if (node->statementType == 9)generateFunctionCallStatement((FunctionStatement*)node);
+	else if (node->statementType == 10)generateReturnStatement((ReturnStatement*)node);
 }
 
 void InterCodeGenerator::generateAssign(AssignNode * node)
@@ -326,6 +329,15 @@ void InterCodeGenerator::generateFunctionCallStatement(FunctionStatement * node)
 		}
 		emit("CALL " + node->name);
 	}
+}
+
+void InterCodeGenerator::generateReturnStatement(ReturnStatement * node)
+{
+	assert(this->envStack.back()->isfunc);
+	assert(node->expr != NULL);
+	assert(this->envStack.back()->returnType->btype != BasicType::Void);
+	ExpressionNode *tmp = gen(node->expr);
+	emit("RETURN " + toString(tmp));
 }
 
 ExpressionNode * InterCodeGenerator::gen(ExpressionNode * node)

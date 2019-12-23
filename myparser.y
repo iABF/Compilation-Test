@@ -196,7 +196,8 @@ statement: assignment_expression ';' {
 		$$ = $1;
 	} | ID '(' ')' ';' {$$ = new FunctionStatement(string($1->name), NULL);}
 	| ID '(' argument_list ')' ';' {$$ = new FunctionStatement(string($1->name), $3);
-	};
+	} | RETURN expression ';' {$$ = new ReturnStatement($2);}
+	;
 
 
 while_loop_statement: WHILE '(' expression ')' statement {

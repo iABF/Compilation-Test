@@ -17,6 +17,7 @@ void StatementNode::printText(FILE * file, int depth)
 	else if (statementType == 7)fprintf(file, "Compound Statement\n");
 	else if (statementType == 8)fprintf(file, "Array Assignment Statement\n");
 	else if (statementType == 9)fprintf(file, "Function Call Statement\n");
+	else if (statementType == 10)fprintf(file, "Return Statement\n");
 }
 
 AssignNode::AssignNode(VarNode * i, ExpressionNode * e) : StatementNode(1)

@@ -22,6 +22,8 @@ private:
 	std::unordered_map<std::string, VarNode*>table;
 	Env *father;
 public:
+	bool isfunc;
+	TypeNode *returnType;
 	Env(); // only use once
 	Env(Env *f);
 	VarNode* findSymbol(std::string s); // find in this environment
