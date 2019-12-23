@@ -7,20 +7,20 @@ lines = file.read().split('\n')
 file.close()
 labelMap = set()
 for line in lines:
-    cur = re.search(r'goto L\d+', line)
+    cur = re.search(r'goto L(\d)+', line)
     if cur is not None:
-        labelMap.add(cur.group()[-1])
+        labelMap.add(cur.group()[6:])
 midLines = []
 for line in lines:
-    cur = re.match(r'L\d+:', line)
+    cur = re.match(r'L(\d)+:', line)
     if cur is not None:
-        if cur.group()[1] in labelMap:
+        if cur.group()[1:-1] in labelMap:
             midLines.append(line)
     else:
         midLines.append(line)
 tempMap = dict()
 for line in midLines:
-    pattern = re.compile(r't\d+')
+    pattern = re.compile(r't(\d+)')
     res = pattern.findall(line)
     ifCall = re.search('CALL', line)
     for tmp in res:
@@ -38,7 +38,7 @@ for item in tempMap.items():
         deleteList.add(item[0])
 finalLines = []
 for line in midLines:
-    pattern = re.compile(r't\d+')
+    pattern = re.compile(r't(\d)+')
     res = pattern.findall(line)
     if not set(res) & deleteList:
         finalLines.append(line)
