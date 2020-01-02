@@ -16,19 +16,19 @@ def get_register(string):
     except:
         pass
     if string in table:
-        return '$' + table[string]  # 如果已经存在寄存器分配，那么直接返回寄存器
+        return '$' + table[string]
     else:
         keys = []
-        for key in table:  # 已经分配寄存器的变量key
+        for key in table:
             keys.append(key)
-        for key in keys:  # 当遇到未分配寄存器的变量时，清空之前所有分配的临时变量的映射关系！！！
-            if 'temp' in key and key not in variables:  #
+        for key in keys:
+            if 'temp' in key and key not in variables:
                 reg_ok[table[key]] = 1
                 del table[key]
-        for reg in regs:  # 对于所有寄存器
-            if reg_ok[reg] == 1:  # 如果寄存器可用
-                table[string] = reg  # 将可用寄存器分配给该变量，映射关系存到table中
-                reg_ok[reg] = 0  # 寄存器reg设置为已用
+        for reg in regs:
+            if reg_ok[reg] == 1:
+                table[string] = reg
+                reg_ok[reg] = 0
                 return '$' + reg
 
 
@@ -137,7 +137,7 @@ print:
 
 def generator():
     for reg in regs:
-        reg_ok[reg] = 1  # 初始化，所有寄存器都可用
+        reg_ok[reg] = 1
     file = open(path)
     lines = file.read().split('\n')
     file.close()
@@ -148,7 +148,7 @@ def generator():
         sep = line.split(' ')
         sep_lines.append(sep)
     global variables
-    pattern = re.compile(r't\d+')
+    pattern = re.compile(r'temp\d+')
     for line in sep_lines:
         temps = pattern.findall(' '.join(line))
         variables += temps
@@ -156,20 +156,20 @@ def generator():
         if line[0] == 'iffalse':
             line[0] = 'if'
             if line[2] == '>':
-                line[2] = '<'
-            elif line[2] == '<':
-                line[2] = '>'
-            elif line[2] == '>=':
                 line[2] = '<='
-            elif line[2] == '<=':
+            elif line[2] == '<':
                 line[2] = '>='
+            elif line[2] == '>=':
+                line[2] = '<'
+            elif line[2] == '<=':
+                line[2] = '>'
             elif line[2] == '==':
                 line[2] = '!='
             elif line[2] == '!=':
                 line[2] = '=='
     Obj = []
     for line in sep_lines:
-        obj_line = translate(line)  # 翻译中间代码成MIPS汇编
+        obj_line = translate(line)
         if obj_line == '':
             continue
         Obj.append(obj_line)

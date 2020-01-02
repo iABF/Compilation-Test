@@ -343,9 +343,14 @@ void InterCodeGenerator::generateReturnStatement(ReturnStatement * node)
 ExpressionNode * InterCodeGenerator::gen(ExpressionNode * node)
 {
 	if (node->nodeId == NodeId::expressionnode
-		|| node->nodeId == NodeId::tempnode
-		|| node->nodeId == NodeId::constnode) {
+		|| node->nodeId == NodeId::tempnode) {
 		return node;
+	}
+	else if (node->nodeId == NodeId::constnode) {
+		ConstNode *ans = (ConstNode*)node;
+		TempNode *t = new TempNode(node->type);
+		emit(toString(t) + " = " + ans->name);
+		return t;
 	}
 	else if (node->nodeId == NodeId::operatornode) {
 		return new OperatorNode(((OperatorNode*)node)->operatorType, reduce(((OperatorNode*)node)->left), reduce(((OperatorNode*)node)->right));
@@ -417,9 +422,14 @@ ExpressionNode * InterCodeGenerator::gen(ExpressionNode * node)
 ExpressionNode * InterCodeGenerator::reduce(ExpressionNode * node)
 {
 	if (node->nodeId == NodeId::expressionnode
-		|| node->nodeId == NodeId::tempnode
-		|| node->nodeId == NodeId::constnode) {
+		|| node->nodeId == NodeId::tempnode) {
 		return node;
+	}
+	else if (node->nodeId == NodeId::constnode) {
+		ConstNode *ans = (ConstNode*)node;
+		TempNode *t = new TempNode(node->type);
+		emit(toString(t) + " = " + ans->name);
+		return t;
 	}
 	else if (node->nodeId == NodeId::operatornode) {
 		ExpressionNode *ans = gen(node);
