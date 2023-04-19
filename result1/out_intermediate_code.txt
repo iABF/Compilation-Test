@@ -1,0 +1,55 @@
+function fibonacci:
+PARAM var0
+L1:
+temp1 = 2
+iffalse var0 <= temp1 goto L4
+L3:
+temp2 = 1
+RETURN temp2
+goto L2
+L4:
+L5:
+temp3 = 1
+temp4 = var0 - temp3
+arg temp4
+temp5 = CALL fibonacci
+var1 = temp5
+L6:
+temp6 = 2
+temp7 = var0 - temp6
+arg temp7
+temp8 = CALL fibonacci
+var2 = temp8
+L7:
+var3 = var1 + var2
+L8:
+RETURN var3
+L2:
+function main:
+L9:
+L11:
+temp9 = CALL read
+var5 = temp9
+L12:
+temp10 = 0
+var6 = temp10
+L13:
+iffalse var6 < var5 goto L14
+L15:
+temp11 = CALL read
+var7 = temp11
+L16:
+arg var7
+temp12 = CALL fibonacci
+var4 = temp12
+L17:
+arg var4
+CALL print
+L18:
+temp13 = 1
+var6 = var6 + temp13
+goto L13
+L14:
+temp14 = 0
+RETURN temp14
+L10:
